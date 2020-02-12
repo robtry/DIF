@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
-import { Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import React from 'react'
+import { Icon, Menu, Sidebar } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
-const SidebarExampleDimmed = () => {
-	const [visible, setVisible] = useState(true);
+const SidebarNav = props => {
 
 	return (
-		<Sidebar.Pushable as={Segment}>
 			<Sidebar
 				as={Menu}
 				animation='overlay'
 				icon='labeled'
 				inverted
-				onHide={() => setVisible(false)}
+				onHide={() => props.hideSideBar()}
 				vertical
-				visible={visible}
+				visible={props.sideBarStatus}
 				width='thin'
 			>
 				<Menu.Item as='a'>
@@ -29,15 +28,11 @@ const SidebarExampleDimmed = () => {
 					Channels
 				</Menu.Item>
 			</Sidebar>
-
-			<Sidebar.Pusher dimmed={visible}>
-				<Segment basic>
-					<Header as='h3'>Application Content</Header>
-					<Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-				</Segment>
-			</Sidebar.Pusher>
-		</Sidebar.Pushable>
 	)
 }
 
-export default SidebarExampleDimmed
+SidebarNav.propTypes = {
+	sideBarStatus : PropTypes.bool.isRequired,
+}
+
+export default SidebarNav;
