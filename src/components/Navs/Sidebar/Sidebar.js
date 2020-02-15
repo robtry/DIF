@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -19,43 +20,43 @@ const SidebarNav = props => {
 				visible={props.sideBarStatus}
 				width='thin'
 			>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/" exact>
 					<Icon name='home' />
 					Inicio
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/admins" exact>
 					<Icon name='address card' />
 					Admins
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/nnas" exact>
 					<Icon name='users' />
 					NNA's
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/medicos" exact>
 					<Icon name='doctor' />
 					Médicos
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/abogados" exact>
 					<Icon name='law' />
 					Abogados
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/tssocial" exact>
 					<Icon name='user' />
 					T Social
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/psicologos" exact>
 					<Icon name='user outline' />
 					Psicólogos
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/plantillas">
 					<Icon name='file' />
 					Plantillas
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/formatos">
 					<Icon name='file alternate' />
 					Formatos
 				</Menu.Item>
-				<Menu.Item as='a'>
+				<Menu.Item as={NavLink} to="/auxiliares">
 					<Icon name='th' />
 					Auxiliares
 				</Menu.Item>
