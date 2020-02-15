@@ -6,21 +6,22 @@ import TopNavbar from './components/Navs/TopNav/TopNav';
 
 const App = () => {
 
+	/** Controla, el **Sidebar**, icono en el **TopNav** y **Dimmer** en App */
 	const [sideBarVisible, setSideBarVisible] = useState(true);
 
 	return (
-		<React.Fragment>
-			<TopNavbar sideBarStatus={sideBarVisible} toggleSideBar={ () => setSideBarVisible(prev => !prev)}/>
-			<Sidebar.Pushable as={Segment}>
-				<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)}/>
-				<Sidebar.Pusher dimmed={sideBarVisible}>
-					<Segment basic>
-						<Header as='h3'>Application Content</Header>
-						<Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-					</Segment>
-				</Sidebar.Pusher>
-				</Sidebar.Pushable>
-		</React.Fragment>
+	<React.Fragment>
+		<TopNavbar sideBarStatus={sideBarVisible} toggleSideBar={ () => setSideBarVisible(prev => !prev) }/>
+		<Sidebar.Pushable as={Segment}>
+			<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)}/>
+			<Sidebar.Pusher dimmed={sideBarVisible}>
+				<Segment basic>
+					<Header as='h3'>Application Content</Header>
+					<Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' className="temp" />
+				</Segment>
+			</Sidebar.Pusher>
+			</Sidebar.Pushable>
+	</React.Fragment>
 	);
 }
 
