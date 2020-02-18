@@ -7,6 +7,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.temp {
+.full-height {
 	height: 100vh;
+}
+
+.float-right {
+	float: right;
 }
