@@ -7,7 +7,7 @@ import Formats from './AccordionFormats/AccordionFormats';
  * Es la tabla que se muestra los NNAs
 */
 
-const RealTable = () => (
+const NNATable = () => (
 	<React.Fragment>
 	<Table striped>
 		<Table.Header>
@@ -15,7 +15,7 @@ const RealTable = () => (
 				<Table.HeaderCell>Expediente</Table.HeaderCell>
 				<Table.HeaderCell>Nombre</Table.HeaderCell>
 				<Table.HeaderCell>Formatos</Table.HeaderCell>
-				<Table.HeaderCell>Acciones</Table.HeaderCell>
+				<Table.HeaderCell>#</Table.HeaderCell>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
@@ -52,4 +52,4 @@ const RealTable = () => (
 	</React.Fragment>
 )
 
-export default RealTable;
+export default NNATable;

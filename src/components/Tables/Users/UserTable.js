@@ -1,19 +1,19 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Button, Icon, Pagination }  from 'semantic-ui-react';
 
 /**
- * Es la tabla que se muestra en todas partes, aun falta agregar la paginación
- * y que haga los fetch's
+ * Es la tabla que se usa para el index de todos los usuarios
 */
 
-const RealTable = () => (
+const UserTable = () => (
+	<React.Fragment>
 	<Table striped>
 		<Table.Header>
 			<Table.Row>
-				<Table.HeaderCell>Name</Table.HeaderCell>
-				<Table.HeaderCell>Date Joined</Table.HeaderCell>
-				<Table.HeaderCell>E-mail</Table.HeaderCell>
-				<Table.HeaderCell>Called</Table.HeaderCell>
+				<Table.HeaderCell>NSS</Table.HeaderCell>
+				<Table.HeaderCell>Nombre</Table.HeaderCell>
+				<Table.HeaderCell>Hisotrial</Table.HeaderCell>
+				<Table.HeaderCell>#</Table.HeaderCell>
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
@@ -21,52 +21,33 @@ const RealTable = () => (
 				<Table.Cell>John Lilki</Table.Cell>
 				<Table.Cell>September 14, 2013</Table.Cell>
 				<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-				<Table.Cell>No</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>Jamie Harington</Table.Cell>
-				<Table.Cell>January 11, 2014</Table.Cell>
-				<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-				<Table.Cell>Yes</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>Jill Lewis</Table.Cell>
-				<Table.Cell>May 11, 2014</Table.Cell>
-				<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-				<Table.Cell>Yes</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>John Lilki</Table.Cell>
-				<Table.Cell>September 14, 2013</Table.Cell>
-				<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-				<Table.Cell>No</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>John Lilki</Table.Cell>
-				<Table.Cell>September 14, 2013</Table.Cell>
-				<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-				<Table.Cell>No</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>Jamie Harington</Table.Cell>
-				<Table.Cell>January 11, 2014</Table.Cell>
-				<Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-				<Table.Cell>Yes</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>Jill Lewis</Table.Cell>
-				<Table.Cell>May 11, 2014</Table.Cell>
-				<Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-				<Table.Cell>Yes</Table.Cell>
-			</Table.Row>
-			<Table.Row>
-				<Table.Cell>John Lilki</Table.Cell>
-				<Table.Cell>September 14, 2013</Table.Cell>
-				<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-				<Table.Cell>No</Table.Cell>
+				<Table.Cell>
+					<Button.Group>
+						<Button icon>
+							<Icon name='eye' />
+						</Button>
+						<Button icon>
+							<Icon name='edit' />
+						</Button>
+						<Button icon>
+							<Icon name='trash' />
+						</Button>
+					</Button.Group>
+				</Table.Cell>
 			</Table.Row>
 		</Table.Body>
 	</Table>
+	<div className="float-right">
+	<Pagination
+		boundaryRange={0}
+		defaultActivePage={1}
+		ellipsisItem={null}
+		firstItem={null}
+		lastItem={null}
+		siblingRange={2}
+		totalPages={10}
+	/></div>
+	</React.Fragment>
 )
 
-export default RealTable;
+export default UserTable;

@@ -7,11 +7,16 @@ import SidebarNav from './components/Navs/Sidebar/Sidebar';
 import TopNavbar from './components/Navs/TopNav/TopNav';
 // own containers
 import Dashboard from './pages/Dashboard/Dashboard';
-import User from './pages/Users/Users';
+// nna
 import NNAs from './pages/NNAs/index';
+// user
+import User from './pages/Users/index';
+// templates
 import Templates from './pages/Templates/Templates';
-import Format from './pages/Formats/Formats';
+// aux
 import AuxTables from './pages/AuxTables/AuxTables';
+// format
+import Format from './pages/Formats/Formats';
 
 
 const App = () => {
