@@ -56,10 +56,6 @@ const SidebarNav = props => {
 					<Icon name='file alternate' />
 					Formatos
 				</Menu.Item>
-				<Menu.Item as={NavLink} to="/auxiliares">
-					<Icon name='th' />
-					Auxiliares
-				</Menu.Item>
 			</Sidebar>
 	)
 }

@@ -12,11 +12,9 @@ import NNAs from './pages/NNAs/index';
 // user
 import User from './pages/Users/index';
 // templates
-import Templates from './pages/Templates/Templates';
-// aux
-import AuxTables from './pages/AuxTables/AuxTables';
+import Templates from './pages/Templates/index';
 // format
-import Format from './pages/Formats/Formats';
+import Format from './pages/Formats/index';
 
 
 const App = () => {
@@ -48,7 +46,6 @@ const App = () => {
 						<Route path='/nnas' exact component={NNAs} /> } />
 						<Route path='/plantillas' exact component={Templates} />
 						<Route path='/formatos' exact component={Format} />
-						<Route path='/auxiliares' exact component={AuxTables} />
 						<Route render={ () => <h1> Bad route </h1> }/>
 					</Switch>
 				</Segment>

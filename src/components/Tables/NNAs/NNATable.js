@@ -1,7 +1,9 @@
 import React from 'react';
-import { Table, Button, Icon, Pagination } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 // own
 import Formats from './AccordionFormats/AccordionFormats';
+import CrudButton from '../_shared/CRUD_Button';
+import Pagination from '../_shared/Pagination';
 
 /**
  * Es la tabla que se muestra los NNAs
@@ -23,32 +25,11 @@ const NNATable = () => (
 				<Table.Cell>John Lilki</Table.Cell>
 				<Table.Cell>September 14, 2013</Table.Cell>
 				<Table.Cell> <Formats /> </Table.Cell>
-				<Table.Cell>
-					<Button.Group>
-						<Button icon>
-							<Icon name='eye' />
-						</Button>
-						<Button icon>
-							<Icon name='edit' />
-						</Button>
-						<Button icon>
-							<Icon name='trash' />
-						</Button>
-					</Button.Group>
-				</Table.Cell>
+				<CrudButton />
 			</Table.Row>
 		</Table.Body>
 	</Table>
-	<div className="float-right">
-	<Pagination
-		boundaryRange={0}
-		defaultActivePage={1}
-		ellipsisItem={null}
-		firstItem={null}
-		lastItem={null}
-		siblingRange={2}
-		totalPages={10}
-	/></div>
+	<Pagination />
 	</React.Fragment>
 )
 
