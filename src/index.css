@@ -14,3 +14,23 @@ body {
 .float-right {
 	float: right;
 }
+
+.to-upper-case {
+	text-transform: uppercase !important;
+}
+
+.margin-top {
+	margin-top: 15px !important;
+}
+
+/* For Bars */
+
+.margin-top-bar {
+	margin-top: 40px !important;
+}
+
+@media (max-width: 767px) {
+	.margin-top-bar {
+		margin-top: 240px !important;
+	}
+}

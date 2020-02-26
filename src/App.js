@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 // ui
-import { Segment, Sidebar, Responsive } from 'semantic-ui-react';
+import { Segment, Sidebar } from 'semantic-ui-react';
 // own
 import SidebarNav from './components/Navs/Sidebar/Sidebar';
 import TopNavbar from './components/Navs/TopNav/TopNav';
@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import NNAs from './pages/NNAs/index';
 // user
 import User from './pages/Users/index';
+import UserProfile from './pages/Users/profile';
 // templates
 import Templates from './pages/Templates/index';
 // format
@@ -24,25 +25,19 @@ const App = () => {
 	/** Controla, el **Sidebar**, icono en el **TopNav** y **Dimmer** en App */
 	const [sideBarVisible, setSideBarVisible] = useState(false);
 	// tmp usser, will be in react context
-	const userIsLoggedIn = false;
+	const userIsLoggedIn = true;
 
 	return (
 	<Router>
 		{ userIsLoggedIn && 
 		<TopNavbar sideBarStatus={sideBarVisible} toggleSideBar={ () => setSideBarVisible(prev => !prev) }/> }
-		{/* Spaces for show all the content */}
-		<Responsive maxWidth={767}>
-			{ sideBarVisible ? null : userIsLoggedIn ? null : <div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> <br /></div> }
-		</Responsive>
-		<Responsive minWidth={767}>
-			{ sideBarVisible ? null : userIsLoggedIn ? null : <div><br /><br /><br /></div> }
-		</Responsive>
-		<Sidebar.Pushable as={Segment}>
+		<Sidebar.Pushable as={Segment} className='full-height'>
 			<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)}/>
 			<Sidebar.Pusher dimmed={sideBarVisible}>
-				<Segment basic className='full-height'>
+				<Segment basic className='margin-top-bar'>
 					<Switch>
 						<Route path='/' exact component={userIsLoggedIn ? Dashboard : Authenticate}/>
+						<Route path='/profile/:id' exact component={UserProfile}/>
 						<Route path='/admins' exact render={ () => <User type='admin' /> } />
 						<Route path='/medicos' exact render={ () => <User type='medico' /> } />
 						<Route path='/abogados' exact render={ () => <User type='abogado' /> } />
@@ -53,11 +48,10 @@ const App = () => {
 						<Route path='/formatos' exact component={Format} />
 						<Route render={ () => <h1> Bad route </h1> }/>
 					</Switch>
+					{ !userIsLoggedIn && <Redirect to='/'/> }
 				</Segment>
 			</Sidebar.Pusher>
-			</Sidebar.Pushable>
-
-
+		</Sidebar.Pushable>
 	</Router>
 	);
 }

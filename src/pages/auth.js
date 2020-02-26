@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container, Header, Button, Form, Grid, Message } from 'semantic-ui-react';
+import { Container, Header, Button, Form, Message, Grid } from 'semantic-ui-react';
 import { useForm } from 'react-hook-form';
 //own
-//hoc
+import Copyright from '../components/Copyright';
 //context
 //css
 
@@ -14,21 +14,21 @@ import { useForm } from 'react-hook-form';
 const Auth = () => {
 
 	const { register, handleSubmit, errors} = useForm();
-	const onSubmit = data => {
+	const onSubmitHandler = data => {
 		console.log(data);
 	}
 
 	return <Container textAlign="center">
 		<Header size="huge"> DIF | Naucalpan </Header>
-		<p> created by <a href='https://robtry.github.io/'> Rob </a> </p>
-		<p> ITESM CEM Servicio Social 2020 </p>
+		<Copyright />
 		<div style={{paddingTop : '7em'}}></div>
-		<Grid columns='three' divided>
+		<Grid columns={3} >
 		<Grid.Row>
-			<Grid.Column />
-			<Grid.Column>
-				<Form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-					<Form.Field required>
+			<Grid.Column only='computer' />
+			<Grid.Column only='tablet' tablet='three' />
+			<Grid.Column mobile='sixteen' tablet='ten' computer='six'>
+				<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete='off'>
+					<Form.Field required >
 						{ errors.username && errors.username.type === 'required' && <Message negative>
 							<Message.Header>Campo requerido</Message.Header>
 							<p> Por favor ingrese un usuario válido </p>
@@ -47,7 +47,6 @@ const Auth = () => {
 					<Button basic color='teal' type='submit'>Ingresar</Button>
 				</Form>
 			</Grid.Column>
-			<Grid.Column/>
 		</Grid.Row>
 		</Grid>
 	</Container>;

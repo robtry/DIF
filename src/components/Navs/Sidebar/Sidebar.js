@@ -20,6 +20,9 @@ const SidebarNav = props => {
 				visible={props.sideBarStatus}
 				width='thin'
 			>
+				<Menu.Item>
+					ITESM CEM SS 2020
+				</Menu.Item>
 				<Menu.Item as={NavLink} to="/" exact>
 					<Icon name='home' />
 					Inicio

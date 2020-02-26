@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Header } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/Users/UserTable';
+import Copyright from '../../components/Copyright/index';
 //hoc
 //context
 //css
@@ -29,6 +30,7 @@ const User = (props) => {
 	return (
 		<React.Fragment>
 			<Header size="huge"> {convertToHeader(props.type)} </Header>
+			<Copyright />
 			<Table />
 		</React.Fragment>
 	);
