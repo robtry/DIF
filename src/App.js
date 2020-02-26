@@ -18,7 +18,8 @@ import UserProfile from './pages/Users/profile';
 import Templates from './pages/Templates/index';
 // format
 import Format from './pages/Formats/index';
-
+// history
+import History from './pages/History/index';
 
 const App = () => {
 
@@ -35,6 +36,7 @@ const App = () => {
 			<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)}/>
 			<Sidebar.Pusher dimmed={sideBarVisible}>
 				<Segment basic className='margin-top-bar'>
+					{ !userIsLoggedIn && <Redirect to='/'/> }
 					<Switch>
 						<Route path='/' exact component={userIsLoggedIn ? Dashboard : Authenticate}/>
 						<Route path='/profile/:id' exact component={UserProfile}/>
@@ -46,9 +48,9 @@ const App = () => {
 						<Route path='/nnas' exact component={NNAs} /> } />
 						<Route path='/plantillas' exact component={Templates} />
 						<Route path='/formatos' exact component={Format} />
+						<Route path='/historial/:id' exact component={History} />
 						<Route render={ () => <h1> Bad route </h1> }/>
 					</Switch>
-					{ !userIsLoggedIn && <Redirect to='/'/> }
 				</Segment>
 			</Sidebar.Pusher>
 		</Sidebar.Pushable>

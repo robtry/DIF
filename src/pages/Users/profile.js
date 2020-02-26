@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Header, Grid, Form, Button, Message } from "semantic-ui-react";
 import { useForm } from "react-hook-form";
+import { NavLink } from 'react-router-dom';
 //own
 import Copyright from "../../components/Copyright";
 //context
@@ -80,7 +81,7 @@ const UserProfile = () => {
 						<p className="margin-top"> Formatos Llenados/Editados </p>
 						<Header size="medium" as="p"> 15 </Header>
 						<p className="margin-top"> Historial </p>
-						<Button secondary>Ir al historial</Button>
+						<Button secondary as={NavLink} to="/historial/1" exact >Ir al historial</Button>
 					</Grid.Column>
 					<Grid.Column />
 				</Grid.Row>

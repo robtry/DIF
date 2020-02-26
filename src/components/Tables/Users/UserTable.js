@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table }  from 'semantic-ui-react';
-
+import { NavLink } from 'react-router-dom';
 // own
 import CrudButton from '../_shared/CRUD_Button';
 import Pagination from '../_shared/Pagination';
@@ -24,7 +24,7 @@ const UserTable = () => (
 			<Table.Row>
 				<Table.Cell>John Lilki</Table.Cell>
 				<Table.Cell>September 14, 2013</Table.Cell>
-				<Table.Cell>jhlilk22@yahoo.com</Table.Cell>
+				<Table.Cell> <NavLink to='/historial/1' exact> Ir al historial </NavLink> </Table.Cell>
 				<CrudButton />
 			</Table.Row>
 		</Table.Body>
