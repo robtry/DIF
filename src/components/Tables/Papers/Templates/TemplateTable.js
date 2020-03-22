@@ -2,7 +2,7 @@ import React from 'react';
 import { Table }  from 'semantic-ui-react';
 
 // own
-import CrudButton from '../../_shared/CRUD_Button';
+import CrudButton from '../../_shared/RUD_Button';
 import Pagination from '../../_shared/Pagination';
 
 /**

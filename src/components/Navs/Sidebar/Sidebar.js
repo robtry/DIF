@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+//context
+import UserContext from '../../../context/userContext';
 
 /**
  * Esta la barra lateral, la cual contiene las distintas opciones
@@ -9,6 +11,9 @@ import PropTypes from 'prop-types';
 */
 
 const SidebarNav = props => {
+
+	const isAdmin = useContext(UserContext).isAdmin;
+
 	return (
 			<Sidebar
 				as={Menu}
@@ -27,34 +32,18 @@ const SidebarNav = props => {
 					<Icon name='home' />
 					Inicio
 				</Menu.Item>
-				<Menu.Item as={NavLink} to="/admins" exact>
+				{isAdmin && <Menu.Item as={NavLink} to="/usuarios" exact>
 					<Icon name='address card' />
-					Admins
-				</Menu.Item>
+					Usuarios
+				</Menu.Item>}
 				<Menu.Item as={NavLink} to="/nnas" exact>
 					<Icon name='users' />
 					NNA's
 				</Menu.Item>
-				<Menu.Item as={NavLink} to="/medicos" exact>
-					<Icon name='doctor' />
-					Médicos
-				</Menu.Item>
-				<Menu.Item as={NavLink} to="/abogados" exact>
-					<Icon name='law' />
-					Abogados
-				</Menu.Item>
-				<Menu.Item as={NavLink} to="/tssocial" exact>
-					<Icon name='user' />
-					T Social
-				</Menu.Item>
-				<Menu.Item as={NavLink} to="/psicologos" exact>
-					<Icon name='user outline' />
-					Psicólogos
-				</Menu.Item>
-				<Menu.Item as={NavLink} to="/plantillas">
+				{isAdmin && <Menu.Item as={NavLink} to="/plantillas">
 					<Icon name='file' />
 					Plantillas
-				</Menu.Item>
+				</Menu.Item>}
 				<Menu.Item as={NavLink} to="/formatos">
 					<Icon name='file alternate' />
 					Formatos

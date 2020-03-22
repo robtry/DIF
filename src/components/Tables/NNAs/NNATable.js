@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 // own
 import Formats from './AccordionFormats/AccordionFormats';
-import CrudButton from '../_shared/CRUD_Button';
+import CrudButton from '../_shared/RUD_Button';
 import Pagination from '../_shared/Pagination';
 
 /**
@@ -11,7 +11,7 @@ import Pagination from '../_shared/Pagination';
 
 const NNATable = () => (
 	<React.Fragment>
-	<Table striped>
+	<Table celled padded>
 		<Table.Header>
 			<Table.Row>
 				<Table.HeaderCell>Expediente</Table.HeaderCell>
