@@ -22,7 +22,7 @@ const DeleteModal = props => {
 	const [errorDeleting, setErrorDeleting] = useState(false);
 
 	const deleteRecord = () => {
-		console.log('Borrando:', props.match.path);
+		console.log('Borrando:', props.match.path, props.id);
 		setDelitingState(true);
 		setErrorDeleting(false);
 		props.refresh();

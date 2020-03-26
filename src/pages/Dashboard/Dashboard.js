@@ -5,9 +5,12 @@ import { Container, Header, Grid, Table } from "semantic-ui-react";
 import Copyright from "../../components/Copyright";
 import FormatChart from "./Charts/Formats";
 import NNAsChart from "./Charts/NNAs";
-
+import Loader from '../../components/Loader';
+import { useFetch } from '../../util/useFetch';
 
 const Dashboard = () => {
+
+	const { isLoading } = useFetch();
 
 	useEffect(() => {
 		console.log('[Dashboard.js] | fetching data for dashboard')
@@ -21,7 +24,7 @@ const Dashboard = () => {
 				<Grid.Row columns={1}>
 					<Grid.Column>
 						<Header>NNA's </Header>
-						<NNAsChart />
+						{isLoading ? <Loader /> : <NNAsChart />}
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row columns={2}>

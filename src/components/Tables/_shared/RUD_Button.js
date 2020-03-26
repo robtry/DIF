@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button }  from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 // own
 import DeleteModal from './DeleteModal';
-//import ReadModal from '../../Details/_Read';
+import ShowModal from '../../Details/_ShowModal';
 import EditModal from '../../Forms/_CUModal';
 
 /**
@@ -12,23 +12,24 @@ import EditModal from '../../Forms/_CUModal';
 */
 
 const CrudButton = (props) => {
+	//console.log('[RUD]', props)
 	return (
 		<Table.Cell textAlign='center'>
-		<Button.Group>
-			{/*
-				props.onShow &&
-				<ReadModal id={props.id} title={props.title} Body={props.onShow}/>
-			*/}
-			{
-				props.onEdit &&
-				<EditModal id={props.id} Form={props.onEdit} isEditing refresh={props.refresh}/>
-			}
-			{
-				props.onDelete &&
-				<DeleteModal message={props.onDelete} id={props.id} refresh={props.refresh}/>
-			}
-		</Button.Group>
-	</Table.Cell>
+			<Button.Group>
+				{
+					props.onShow &&
+					<ShowModal title={props.title} Body={props.onShow} />
+				}
+				{
+					props.onEdit &&
+					<EditModal id={props.id} Form={props.onEdit} isEditing refresh={props.refresh} />
+				}
+				{
+					props.onDelete &&
+					<DeleteModal message={props.onDelete} id={props.id} refresh={props.refresh} />
+				}
+			</Button.Group>
+		</Table.Cell>
 	);
 }
 
@@ -48,4 +49,5 @@ CrudButton.propTypes = {
 }
 
 /** @component */
-export default CrudButton;
+export default React.memo(CrudButton);
+//export default CrudButton;

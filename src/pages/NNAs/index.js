@@ -1,29 +1,27 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { Header } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/NNAs/NNATable';
 import Copyright from '../../components/Copyright/index';
-//hoc
-//context
-//css
+import New from '../../components/Forms/_CUModal';
+import NNAForm from '../../components/Forms/NNAForm';
+import Pagination from '../../components/Tables/_shared/Pagination';
+import Loader from '../../components/Loader';
+import { useFetch } from '../../util/useFetch';
 
-const NNAs = () => {
+const NNAPage = () => {
 
-	const loadData = useCallback(() => {
-		console.log('[index nna.js] | Fetching nnas',);
-	}, []);
-
-	useEffect(() => {
-		loadData();
-	}, [loadData]);
+	const { loadData, isLoading, data } = useFetch();
 
 	return (
 		<React.Fragment>
 			<Header size="huge"> NNA's </Header>
 			<Copyright />
-			<Table data={[]} loadData={loadData}/>
+			<New message="Agregar NNA" Form={NNAForm} refresh={loadData} />
+			<Pagination totalPages={data.length / 1}/>
+			{isLoading ? <Loader /> : <Table data={data} loadData={loadData} />}
 		</React.Fragment>
 	);
-}
+};
 
-export default NNAs;
+export default NNAPage;

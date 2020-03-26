@@ -29,7 +29,7 @@ const App = () => {
 	/** Controla, el **Sidebar**, icono en el **TopNav** y **Dimmer** en App */
 	const [sideBarVisible, setSideBarVisible] = useState(false);
 
-	// Controlar el estado del user
+	// Controlar el estado del user con el context
 	const [userIsLoggedIn, setUserIsLoggedIn] = useState(true); //false
 	const [userType, setUserType] = useState('admin'); //''
 
