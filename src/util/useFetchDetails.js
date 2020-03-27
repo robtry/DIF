@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-export const useFetch = (extra) => {
+export const useFetchDetails = (id) => {
 
 	//con useRef si el value cambia no causa un re-render
 	const isCurrent = useRef(true);
@@ -11,35 +11,24 @@ export const useFetch = (extra) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	//location for pags
-	const location = useLocation();
-	const currentPage = new URLSearchParams(location.search).get('pag');
-	const currentUrl = location.pathname;
-	const history = useHistory();
+	const currentUrl = useLocation().pathname;
 
 	const loadData = useCallback(() => {
-		//setData([]);
+		//setData([]); //causes more renders, unneeded
 		setIsLoading(true);
 		console.log(
 			'Fetching ',
-			currentUrl, '/',
-			extra ? extra + '/': '' ,
-			currentPage == null ? '1' : currentPage, '/'
+			currentUrl,
+			'/', id
 		);
 		setTimeout(()=>{
 			if(isCurrent.current){
 				setData(prev => prev.concat('1'));
 				setIsLoading(false);
 			}
-		}, 500)
-	}, [currentPage, currentUrl, extra]);
+		}, 700)
+	}, [currentUrl, id]);
 
-	useEffect(() => {
-		history.replace(currentUrl);
-	}, [extra, history, currentUrl])
-
-	useEffect(() => {
-		loadData();
-	}, [loadData]);
 
 	useEffect(() => {
 		return () => {

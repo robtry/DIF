@@ -3,8 +3,8 @@ import { Table, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // own
-import CrudButton from '../_shared/RUD_Button';
-import UserForm from '../../Forms/UserForm';
+import CrudButton from './_shared/RUD_Button';
+import UserForm from '../Forms/UserForm';
 
 /**
  * Es la tabla que se usa para el index de todos los usuarios

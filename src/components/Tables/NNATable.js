@@ -1,10 +1,11 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // own
-import Formats from './AccordionFormats/AccordionFormats';
-import RudButton from '../_shared/RUD_Button';
-import NNAForm from '../../Forms/NNAForm';
+//import Formats from './AccordionFormats/AccordionFormats';
+import RudButton from './_shared/RUD_Button';
+import NNAForm from '../Forms/NNAForm';
 
 /**
  * Es la tabla que se muestra los NNAs
@@ -23,16 +24,20 @@ const NNATable = props => {
 			</Table.Header>
 			<Table.Body>
 				<Table.Row>
+					<Table.Cell>kICNOSDICNS</Table.Cell>
 					<Table.Cell>John Lilki</Table.Cell>
-					<Table.Cell>September 14, 2013</Table.Cell>
-					<Table.Cell>ir deta</Table.Cell>
+					<Table.Cell>
+						<NavLink to="/nna/1" exact>
+							Ver detalles
+						</NavLink>
+					</Table.Cell>
 					<RudButton
 						id={1}
 						onDelete="John Lilki"
 						onEdit={NNAForm}
-						onShow={Formats}
+						//onShow={Formats}
 						refresh={props.loadData}
-						title='Formatos'
+						//title='Formatos de John'
 					/>
 				</Table.Row>
 			</Table.Body>

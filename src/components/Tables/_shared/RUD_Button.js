@@ -18,7 +18,7 @@ const CrudButton = (props) => {
 			<Button.Group>
 				{
 					props.onShow &&
-					<ShowModal title={props.title} Body={props.onShow} />
+					<ShowModal title={props.title} Body={props.onShow} id={props.id}/>
 				}
 				{
 					props.onEdit &&

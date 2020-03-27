@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { Modal, Button, Icon, Header } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Icon, Header, Dimmer, Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
-//hoc
-//context
-//css
+import { useFetchDetails } from '../../util/useFetchDetails';
 
 const CUModal = props => {
 	// Control the modal
@@ -12,20 +10,27 @@ const CUModal = props => {
 	const handleOpen = () => setModelState(true);
 	const handleClose = () => setModelState(false);
 
+	const { isLoading, data, loadData } = useFetchDetails(props.id);
+
+	useEffect(() => {
+		if(isOpenModel && props.isEditing){
+			loadData();
+		}
+	}, [isOpenModel, loadData, props.isEditing])
+
+
 	return (
 		<Modal
 			trigger={
 				props.isEditing ? (
 					<Button icon onClick={handleOpen}>
-						{' '}
-						<Icon name="edit" />{' '}
+						<Icon name="edit" />
 					</Button>
 				) : (
-					<Button primary icon labelPosition="left" onClick={handleOpen}>
-						{' '}
-						<Icon name="add" /> {props.message}{' '}
-					</Button>
-				)
+						<Button primary icon labelPosition="left" onClick={handleOpen}>
+							<Icon name="add" /> {props.message}
+						</Button>
+					)
 			}
 			closeIcon
 			centered={false}
@@ -41,11 +46,13 @@ const CUModal = props => {
 			/>
 			<Modal.Content>
 				{
+					(props.isEditing && isLoading) ? <Dimmer active><Loader /></Dimmer> :
 					<props.Form
 						id={props.id}
 						isEditing={props.isEditing}
 						handleClose={() => handleClose()}
 						refresh={props.refresh}
+						data={props.isEditing ? data : null}
 					/>
 				}
 			</Modal.Content>

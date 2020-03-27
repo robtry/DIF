@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header } from 'semantic-ui-react';
 //own
-import Table from '../../components/Tables/NNAs/NNATable';
+import Table from '../../components/Tables/NNATable';
 import Copyright from '../../components/Copyright/index';
 import New from '../../components/Forms/_CUModal';
 import NNAForm from '../../components/Forms/NNAForm';

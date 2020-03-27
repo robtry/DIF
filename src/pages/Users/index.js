@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Header, Form } from 'semantic-ui-react';
 //import { useLocation, useHistory } from 'react-router-dom';
 //own
-import Table from '../../components/Tables/Users/UserTable';
+import Table from '../../components/Tables/UserTable';
 import Copyright from '../../components/Copyright/index';
 import New from '../../components/Forms/_CUModal';
 import UserForm from '../../components/Forms/UserForm';

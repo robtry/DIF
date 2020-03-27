@@ -11,6 +11,7 @@ import Authenticate from './pages/Users/auth';
 import Dashboard from './pages/Dashboard/Dashboard';
 // nna
 import NNAs from './pages/NNAs/index';
+import NNAsHistory from './pages/NNAs/history';
 // user
 import User from './pages/Users/index';
 import UserProfile from './pages/Users/profile';
@@ -19,7 +20,7 @@ import Templates from './pages/Templates/index';
 // format
 import Format from './pages/Formats/index';
 // history
-import History from './pages/History/index';
+import UserHistory from './pages/Users/history';
 
 // context
 import UserContext from './context/userContext';
@@ -67,9 +68,10 @@ const App = () => {
 							<Route path='/profile/:id' exact component={UserProfile}/>
 							{ userType === 'admin' && <Route path='/usuarios' exact component={User} />}
 							<Route path='/nnas' exact component={NNAs} /> } />
+							<Route path='/nna/:id' exact component={NNAsHistory} />
 							{ userType === 'admin' && <Route path='/plantillas' exact component={Templates} />}
 							<Route path='/formatos' exact component={Format} />
-							<Route path='/historial/:id' exact component={History} />
+							<Route path='/historial/:id' exact component={UserHistory} />
 							<Route render={ () => <h1> Bad route </h1> }/>
 						</Switch>
 					</Segment>

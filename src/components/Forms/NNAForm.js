@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { Form, Button, Message,/* Dimmer, Loader */} from 'semantic-ui-react';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import es from 'date-fns/locale/es';
+import { Form, Button, Message/* Dimmer, Loader */ } from 'semantic-ui-react';
 //own
+import NameField from './_shared/NameField';
+import "react-datepicker/dist/react-datepicker.css";
+
+registerLocale('es', es);
 
 const NNAForm = props => {
 	// Forms Validation
 	const { register, handleSubmit, errors } = useForm();
+	const [bornDate, setbornDate] = useState();
+	const [isValidDate, setIsValidDate] = useState(true);
+
 	const onSubmitHandler = data => {
-		if(props.isEditing){
-			console.log('[NNAForm.js] editing user', props.id, data);
-		}else{
-			console.log('[NNAForm.js] creating',data);
+		if (!bornDate) {
+			setIsValidDate(false);
+			return;
+		}
+		if (props.isEditing) {
+			console.log('[NNAForm.js] editing user', props.id, data, bornDate);
+		} else {
+			console.log('[NNAForm.js] creating', data, bornDate);
 		}
 		props.refresh();
 		props.handleClose();
@@ -19,53 +32,120 @@ const NNAForm = props => {
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
+
+			<Form.Group widths="equal">
+				<NameField
+					name='nombre'
+					tag='Nombre'
+					errors={errors}
+					register={register}
+				/>
+				<NameField
+					name='app'
+					tag='Apellido Paterno'
+					errors={errors}
+					register={register}
+				/>
+				<NameField
+					name='apm'
+					tag='Apellido Materno'
+					errors={errors}
+					register={register}
+				/>
+			</Form.Group>
+
 			<Form.Group widths="equal">
 				<Form.Field required>
-					<label> Nombre </label>
+					<label> Expediente </label>
 					<input
-						type="text"
-						name="nombre"
-						ref={register({ required: true, pattern: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/ })}
-						//defaultValue={(props.isEditing && mesa) && mesa.letra ? mesa.letra : null}
+						type='text'
+						name='exp'
+						ref={register({ required: true })}
+					//defaultValue={}
 					/>
-					{errors.nombre && errors.nombre.type === 'required' && (
+					{errors.exp && errors.exp.type === 'required' && (
 						<Message negative>
-							<Message.Header>Es necesario proporcionar el nombre completo</Message.Header>
+							<Message.Header>Para agregar un NNA se requiere un expediente</Message.Header>
 						</Message>
 					)}
-					{ errors.nombre && errors.nombre.type === 'pattern' && <Message negative>
-							<Message.Header>Ingrese un nombre válido</Message.Header>
-							<p> Por favor ingrese un nombre válido </p>
-							<ul>
-								<li> Solo se permiten letras </li>
-								<li> Asegurese de que no termina con espacio al final</li>
-							</ul>
-						</Message> }
 				</Form.Field>
+
 				<Form.Field required>
-					<label> Tipo </label>
+					<label> Fecha de nacimiento </label>
+					<DatePicker
+						selected={bornDate}
+						onChange={date => {setbornDate(date); setIsValidDate(date && true)}}
+						peekNextMonth
+						showMonthDropdown
+						showYearDropdown
+						dropdownMode='scroll'
+						maxDate={new Date()}
+						locale='es'
+						placeholderText='Fecha de Nacimiento'
+					/>
+					{!isValidDate && (
+						<Message negative>
+							<Message.Header>Seleccione una fecha de naciemiento</Message.Header>
+						</Message>
+					)}
+				</Form.Field>
+			</Form.Group>
+
+			<Form.Group>
+				<Form.Field required>
+					<label> Sexo </label>
 					<select
-						name="tipo"
+						name='sexo'
 						ref={register({ required: true })}
 						//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
 					>
-						<option value="">--seleccione--</option>
-						<option value="admin">Administrador</option>
-						<option value="medico">Médico</option>
-						<option value="abogado">Abagado</option>
-						<option value="tsocial">Trabajadore Social</option>
-						<option value="psicologo">Psicólogo</option>
+						<option value=''>--seleccione--</option>
+						<option value='f'>Femenino</option>
+						<option value='m'>Masculino</option>
 					</select>
-					{errors.tipo && errors.tipo.type === 'required' && (
+					{errors.sexo && errors.sexo.type === 'required' && (
 						<Message negative>
 							<Message.Header>
-								Se debe selccionar un tupo para el usuario
+								Se debe selccionar un sexo
+							</Message.Header>
+						</Message>
+					)}
+				</Form.Field>
+				<Form.Field>
+					<label> Peso </label>
+					<input
+						name='peso'
+						type='text'
+						ref={register({ pattern: /^\d{1,6}(\.\d{1,2})?$/ })}
+						placeholder='Kg'
+					/>
+					{errors.peso && errors.peso.type === 'pattern' && (
+						<Message negative>
+							<Message.Header>
+								Sólo se permiten números con dos decimales ej: 39.5
+							</Message.Header>
+						</Message>
+					)}
+				</Form.Field>
+
+				<Form.Field>
+					<label> Talla </label>
+					<input
+						name='talla'
+						type='text'
+						ref={register({ pattern: /^\d{1,6}(\.\d{1,2})?$/ })}
+						placeholder='mts'
+					/>
+					{errors.talla && errors.talla.type === 'pattern' && (
+						<Message negative>
+							<Message.Header>
+								Sólo se permiten números con dos decimales ej: 1.65
 							</Message.Header>
 						</Message>
 					)}
 				</Form.Field>
 			</Form.Group>
-			<Form.Group widths="equal"></Form.Group>
+
 			<Button
 				positive
 				icon="checkmark"

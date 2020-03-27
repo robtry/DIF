@@ -1,17 +1,23 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { Form, Button, Message,/* Dimmer, Loader */} from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 //own
+import NameField from './_shared/NameField';
 
 const UserForm = props => {
+
+	//console.log(props.isEditing ? props.data : '');
+
 	// Forms Validation
 	const { register, handleSubmit, errors } = useForm();
+
+	//handle edit or create
 	const onSubmitHandler = data => {
-		if(props.isEditing){
+		if (props.isEditing) {
 			console.log('[UserForm.js] editing user', props.id, data);
-		}else{
-			console.log('[UserForm.js] creating',data);
+		} else {
+			console.log('[UserForm.js] creating', data);
 		}
 		props.refresh();
 		props.handleClose();
@@ -20,34 +26,18 @@ const UserForm = props => {
 	return (
 		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
 			<Form.Group widths="equal">
-				<Form.Field required>
-					<label> Nombre </label>
-					<input
-						type="text"
-						name="nombre"
-						ref={register({ required: true, pattern: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/ })}
-						//defaultValue={(props.isEditing && mesa) && mesa.letra ? mesa.letra : null}
-					/>
-					{errors.nombre && errors.nombre.type === 'required' && (
-						<Message negative>
-							<Message.Header>Es necesario proporcionar el nombre completo</Message.Header>
-						</Message>
-					)}
-					{ errors.nombre && errors.nombre.type === 'pattern' && <Message negative>
-							<Message.Header>Ingrese un nombre válido</Message.Header>
-							<p> Por favor ingrese un nombre válido </p>
-							<ul>
-								<li> Solo se permiten letras </li>
-								<li> Asegurese de que no termina con espacio al final</li>
-							</ul>
-						</Message> }
-				</Form.Field>
+				<NameField
+					name='nombre'
+					tag='Nombre'
+					errors={errors}
+					register={register}
+				/>
 				<Form.Field required>
 					<label> Tipo </label>
 					<select
 						name="tipo"
 						ref={register({ required: true })}
-						//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
+					//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
 					>
 						<option value="">--seleccione--</option>
 						<option value="admin">Administrador</option>
@@ -65,7 +55,6 @@ const UserForm = props => {
 					)}
 				</Form.Field>
 			</Form.Group>
-			<Form.Group widths="equal"></Form.Group>
 			<Button
 				positive
 				icon="checkmark"
@@ -88,7 +77,9 @@ UserForm.propTypes = {
 	/** To close the modal */
 	handleClose: PropTypes.func.isRequired,
 	/** Refresher */
-	refresh: PropTypes.func.isRequired
+	refresh: PropTypes.func.isRequired,
+	/** Needed if editing */
+	data: PropTypes.any,
 };
 
 export default UserForm;

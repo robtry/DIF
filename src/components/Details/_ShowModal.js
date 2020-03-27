@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Icon, Header, Container } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
-//hoc
-//context
-//css
+//import { useFetchDetails } from '../../util/useFetchDetails';
 
 const ShowModal = (props) => {
 
@@ -30,6 +28,8 @@ const ShowModal = (props) => {
 }
 
 ShowModal.propTypes = {
+	/** Id para hacer el get */
+	id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	/** Es un header dentro del modal */
 	title: PropTypes.string,
 	/** Body si details esta disponible */
