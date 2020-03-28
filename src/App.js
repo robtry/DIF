@@ -16,9 +16,11 @@ import NNAsHistory from './pages/NNAs/history';
 import User from './pages/Users/index';
 import UserProfile from './pages/Users/profile';
 // templates
-import Templates from './pages/Templates/index';
+import Templates from './pages/Papers/TemplateIndex';
+import CUTemplate from './pages/Papers/CUTemplate';
 // format
-import Format from './pages/Formats/index';
+import Format from './pages/Papers/FormatIndex';
+import RUFormat from './pages/Papers/RUFormat';
 // history
 import UserHistory from './pages/Users/history';
 
@@ -31,7 +33,7 @@ const App = () => {
 	const [sideBarVisible, setSideBarVisible] = useState(false);
 
 	// Controlar el estado del user con el context
-	const [userIsLoggedIn, setUserIsLoggedIn] = useState(true); //false
+	const [userIsLoggedIn, setUserIsLoggedIn] = useState(false); //false
 	const [userType, setUserType] = useState('admin'); //''
 
 	const authenticateUser = (username, password) => {
@@ -62,7 +64,6 @@ const App = () => {
 				<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)}/>
 				<Sidebar.Pusher dimmed={sideBarVisible}>
 					<Segment basic className='margin-top-bar'>
-						{ !userIsLoggedIn && <Redirect to='/'/> }
 						<Switch>
 							<Route path='/' exact component={userIsLoggedIn ? Dashboard : Authenticate}/>
 							<Route path='/profile/:id' exact component={UserProfile}/>
@@ -70,10 +71,13 @@ const App = () => {
 							<Route path='/nnas' exact component={NNAs} /> } />
 							<Route path='/nna/:id' exact component={NNAsHistory} />
 							{ userType === 'admin' && <Route path='/plantillas' exact component={Templates} />}
+							{ userType === 'admin' && <Route path='/plantilla/:id' exact component={CUTemplate} />}
 							<Route path='/formatos' exact component={Format} />
+							<Route path='/formato/:id' exact component={RUFormat} />
 							<Route path='/historial/:id' exact component={UserHistory} />
 							<Route render={ () => <h1> Bad route </h1> }/>
 						</Switch>
+						{ !userIsLoggedIn && <Redirect to='/'/> }
 					</Segment>
 				</Sidebar.Pusher>
 			</Sidebar.Pushable>

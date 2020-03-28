@@ -1,9 +1,8 @@
 import React from 'react';
 import { Table }  from 'semantic-ui-react';
-
 // own
-import CrudButton from '../../_shared/RUD_Button';
-import Pagination from '../../_shared/Pagination';
+import ButtonsCard from '../../Cards/ButtonsCard';
+
 
 /**
  * Es la tabla que se usa para el index de el historial de los formatos
@@ -11,6 +10,7 @@ import Pagination from '../../_shared/Pagination';
 
 const TemplateTable = () => (
 	<React.Fragment>
+	<br /><br />
 	<Table striped>
 		<Table.Header>
 			<Table.Row>
@@ -25,11 +25,15 @@ const TemplateTable = () => (
 				<Table.Cell>Derechos del NNA</Table.Cell>
 				<Table.Cell>Juan</Table.Cell>
 				<Table.Cell>14-02-19 12:34:15</Table.Cell>
-				<CrudButton />
+				<Table.Cell>
+					<ButtonsCard
+						id={1}
+						type='format'
+					/>
+				</Table.Cell>
 			</Table.Row>
 		</Table.Body>
 	</Table>
-	<Pagination />
 	</React.Fragment>
 )
 

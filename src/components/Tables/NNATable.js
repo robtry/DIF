@@ -35,9 +35,7 @@ const NNATable = props => {
 						id={1}
 						onDelete="John Lilki"
 						onEdit={NNAForm}
-						//onShow={Formats}
 						refresh={props.loadData}
-						//title='Formatos de John'
 					/>
 				</Table.Row>
 			</Table.Body>

@@ -5,19 +5,15 @@ import { Form, Button, Message } from 'semantic-ui-react';
 //own
 import NameField from './_shared/NameField';
 
-const UserForm = props => {
-
-	//console.log(props.isEditing ? props.data : '');
-
+const NNAForm = (props) => {
 	// Forms Validation
 	const { register, handleSubmit, errors } = useForm();
 
-	//handle edit or create
-	const onSubmitHandler = data => {
+	const onSubmitHandler = (data) => {
 		if (props.isEditing) {
-			console.log('[UserForm.js] editing user', props.id, data);
+			console.log('[TemplateInitForm.js] editing template', props.id, data);
 		} else {
-			console.log('[UserForm.js] creating', data);
+			console.log('[TemplateInitForm.js] creating', data);
 		}
 		props.refresh();
 		props.handleClose();
@@ -26,35 +22,29 @@ const UserForm = props => {
 	return (
 		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
 			<Form.Group widths="equal">
-				<NameField
-					name='nombre'
-					tag='Nombre'
-					errors={errors}
-					register={register}
-				/>
+				<NameField name="nombre" tag="Nombre de la Plantilla" errors={errors} register={register} />
 				<Form.Field required>
 					<label> Tipo </label>
 					<select
 						name="tipo"
 						ref={register({ required: true })}
-					//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
+						//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
 					>
 						<option value="">--seleccione--</option>
-						<option value="admin">Administrador</option>
 						<option value="medico">Médico</option>
-						<option value="abogado">Abagado</option>
-						<option value="tsocial">Trabajador Social</option>
-						<option value="psicologo">Psicólogo</option>
+						<option value="abogado">Legal</option>
+						<option value="tsocial">Trabajo Social</option>
+						<option value="psicologo">Psicólogico</option>
 					</select>
-					{errors.tipo && errors.tipo.type === 'required' && (
+					{errors.tipo &&
+					errors.tipo.type === 'required' && (
 						<Message negative>
-							<Message.Header>
-								Se debe selccionar un tupo para el usuario
-							</Message.Header>
+							<Message.Header>Se debe selccionar un tupo para el usuario</Message.Header>
 						</Message>
 					)}
 				</Form.Field>
 			</Form.Group>
+
 			<Button
 				positive
 				icon="checkmark"
@@ -69,17 +59,15 @@ const UserForm = props => {
 	);
 };
 
-UserForm.propTypes = {
+NNAForm.propTypes = {
 	/** id for get details */
-	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	id: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
 	/** Para saber si se debe hacer un request para obtener info */
 	isEditing: PropTypes.bool,
 	/** To close the modal */
 	handleClose: PropTypes.func.isRequired,
 	/** Refresher */
-	refresh: PropTypes.func.isRequired,
-	/** Needed if editing */
-	data: PropTypes.any,
+	refresh: PropTypes.func.isRequired
 };
 
-export default UserForm;
+export default NNAForm;

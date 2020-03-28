@@ -23,7 +23,7 @@ export const useFetch = (extra) => {
 			'Fetching ',
 			currentUrl, '/',
 			extra ? extra + '/': '' ,
-			currentPage == null ? '1' : currentPage, '/'
+			'pag:', currentPage == null ? '1' : currentPage, '/'
 		);
 		setTimeout(()=>{
 			if(isCurrent.current){

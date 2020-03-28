@@ -4,18 +4,20 @@ import { Header, Table, Container } from 'semantic-ui-react';
 import Copyright from '../../components/Copyright/index';
 import Loader from '../../components/Loader';
 import { useFetch } from '../../util/useFetch';
+import FormatCard from '../../components/Cards/FormatCard';
 
 const History = (props) => {
-
-	const { isLoading, /*data*/ } = useFetch();
+	const { isLoading /*data*/ } = useFetch();
 
 	return (
 		<Container textAlign="center">
 			<Copyright />
-			{isLoading ? <Loader /> : (
+			{isLoading ? (
+				<Loader />
+			) : (
 				<React.Fragment>
 					<Header size="huge"> |Nombre completo| </Header>
-					<Table striped textAlign='center'>
+					<Table striped textAlign="center">
 						<Table.Header>
 							<Table.Row>
 								<Table.HeaderCell>Dato</Table.HeaderCell>
@@ -25,36 +27,52 @@ const History = (props) => {
 						<Table.Body>
 							<Table.Row>
 								<Table.Cell>Expediente</Table.Cell>
-								<Table.Cell><b>ASLFALDMSL</b></Table.Cell>
+								<Table.Cell>
+									<b>ASLFALDMSL</b>
+								</Table.Cell>
 							</Table.Row>
 							<Table.Row>
 								<Table.Cell>Fecha de nacimiento</Table.Cell>
-								<Table.Cell><b>una fecha</b></Table.Cell>
+								<Table.Cell>
+									<b>una fecha</b>
+								</Table.Cell>
 							</Table.Row>
 							<Table.Row>
 								<Table.Cell>Sexo</Table.Cell>
-								<Table.Cell><b>MAsculino o femenino</b></Table.Cell>
+								<Table.Cell>
+									<b>MAsculino o femenino</b>
+								</Table.Cell>
 							</Table.Row>
 							<Table.Row>
 								<Table.Cell>Peso</Table.Cell>
-								<Table.Cell><b>53.2 kg</b></Table.Cell>
+								<Table.Cell>
+									<b>53.2 kg</b>
+								</Table.Cell>
 							</Table.Row>
 							<Table.Row>
 								<Table.Cell>Talla</Table.Cell>
-								<Table.Cell><b>1.21 mts</b></Table.Cell>
+								<Table.Cell>
+									<b>1.21 mts</b>
+								</Table.Cell>
 							</Table.Row>
 							<Table.Row>
 								<Table.Cell>Escolaridad</Table.Cell>
-								<Table.Cell><b>Primaria</b></Table.Cell>
+								<Table.Cell>
+									<b>Primaria</b>
+								</Table.Cell>
 							</Table.Row>
 						</Table.Body>
 					</Table>
 					<Header size="huge"> Formatos </Header>
-					
+					<Header> Trabajo social </Header>
+					<FormatCard />
+					<Header> Psicológico </Header>
+					<Header> Legal </Header>
+					<Header> Medicina </Header>
 				</React.Fragment>
 			)}
 		</Container>
 	);
-}
+};
 
 export default History;
