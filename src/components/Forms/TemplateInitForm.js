@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Button, Label } from 'semantic-ui-react';
 //own
 import NameField from './_shared/NameField';
 
@@ -22,9 +22,15 @@ const NNAForm = (props) => {
 	return (
 		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
 			<Form.Group widths="equal">
-				<NameField name="nombre" tag="Nombre de la Plantilla" errors={errors} register={register} />
+				<NameField name="nombre" tag="Nombre de Plantilla" errors={errors} register={register} />
 				<Form.Field required>
 					<label> Tipo </label>
+					{errors.tipo &&
+					errors.tipo.type === 'required' && (
+						<Label basic color="red" pointing="below">
+							Se debe selccionar un tipo de plantilla
+						</Label>
+					)}
 					<select
 						name="tipo"
 						ref={register({ required: true })}
@@ -36,12 +42,6 @@ const NNAForm = (props) => {
 						<option value="tsocial">Trabajo Social</option>
 						<option value="psicologo">Psicólogico</option>
 					</select>
-					{errors.tipo &&
-					errors.tipo.type === 'required' && (
-						<Message negative>
-							<Message.Header>Se debe selccionar un tupo para el usuario</Message.Header>
-						</Message>
-					)}
 				</Form.Field>
 			</Form.Group>
 
