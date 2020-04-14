@@ -51,43 +51,43 @@ const Dashboard = () => {
 							<Table.Body>
 								<Table.Row>
 									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>None</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>11-05-2020 16:45</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>Requires call</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>12-02-2020 12:23</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>None</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>11-05-2020 16:45</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>Requires call</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>12-02-2020 12:23</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>None</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>11-05-2020 16:45</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>Requires call</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>12-02-2020 12:23</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>None</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>11-05-2020 16:45</Table.Cell>
 								</Table.Row>
 								<Table.Row>
 									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Approved</Table.Cell>
-									<Table.Cell>Requires call</Table.Cell>
+									<Table.Cell>Formato de Ingreso</Table.Cell>
+									<Table.Cell>12-02-2020 12:23</Table.Cell>
 								</Table.Row>
 							</Table.Body>
 						</Table>

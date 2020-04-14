@@ -40,7 +40,7 @@ const UserTable = props => {
 			</Table.Header>
 			<Table.Body>
 				<Table.Row>
-					<Table.Cell>Nombre con Apellido y</Table.Cell>
+					<Table.Cell>Nombre con Apellido</Table.Cell>
 					<Table.Cell>
 						<Icon name={convertToIcon('admin')} />
 						Admin

@@ -1,19 +1,18 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Button, Label } from 'semantic-ui-react';
 //own
 import NameField from './_shared/NameField';
 
-const UserForm = props => {
-
+const UserForm = (props) => {
 	//console.log(props.isEditing ? props.data : '');
 
 	// Forms Validation
 	const { register, handleSubmit, errors } = useForm();
 
 	//handle edit or create
-	const onSubmitHandler = data => {
+	const onSubmitHandler = (data) => {
 		if (props.isEditing) {
 			console.log('[UserForm.js] editing user', props.id, data);
 		} else {
@@ -26,18 +25,19 @@ const UserForm = props => {
 	return (
 		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
 			<Form.Group widths="equal">
-				<NameField
-					name='nombre'
-					tag='Nombre'
-					errors={errors}
-					register={register}
-				/>
+				<NameField name="nombre" tag="Nombre" errors={errors} register={register} />
 				<Form.Field required>
 					<label> Tipo </label>
+					{errors.tipo &&
+					errors.tipo.type === 'required' && (
+						<Label basic color="red" pointing="below">
+							Se debe selccionar un tipo para el usuario
+						</Label>
+					)}
 					<select
 						name="tipo"
 						ref={register({ required: true })}
-					//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
+						//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
 					>
 						<option value="">--seleccione--</option>
 						<option value="admin">Administrador</option>
@@ -46,13 +46,6 @@ const UserForm = props => {
 						<option value="tsocial">Trabajador Social</option>
 						<option value="psicologo">Psicólogo</option>
 					</select>
-					{errors.tipo && errors.tipo.type === 'required' && (
-						<Message negative>
-							<Message.Header>
-								Se debe selccionar un tupo para el usuario
-							</Message.Header>
-						</Message>
-					)}
 				</Form.Field>
 			</Form.Group>
 			<Button
@@ -71,7 +64,7 @@ const UserForm = props => {
 
 UserForm.propTypes = {
 	/** id for get details */
-	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	id: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
 	/** Para saber si se debe hacer un request para obtener info */
 	isEditing: PropTypes.bool,
 	/** To close the modal */
@@ -79,7 +72,7 @@ UserForm.propTypes = {
 	/** Refresher */
 	refresh: PropTypes.func.isRequired,
 	/** Needed if editing */
-	data: PropTypes.any,
+	data: PropTypes.any
 };
 
 export default UserForm;
