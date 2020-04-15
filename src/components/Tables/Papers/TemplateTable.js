@@ -31,6 +31,7 @@ const TemplateTable = props => (
 					<ButtonsCard
 						id={1}
 						type='template'
+						title='Derechos del NNA'
 					/>
 				</Table.Cell>
 				<RudButton

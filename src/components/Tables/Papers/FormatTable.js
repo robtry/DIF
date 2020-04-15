@@ -29,6 +29,7 @@ const TemplateTable = () => (
 					<ButtonsCard
 						id={1}
 						type='format'
+						title='Derechos del NNA | Ramón Sosa'
 					/>
 				</Table.Cell>
 			</Table.Row>

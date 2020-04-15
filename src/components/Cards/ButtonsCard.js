@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Button } from 'semantic-ui-react';
-import TemplateDetails from '../../pages/Papers/TemplateDetails';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 //own
 import OnShow from '../Details/ShowPapersModal';
+import TemplatePreview from '../../pages/Papers/TemplatePreview';
 //context
 import UserContext from '../../context/userContext';
 
@@ -16,7 +16,7 @@ const ButtonsCard = (props) => {
 				{/* <Button basic color="grey">
 					Imprimir
 				</Button> */}
-				<OnShow id={props.id} title={props.title} Body={TemplateDetails} />
+				<OnShow id={props.id} title={props.title} Body={TemplatePreview} />
 				{isAdmin && ( //other types
 					<Button
 						basic

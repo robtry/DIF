@@ -11,6 +11,7 @@ import Consistent from './TemplateControls/Consistent';
 import CloseMulti from './TemplateControls/CloseMulti';
 
 const TemplateControlsForm = (props) => {
+	//console.log(props)
 	// radio btn
 	const [ radioValue, setRadioValue ] = useState('open');
 	const handleChangeRadioBtn = (_, { value }) => {
@@ -137,7 +138,7 @@ const TemplateControlsForm = (props) => {
 
 			{(radioValue === 'close' || radioValue === 'multi') && <CloseMulti register={register} errors={errors} />}
 
-			<DescriptionField />
+			{radioValue !== 'consistent' && radioValue !== 'separator' && <DescriptionField />}
 
 			<Form.Field width="4">
 				<label>
@@ -164,7 +165,7 @@ const TemplateControlsForm = (props) => {
 				/>
 			</Form.Field>
 
-			<Form.Button primary>Agregar Campo</Form.Button>
+			<Form.Button primary>{props.isEditing ? 'Actualizar Campo' : 'Agregar Campo'}</Form.Button>
 		</Form>
 	);
 };
