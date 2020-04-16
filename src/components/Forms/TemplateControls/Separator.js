@@ -23,8 +23,6 @@ const Separator = (props) => {
 };
 
 Separator.propTypes = {
-	/** Para saber si se debe hacer un request para obtener info */
-	isEditing: PropTypes.bool,
 	/** Refresher */
 	refresh: PropTypes.func //.isRequired
 };

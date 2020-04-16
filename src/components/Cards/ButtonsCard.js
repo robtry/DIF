@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 //own
 import OnShow from '../Details/ShowPapersModal';
 import TemplatePreview from '../../pages/Papers/TemplatePreview';
+import FormatPreview from '../../pages/Papers/FormatPreview';
+
 //context
 import UserContext from '../../context/userContext';
 
@@ -16,7 +18,11 @@ const ButtonsCard = (props) => {
 				{/* <Button basic color="grey">
 					Imprimir
 				</Button> */}
-				<OnShow id={props.id} title={props.title} Body={TemplatePreview} />
+				<OnShow
+					id={props.id}
+					title={props.title}
+					Body={props.type === 'template' ? TemplatePreview : FormatPreview}
+				/>
 				{isAdmin && ( //other types
 					<Button
 						basic

@@ -120,13 +120,13 @@ const TemplateControlsForm = (props) => {
 							{errors.fieldName &&
 							errors.fieldName.type === 'pattern' && (
 								<Label basic color="red" pointing="below">
-									El nombre no puede iniciar con carácteres especiales
+									El nombre no puede iniciar con espacio
 								</Label>
 							)}
 							<input
 								type="text"
 								name="fieldName"
-								ref={register({ required: true, pattern: /^[0-9A-Za-zÁÉÍÓÚÑñáéíóú].*/ })}
+								ref={register({ required: true, pattern: /^[^-\s].*/ })}
 							/>
 						</Form.Field>
 						{radioValue === 'open' && <Open register={register} errors={errors} />}

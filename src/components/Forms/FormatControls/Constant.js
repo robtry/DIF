@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 const Constanr = (props) => {
 	return (
 		<p>
-			<b>{props.label}:</b> {props.value}
+			<b>{props.label}:</b> {props.file ? <a href={props.file}> Descargar </a> : props.value}
 		</p>
 	);
 };
 
 Constanr.propTypes = {
 	label: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	isEditing: PropTypes.bool
+	value: PropTypes.string,
+	file: PropTypes.string
 };
 
 export default Constanr;

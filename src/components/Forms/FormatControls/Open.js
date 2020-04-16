@@ -9,10 +9,12 @@ const Open = (props) => {
 				{props.label}
 				{props.hint && <Popup content={props.hint} trigger={<Icon circular name="question circle" />} />}
 			</label>
-			{props.type === 'char' && <input type="text" disabled={props.isReview} />}
-			{props.type === 'string' && <textarea disabled={props.isReview} />}
-			{props.type === 'int' && <input type="number" disabled={props.isReview} />}
-			{props.type === 'float' && <input type="text" disabled={props.isReview} />}
+			{props.type === 'char' && <input type="text" disabled={props.isReview} placeholder={props.placeholder}/>}
+			{props.type === 'string' && <textarea disabled={props.isReview} placeholder={props.placeholder}/>}
+			{props.type === 'int' && <input type="number" disabled={props.isReview} placeholder={props.placeholder}/>}
+			{props.type === 'float' && <input type="text" disabled={props.isReview} placeholder={props.placeholder}/>}
+			{props.type === 'date' && <input type="date" disabled={props.isReview} placeholder={props.placeholder}/>}
+			{props.type === 'datetime' && <input type="datetime-local" disabled={props.isReview} placeholder={props.placeholder}/>}
 		</Form.Field>
 	);
 };
@@ -20,9 +22,10 @@ const Open = (props) => {
 Open.propTypes = {
 	label: PropTypes.string.isRequired,
 	isEditing: PropTypes.bool,
-	type: PropTypes.oneOf([ 'int', 'float', 'char', 'string' ]).isRequired,
+	type: PropTypes.oneOf([ 'int', 'float', 'char', 'string', 'date', 'datetime' ]).isRequired,
 	hint: PropTypes.string,
-	isReview: PropTypes.bool
+	isReview: PropTypes.bool,
+	placeholder: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default Open;

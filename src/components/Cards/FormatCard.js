@@ -14,9 +14,7 @@ const FormatCard = (props) => {
 					<Card.Description>Formato que se llena cuendo llega el NNA</Card.Description>
 				</Card.Content>
 				<Card.Content extra>
-					<ButtonsCard
-
-					/>
+					<ButtonsCard type="format" id={1} />
 				</Card.Content>
 			</Card>
 		</Card.Group>
@@ -24,8 +22,8 @@ const FormatCard = (props) => {
 };
 
 FormatCard.propTypes = {
-	/** Tipo de formato para ver si el usuario puede */
-	type: PropTypes.oneOf([ 'template', 'format' ]).isRequired
-}
+	/** Id to get something */
+	id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired
+};
 
 export default FormatCard;

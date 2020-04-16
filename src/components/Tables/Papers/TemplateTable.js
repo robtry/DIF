@@ -24,8 +24,8 @@ const TemplateTable = props => (
 		</Table.Header>
 		<Table.Body>
 			<Table.Row>
-				<Table.Cell>Derechos del NNA</Table.Cell>
-				<Table.Cell>Legal</Table.Cell>
+				<Table.Cell>Informe Psicológico</Table.Cell>
+				<Table.Cell>Psicología</Table.Cell>
 				<Table.Cell>14</Table.Cell>
 				<Table.Cell>
 					<ButtonsCard

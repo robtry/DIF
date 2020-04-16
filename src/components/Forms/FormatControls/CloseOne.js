@@ -15,7 +15,7 @@ const CloseOne = (props) => {
 			</Form.Field>
 
 			{props.options.map((option) => {
-				console.log(option);
+				//console.log(option);
 				return (
 					<div className="field" key={option.id}>
 						<div className="ui radio checkbox">
