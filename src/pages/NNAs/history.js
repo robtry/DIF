@@ -65,8 +65,8 @@ const History = (props) => {
 					</Table>
 					<Header size="huge"> Formatos </Header>
 					<Header> Trabajo social </Header>
-					<FormatCard id={4}/>
 					<Header> Psicológico </Header>
+					<FormatCard id={4}/>
 					<Header> Legal </Header>
 					<Header> Medicina </Header>
 				</React.Fragment>

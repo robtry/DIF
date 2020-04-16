@@ -16,89 +16,51 @@ const TemplatePreview = (props) => {
 	return (
 		<Form>
 			{/* Separator type */}
-			<Separator title="Separador" />
+			<Separator title="Informe Psicológico" />
 
 			{/* Open type */}
 			<Open
-				label="char"
-				type="char"
-				hint="pista"
-				isReview={!props.isFormatMode}
-				isEditing={props.isFormatMode}
-				placeholder={'server@dominio.com'}
-			/>
-			<Open
-				label="string"
-				type="string"
-				isReview={!props.isFormatMode}
-				isEditing={props.isFormatMode}
-				placeholder={'Calle bla '}
-			/>
-			<Open
-				label="int"
-				type="int"
-				hint="pista"
-				isReview={!props.isFormatMode}
-				isEditing={props.isFormatMode}
-				placeholder={12}
-			/>
-			<Open
-				label="float"
-				type="float"
-				hint="pista"
-				isReview={!props.isFormatMode}
-				isEditing={props.isFormatMode}
-				placeholder={1.45}
-			/>
-
-			<Open
-				label="date"
+				label="Fecha"
 				type="date"
-				hint="pista"
+				hint="Fecha en la que se llena el formato"
 				isReview={!props.isFormatMode}
-				isEditing={props.isFormatMode}
-				placeholder={1.45}
 			/>
 
-			<Open
-				label="datetime"
-				type="datetime"
-				hint="pista"
-				isReview={!props.isFormatMode}
-				isEditing={props.isFormatMode}
-				placeholder={1.45}
-			/>
+			{/* Consistent type */}
+			<Consistent label="No Expediente" value="[expediente]" />
 
 			{/* Close type */}
 			<CloseOne
-				label="Solo una opción"
+				label="Metodología"
 				isReview={!props.isFormatMode}
-				hint="Únicamente se puede seleccionar una opción"
+				hint="Descripción sobre las técnicas"
 				options={[
-					{ label: 'Opción 1', id: 'id1' },
-					{ label: 'Opción 2', id: 'id2' },
-					{ label: 'Opción 3', id: 'id3' }
+					{ label: 'Observación', id: 'id1' },
+					{ label: 'Entrevista Semietructurada', id: 'id2' },
 				]}
 			/>
 
 			{/* Multi */}
 			<MultiValue
-				label="Solo una opción"
-				//isReview={!props.isFormatMode}
-				hint="Únicamente se puede seleccionar una opción"
+				label="Derechos Vulnerados"
 				options={[
-					{ label: 'Opción 1', id: 'id12' },
-					{ label: 'Opción 2', id: 'id22' },
-					{ label: 'Opción 3', id: 'id32' }
+					{ label: 'Derecho A', id: 'id12' },
+					{ label: 'Derecho B', id: 'id22' },
+					{ label: 'Derecho C', id: 'id32' }
 				]}
 				isReview={!props.isFormatMode}
 			/>
 
-			{/* Separator type */}
-			<Separator title="Separador" />
+			<Open
+				label='Observaciones'
+				type='string'
+				hint='Resaltar la información sobre...'
+				placeholder='Durante la sesión'
+				isReview={!props.isFormatMode}
+			/>
 
-			{/* Consistent type */}
-			<Consistent label="Nombre" value="Valor" />
+			{/* Separator type */}
+			<Separator title="Archivos" />
 
 			{/* File */}
 			<File label="Acta de naciemiento" isReview={!props.isFormatMode} />

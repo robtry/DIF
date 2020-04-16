@@ -44,6 +44,17 @@ const NNAForm = (props) => {
 					</select>
 				</Form.Field>
 			</Form.Group>
+			<Form.Field required>
+				<label>Descripción
+				{errors.description &&
+					errors.description.type === 'required' && (
+						<Label basic color="red" pointing="below">
+							Se proporcionar una descripción
+						</Label>
+					)}
+				</label>
+				<textarea name='description' placeholder='Se llena cuando...' ref={register({required: true})}/>
+			</Form.Field>
 
 			<Button
 				positive

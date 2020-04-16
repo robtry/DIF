@@ -22,14 +22,14 @@ const TemplateTable = () => (
 		</Table.Header>
 		<Table.Body>
 			<Table.Row>
-				<Table.Cell>Derechos del NNA</Table.Cell>
+				<Table.Cell>Informe Psicológico</Table.Cell>
 				<Table.Cell>Juan</Table.Cell>
 				<Table.Cell>14-02-19 12:34:15</Table.Cell>
 				<Table.Cell>
 					<ButtonsCard
 						id={1}
 						type='format'
-						title='Derechos del NNA | Ramón Sosa'
+						title='Informe Psicológico | Juan'
 					/>
 				</Table.Cell>
 			</Table.Row>

@@ -10,24 +10,32 @@ const FormatPreview = (props) => {
 
 	return (
 		<React.Fragment>
-			<Separator title='Sección 1'/>
+			<Separator title='Informe Psicológico'/>
 			<Constant
-				label='Campo 1'
-				value='okas dokas'
+				label='Fecha'
+				value='14-10-2020'
 			/>
 			<Constant
-				label='Campo 2'
-				value='cancion'
+				label='No. Expediente'
+				value='1102903u24u'
 			/>
 			<Constant
-				label='Campo 1'
+				label='Metodología'
+				value='Observación'
+			/>
+			<Constant
+				label='Derechos Vulnerados'
+				value='Derecho A | Derecho B'
+			/>
+			<Constant
+				label='Observaciones'
 				value='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sodales sapien vitae erat placerat tincidunt. Phasellus tincidunt nibh sed nunc semper, eget consequat lacus elementum. Sed efficitur arcu sed neque faucibus malesuada at nec massa. Quisque dapibus augue nec turpis mattis porttitor. In hac habitasse platea dictumst. Sed metus lacus, aliquam vel nibh id, semper tincidunt ante. Integer accumsan fermentum risus id ornare. Maecenas a lectus non velit molestie fermentum. Suspendisse sed tempor massa.'
 			/>
 			<Separator
-				title='Seccion de Archivos'
+				title='Archivos'
 			/>
 			<Constant
-				label='Acta de Nacimiento'
+				label='Foto'
 				file='path/para/el/file'
 			/>
 		</React.Fragment>

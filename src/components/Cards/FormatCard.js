@@ -9,7 +9,7 @@ const FormatCard = (props) => {
 		<Card.Group>
 			<Card>
 				<Card.Content>
-					<Card.Header>Formato de Llegada</Card.Header>
+					<Card.Header>Informe Psicológico</Card.Header>
 					<Card.Meta>Sin llenar</Card.Meta>
 					<Card.Description>Formato que se llena cuendo llega el NNA</Card.Description>
 				</Card.Content>

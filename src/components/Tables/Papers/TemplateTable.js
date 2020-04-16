@@ -31,12 +31,12 @@ const TemplateTable = props => (
 					<ButtonsCard
 						id={1}
 						type='template'
-						title='Derechos del NNA'
+						title='Informe Psicológico'
 					/>
 				</Table.Cell>
 				<RudButton
 						id={1}
-						onDelete='Derechos del NNA'
+						onDelete='Informe Psicológico'
 						onEdit={TemplateInitForm}
 						refresh={props.loadData}
 					/>

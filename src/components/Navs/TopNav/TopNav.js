@@ -30,11 +30,11 @@ const TopNav = props => {
 				Usuario | Tipo
 			</Menu.Item>
 			<Menu.Menu position="right">
-				<Responsive minWidth={345}>
+				{/* <Responsive minWidth={345}>
 					<Menu.Item>
 						<Input icon="search" placeholder="Buscar..." />
 					</Menu.Item>
-				</Responsive>
+				</Responsive> */}
 				<Menu.Item>
 					<Button primary onClick={() => {logOut('un token')}}>Salir</Button>
 				</Menu.Item>
