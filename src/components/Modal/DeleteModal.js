@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import {
-	Modal,
-	Button,
-	Icon,
-	Header,
-	Loader,
-	Dimmer,
-	Message
-} from 'semantic-ui-react';
+import { Modal, Button, Icon, Header, Loader, Dimmer, Message } from 'semantic-ui-react';
 
-const DeleteModal = props => {
+const DeleteModal = (props) => {
 	// Control the modal
-	const [isOpenModel, setModelState] = useState(false);
+	const [ isOpenModel, setModelState ] = useState(false);
 	const handleOpen = () => setModelState(true);
 	const handleClose = () => setModelState(false);
 
 	//control the spinner
-	const [isDeleting, setDelitingState] = useState(false);
-	const [errorDeleting, setErrorDeleting] = useState(false);
+	const [ isDeleting, setDelitingState ] = useState(false);
+	const [ errorDeleting, setErrorDeleting ] = useState(false);
 
 	const deleteRecord = () => {
 		console.log('Borrando:', props.match.path, props.id);
@@ -32,8 +24,14 @@ const DeleteModal = props => {
 	return (
 		<Modal
 			trigger={
-				<Button icon onClick={handleOpen}>
-					<Icon name="trash" />
+				// <Button icon onClick={handleOpen}>
+				// 	<Icon name="trash" />
+				// </Button>
+				<Button animated='vertical' basic color='red' onClick={handleOpen}>
+					<Button.Content visible><Icon name="trash" /></Button.Content>
+					<Button.Content hidden>
+						Borrar
+					</Button.Content>
 				</Button>
 			}
 			closeIcon
@@ -42,10 +40,7 @@ const DeleteModal = props => {
 			onClose={handleClose}
 			centered={false}
 		>
-			<Header
-				icon="trash alternate outline"
-				content="¿Está seguro que desea eliminar?"
-			/>
+			<Header icon="trash alternate outline" content="¿Está seguro que desea eliminar?" />
 			<Modal.Content>
 				{isDeleting ? (
 					<Dimmer active>
@@ -54,10 +49,7 @@ const DeleteModal = props => {
 				) : errorDeleting ? (
 					<Message negative>
 						<Message.Header>Algo salio mal..</Message.Header>
-						<p>
-							No se puede borrar este registro, es probable que tenga
-							dependencias
-						</p>
+						<p>No se puede borrar este registro, es probable que tenga dependencias</p>
 					</Message>
 				) : (
 					<p> Se borrará el registro: "{props.message}"</p>
@@ -85,7 +77,7 @@ const DeleteModal = props => {
 
 DeleteModal.propTypes = {
 	/** Id para hacer el Delete */
-	id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+	id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired,
 	/** Mensaje dentro del contenido del diálogo */
 	message: PropTypes.string.isRequired,
 	/** refresh index */

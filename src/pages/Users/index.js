@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { Header, Form } from 'semantic-ui-react';
+import { Header, Form, Grid } from 'semantic-ui-react';
 //import { useLocation, useHistory } from 'react-router-dom';
 //own
 import Table from '../../components/Tables/UserTable';
 import Copyright from '../../components/Copyright/index';
-import New from '../../components/Forms/_CUModal';
+import New from '../../components/Modal/_CUModal';
 import UserForm from '../../components/Forms/UserForm';
 import Pagination from '../../components/UI/Pagination';
 import PaginationLoader from '../../components/Loader/PaginationLoader';
 import Loader from '../../components/Loader/UserLoader';
 import { useFetch } from '../../util/useFetch';
+import IndexSearch from '../../components/SearchBar/IndexSearch';
+import NoRegs from '../../components/UI/NoRegs';
 
 const UserPage = () => {
 	// type of current table
 	const [ types, setTypes ] = useState('all');
 
-	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching } = useFetch(types + '/');
+	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch(types + '/');
 
 	const convertToHeader = (abbreviateName) => {
 		switch (abbreviateName) {
@@ -40,8 +42,21 @@ const UserPage = () => {
 		<React.Fragment>
 			<Header size="huge"> {convertToHeader(types)} </Header>
 			<Copyright />
-			<New message="Nuevo Usuario" Form={UserForm} refresh={loadData} />
-			{isLoadingPages ? <PaginationLoader /> : !isSearching && <Pagination totalPages={totalPages} />}
+
+			<Grid columns={3}>
+				<Grid.Row>
+					<Grid.Column>
+						<New message="Nuevo Usuario" Form={UserForm} refresh={loadData} />
+					</Grid.Column>
+					<Grid.Column>
+						<IndexSearch searcher={searchByName} type="user" reloader={loadData} />
+					</Grid.Column>
+					<Grid.Column>
+						{isLoadingPages ? <PaginationLoader /> : !isSearching && <Pagination totalPages={totalPages} />}
+					</Grid.Column>
+				</Grid.Row>
+			</Grid>
+
 			<Form>
 				<Form.Field width="5">
 					<label> Usuarios </label>
@@ -61,7 +76,7 @@ const UserPage = () => {
 				</Form.Field>
 			</Form>
 			<div style={{ marginTop: '30px' }} />
-			{isLoading ? <Loader /> : <Table data={data} loadData={loadData} />}
+			{isLoading ? <Loader /> : data.length === 0 ? <NoRegs /> : <Table data={data} loadData={loadData} />}
 		</React.Fragment>
 	);
 };

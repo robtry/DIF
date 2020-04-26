@@ -31,12 +31,14 @@ const NNATable = props => {
 							Ver detalles
 						</NavLink>
 					</Table.Cell>
+					<Table.Cell textAlign='center'>
 					<RudButton
 						id={1}
 						onDelete="John Lilki"
 						onEdit={NNAForm}
 						refresh={props.loadData}
 					/>
+					</Table.Cell>
 				</Table.Row>
 			</Table.Body>
 		</Table>

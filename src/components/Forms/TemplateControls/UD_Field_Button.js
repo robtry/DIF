@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Button } from 'semantic-ui-react';
 // own
-import DeleteModal from '/DeleteModal';
-import EditModal from '../_CUModal';
+import DeleteModal from '../../Modal/DeleteModal';
+import EditModal from '../../Modal/_CUModal';
 
 /**
  * Debe estar dentro de una tabla,

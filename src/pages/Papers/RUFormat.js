@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Form, Container, Divider } from 'semantic-ui-react';
 //own
 import { useFetchDetails } from '../../util/useFetchDetails';
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader/MainLoader';
 import Separator from '../../components/Forms/FormatControls/Separator';
 import Open from '../../components/Forms/FormatControls/Open';
 import CloseOne from '../../components/Forms/FormatControls/CloseOne';

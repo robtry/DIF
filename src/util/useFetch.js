@@ -29,7 +29,7 @@ export const useFetch = (extra = '') => {
 					setData((prev) => prev.concat('1'));
 					setIsLoading(false);
 				}
-			}, 2000);
+			}, 200);
 			// axios
 			// 	.get(currentUrl + extra + (currentPage == null ? '1' : currentPage) + '/')
 			// 	.then((res) => {
@@ -57,7 +57,7 @@ export const useFetch = (extra = '') => {
 				setData((prev) => prev.concat('1'));
 				setIsLoading(false);
 			}
-		}, 2000);
+		}, 200);
 		// axios
 		// 	.post(pathname, payload)
 		// 	.then((res) => {
@@ -80,7 +80,7 @@ export const useFetch = (extra = '') => {
 					setTotalPages(10);
 					setIsLoadingPages(false);
 				}
-			}, 2000);
+			}, 200);
 			// axios
 			// 	.get(currentUrl.replace('s/', ''))
 			// 	.then((res) => {
@@ -97,9 +97,11 @@ export const useFetch = (extra = '') => {
 	useEffect(
 		() => {
 			loadData();
-			getTotalPages();
+			if(!isSearching){
+				getTotalPages();
+			}
 		},
-		[ loadData, getTotalPages ]
+		[ loadData, getTotalPages, isSearching ]
 	);
 
 	// to avoid set state when it is gone

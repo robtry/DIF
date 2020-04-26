@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 // ui
 import { Segment, Sidebar } from 'semantic-ui-react';
 // own
-import SidebarNav from './components/Navs/Sidebar/Sidebar';
-import TopNavbar from './components/Navs/TopNav/TopNav';
+import SidebarNav from './components/Navs/Sidebar';
+import TopNavbar from './components/Navs/TopNav';
 // auth page
 import Authenticate from './pages/Users/auth';
 // own containers

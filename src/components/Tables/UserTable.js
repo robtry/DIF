@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Image, Grid, Icon } from 'semantic-ui-react';
+import { Card, Image, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // own
@@ -40,50 +40,12 @@ const UserTable = (props) => {
 						Admin
 					</Card.Meta>
 					<NavLink to="/historial/1" exact>
-						Ir al historial <Icon name='right arrow'/>
-					</NavLink>
-					{/* <Button
-						content="Ir al historial"
-						icon="right arrow"
-						basic
-						primary
-						labelPosition="right"
-						as={NavLink}
-						to="/historial/1"
-						size='tiny'
-					/> */}
-				</Card.Content>
-				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
-				</Card.Content>
-			</Card>
-
-			<Card>
-				<Card.Content>
-					<Image floated="left" size="mini" src={defaultUser} />
-					<Card.Header>Steve Sanders</Card.Header>
-					<Card.Meta>
-						<Icon name={convertToIcon('admin')} />
-						Admin
-					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-						Ir al historial
+					<Icon name='right arrow'/>
+						Ir al historial 
 					</NavLink>
 				</Card.Content>
 				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
 			</Card>
 			<Card>
@@ -95,20 +57,14 @@ const UserTable = (props) => {
 						Admin
 					</Card.Meta>
 					<NavLink to="/historial/1" exact>
-						Ir al historial
+					<Icon name='right arrow'/>
+						Ir al historial 
 					</NavLink>
 				</Card.Content>
 				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card>
-			<Card>
+			</Card><Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
@@ -117,20 +73,14 @@ const UserTable = (props) => {
 						Admin
 					</Card.Meta>
 					<NavLink to="/historial/1" exact>
-						Ir al historial
+					<Icon name='right arrow'/>
+						Ir al historial 
 					</NavLink>
 				</Card.Content>
 				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card>
-			<Card>
+			</Card><Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
@@ -139,20 +89,14 @@ const UserTable = (props) => {
 						Admin
 					</Card.Meta>
 					<NavLink to="/historial/1" exact>
-						Ir al historial
+					<Icon name='right arrow'/>
+						Ir al historial 
 					</NavLink>
 				</Card.Content>
 				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card>
-			<Card>
+			</Card><Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
@@ -161,20 +105,14 @@ const UserTable = (props) => {
 						Admin
 					</Card.Meta>
 					<NavLink to="/historial/1" exact>
-						Ir al historial
+					<Icon name='right arrow'/>
+						Ir al historial 
 					</NavLink>
 				</Card.Content>
 				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card>
-			<Card>
+			</Card><Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
@@ -183,17 +121,28 @@ const UserTable = (props) => {
 						Admin
 					</Card.Meta>
 					<NavLink to="/historial/1" exact>
-						Ir al historial
+					<Icon name='right arrow'/>
+						Ir al historial 
 					</NavLink>
 				</Card.Content>
 				<Card.Content extra>
-					<Button basic color="green">
-						Approve
-					</Button>
-					<Button basic color="red">
-						Decline
-					</Button>
-					{/* <CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} /> */}
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
+				</Card.Content>
+			</Card><Card>
+				<Card.Content>
+					<Image floated="left" size="mini" src={defaultUser} />
+					<Card.Header>Steve Sanders</Card.Header>
+					<Card.Meta>
+						<Icon name={convertToIcon('admin')} />
+						Admin
+					</Card.Meta>
+					<NavLink to="/historial/1" exact>
+					<Icon name='right arrow'/>
+						Ir al historial 
+					</NavLink>
+				</Card.Content>
+				<Card.Content extra>
+					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
 			</Card>
 		</Card.Group>

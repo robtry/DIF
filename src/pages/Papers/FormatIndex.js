@@ -4,7 +4,7 @@ import { Header } from 'semantic-ui-react';
 import Table from '../../components/Tables/Papers/FormatTable';
 import Copyright from '../../components/Copyright/index';
 import Pagination from '../../components/UI/Pagination';
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader/MainLoader';
 import { useFetch } from '../../util/useFetch';
 
 const Formats = () => {

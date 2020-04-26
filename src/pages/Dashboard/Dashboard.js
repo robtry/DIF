@@ -5,7 +5,7 @@ import { Container, Header, Grid, Card, Feed } from 'semantic-ui-react';
 import Copyright from '../../components/Copyright';
 import FormatChart from './Charts/Formats';
 import NNAsChart from './Charts/NNAs';
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader/MainLoader';
 import { useFetch } from '../../util/useFetch';
 
 import defaultUser from '../../assets/default.png';

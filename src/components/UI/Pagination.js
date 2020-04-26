@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Pagination } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
@@ -21,13 +21,20 @@ const Pag = props => {
 		history.push(location.pathname + '?pag=' + activePage);
 	}
 
+	const [currentPage, setCurrentPage] = useState(1);
+
+
+	useEffect(() => {
+		setCurrentPage(new URLSearchParams(location.search).get('pag'));
+	}, [location])
+
 	return (
 	<div className="float-right">
 	<Pagination
 		onPageChange={sendParamByPage}
 		//boundaryRange={1}
-		defaultActivePage={1}
-		//activePage={null}
+		//defaultActivePage={1}
+		activePage={currentPage}
 		//ellipsisItem={null}
 		//firstItem={null}
 		//lastItem={null}

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //context
-import UserContext from '../../../context/userContext';
+import UserContext from '../../context/userContext';
 
 /**
  * Esta la barra lateral, la cual contiene las distintas opciones

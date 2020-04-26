@@ -3,7 +3,7 @@ import { Container, Header, Checkbox } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
 import { useFetchDetails } from '../../util/useFetchDetails';
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader/MainLoader';
 import TemplateControlsForm from '../../components/Forms/TemplateControlsForm';
 import TemplateDetails from './TemplateDetails';
 

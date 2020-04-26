@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Input, Menu, Button, Icon, Responsive } from "semantic-ui-react";
+import { Breadcrumb, Menu, Button, Icon, Responsive } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 //context
-import UserContext from '../../../context/userContext';
+import UserContext from '../../context/userContext';
 /**
  * Esta es la barra de navegación de arriba la cual esta presente en todo momento
  * muestra nombre y tipo de usuario, tiene la barra de busqueda, y el botón para desplegar
@@ -33,7 +33,13 @@ const TopNav = props => {
 			<Menu.Menu position="right">
 				<Responsive minWidth={345}>
 					<Menu.Item>
-						<Input icon="search" placeholder="Buscar..." />
+					<Breadcrumb>
+    <Breadcrumb.Section link>Home</Breadcrumb.Section>
+    <Breadcrumb.Divider icon='right chevron' />
+    <Breadcrumb.Section link>Registration</Breadcrumb.Section>
+    <Breadcrumb.Divider icon='right arrow' />
+    <Breadcrumb.Section active>Personal Information</Breadcrumb.Section>
+  </Breadcrumb>
 					</Menu.Item>
 				</Responsive>
 				<Menu.Item>

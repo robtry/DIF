@@ -2,7 +2,7 @@ import React from 'react';
 import { Header, Table, Container } from 'semantic-ui-react';
 //own
 import Copyright from '../../components/Copyright/index';
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader/MainLoader';
 import { useFetch } from '../../util/useFetch';
 import FormatCard from '../../components/Cards/FormatCard';
 

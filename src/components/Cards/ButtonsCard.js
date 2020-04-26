@@ -10,6 +10,8 @@ import FormatPreview from '../../pages/Papers/FormatPreview';
 //context
 import UserContext from '../../context/userContext';
 
+/** Botones para el card de los formatos y templates */
+
 const ButtonsCard = (props) => {
 	const isAdmin = useContext(UserContext).isAdmin;
 	return (

@@ -3,10 +3,10 @@ import { Header } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/Papers/TemplateTable';
 import Copyright from '../../components/Copyright/index';
-import New from '../../components/Forms/_CUModal';
+import New from '../../components/Modal/_CUModal';
 import TemplateForm from '../../components/Forms/TemplateInitForm';
 import Pagination from '../../components/UI/Pagination';
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader/MainLoader';
 import { useFetch } from '../../util/useFetch';
 
 const Templates = () => {

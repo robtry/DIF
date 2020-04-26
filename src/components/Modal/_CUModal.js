@@ -23,9 +23,15 @@ const CUModal = props => {
 		<Modal
 			trigger={
 				props.isEditing ? (
-					<Button icon onClick={handleOpen}>
-						<Icon name="edit" />
-					</Button>
+					// <Button icon onClick={handleOpen}>
+					// 	<Icon name="edit" />
+					// </Button>
+					<Button animated='vertical' basic color='teal' onClick={handleOpen}>
+					<Button.Content visible><Icon name="edit" /></Button.Content>
+					<Button.Content hidden>
+						Editar
+					</Button.Content>
+				</Button>
 				) : (
 						<Button primary basic icon labelPosition="left" onClick={handleOpen}>
 							<Icon name="add" /> {props.message}
