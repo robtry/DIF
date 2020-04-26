@@ -15,23 +15,24 @@ const Pag = props => {
 	const location = useLocation();
 	const history = useHistory();
 
-	const sendParamByPage = (e, { activePage }) => {
+	const sendParamByPage = (_, { activePage }) => {
 		//console.log(activePage);
-		history.replace(location.pathname + '?pag=' + activePage);
+		//history.replace(location.pathname + '?pag=' + activePage);
+		history.push(location.pathname + '?pag=' + activePage);
 	}
 
 	return (
 	<div className="float-right">
 	<Pagination
 		onPageChange={sendParamByPage}
-		boundaryRange={1}
+		//boundaryRange={1}
 		defaultActivePage={1}
 		//activePage={null}
-		ellipsisItem={null}
-		firstItem={null}
-		lastItem={null}
-		siblingRange={1}
-		totalPages={10}
+		//ellipsisItem={null}
+		//firstItem={null}
+		//lastItem={null}
+		//siblingRange={1}
+		totalPages={props.totalPages}
 	/></div>);
 }
 

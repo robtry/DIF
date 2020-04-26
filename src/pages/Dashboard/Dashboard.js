@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
-import { Container, Header, Grid, Table } from "semantic-ui-react";
+import React, { useEffect } from 'react';
+import { Container, Header, Grid, Card, Feed } from 'semantic-ui-react';
 // http://recharts.org/en-US/
 //own
-import Copyright from "../../components/Copyright";
-import FormatChart from "./Charts/Formats";
-import NNAsChart from "./Charts/NNAs";
+import Copyright from '../../components/Copyright';
+import FormatChart from './Charts/Formats';
+import NNAsChart from './Charts/NNAs';
 import Loader from '../../components/Loader';
 import { useFetch } from '../../util/useFetch';
 
-const Dashboard = () => {
+import defaultUser from '../../assets/default.png';
 
+const Dashboard = () => {
 	const { isLoading } = useFetch();
 
 	useEffect(() => {
-		console.log('[Dashboard.js] | fetching data for dashboard')
+		console.log('[Dashboard.js] | fetching data for dashboard');
 	}, []);
 
 	return (
@@ -39,58 +40,44 @@ const Dashboard = () => {
 				</Grid.Row>
 				<Grid.Row columns={1}>
 					<Grid.Column>
-						<Header> Últimos movimientos </Header>
-						<Table compact>
-							<Table.Header>
-								<Table.Row>
-									<Table.HeaderCell>Nombre</Table.HeaderCell>
-									<Table.HeaderCell>Formato</Table.HeaderCell>
-									<Table.HeaderCell>Hora</Table.HeaderCell>
-								</Table.Row>
-							</Table.Header>
-							<Table.Body>
-								<Table.Row>
-									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>11-05-2020 16:45</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>12-02-2020 12:23</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>11-05-2020 16:45</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>12-02-2020 12:23</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>11-05-2020 16:45</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>12-02-2020 12:23</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>John</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>11-05-2020 16:45</Table.Cell>
-								</Table.Row>
-								<Table.Row>
-									<Table.Cell>Jamie</Table.Cell>
-									<Table.Cell>Formato de Ingreso</Table.Cell>
-									<Table.Cell>12-02-2020 12:23</Table.Cell>
-								</Table.Row>
-							</Table.Body>
-						</Table>
+						<Card centered fluid>
+							<Card.Content>
+								<Card.Header>Últimos movimientos</Card.Header>
+							</Card.Content>
+							<Card.Content>
+								<Feed>
+									<Feed.Event>
+										<Feed.Label image={defaultUser} />
+										<Feed.Content>
+											<Feed.Date content="1 day ago" />
+											<Feed.Summary>
+												<a href='/'>Jenny Hess</a> modificó <a href='/'>formato</a>.
+											</Feed.Summary>
+										</Feed.Content>
+									</Feed.Event>
+
+									<Feed.Event>
+										<Feed.Label image={defaultUser} />
+										<Feed.Content>
+											<Feed.Date content="3 days ago" />
+											<Feed.Summary>
+												<a href='/'>Molly Malone</a> modificó <a href='/'>formato</a>.
+											</Feed.Summary>
+										</Feed.Content>
+									</Feed.Event>
+
+									<Feed.Event>
+										<Feed.Label image={defaultUser} />
+										<Feed.Content>
+											<Feed.Date content="4 days ago" />
+											<Feed.Summary>
+												<a href='/'>Elliot Baker</a> creó <a href='/'>formato</a>
+											</Feed.Summary>
+										</Feed.Content>
+									</Feed.Event>
+								</Feed>
+							</Card.Content>
+						</Card>
 					</Grid.Column>
 				</Grid.Row>
 			</Grid>

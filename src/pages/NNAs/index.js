@@ -5,7 +5,7 @@ import Table from '../../components/Tables/NNATable';
 import Copyright from '../../components/Copyright/index';
 import New from '../../components/Forms/_CUModal';
 import NNAForm from '../../components/Forms/NNAForm';
-import Pagination from '../../components/Tables/_shared/Pagination';
+import Pagination from '../../components/UI/Pagination';
 import Loader from '../../components/Loader';
 import { useFetch } from '../../util/useFetch';
 

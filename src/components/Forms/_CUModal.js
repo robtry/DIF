@@ -27,7 +27,7 @@ const CUModal = props => {
 						<Icon name="edit" />
 					</Button>
 				) : (
-						<Button primary icon labelPosition="left" onClick={handleOpen}>
+						<Button primary basic icon labelPosition="left" onClick={handleOpen}>
 							<Icon name="add" /> {props.message}
 						</Button>
 					)

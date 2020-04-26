@@ -18,7 +18,8 @@ const TopNav = props => {
 		// si se quita fixed="top", poner secondary
 		<Menu stackable fixed={props.sideBarStatus ? null : "top"}>
 			<Menu.Item header>
-				DIF | by &nbsp;<a href="https://robtry.github.io/"> Rob </a>
+				DIF
+				{/* DIF | by &nbsp;<a href="https://robtry.github.io/"> Rob </a> */}
 			</Menu.Item>
 			<Menu.Item>
 				<Button icon onClick={() => props.toggleSideBar()}>
@@ -30,13 +31,13 @@ const TopNav = props => {
 				Usuario | Tipo
 			</Menu.Item>
 			<Menu.Menu position="right">
-				{/* <Responsive minWidth={345}>
+				<Responsive minWidth={345}>
 					<Menu.Item>
 						<Input icon="search" placeholder="Buscar..." />
 					</Menu.Item>
-				</Responsive> */}
+				</Responsive>
 				<Menu.Item>
-					<Button primary onClick={() => {logOut('un token')}}>Salir</Button>
+					<Button primary basic onClick={() => {logOut('un token')}}>Salir</Button>
 				</Menu.Item>
 			</Menu.Menu>
 		</Menu>

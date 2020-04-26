@@ -3,7 +3,7 @@ import { Header } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/History/UserHistoryTable';
 import Copyright from '../../components/Copyright/index';
-import Pagination from '../../components/Tables/_shared/Pagination';
+import Pagination from '../../components/UI/Pagination';
 import Loader from '../../components/Loader';
 import { useFetch } from '../../util/useFetch';
 
