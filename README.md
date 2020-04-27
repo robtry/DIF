@@ -5,13 +5,9 @@ Frontend Side.
 ## ToDo
 
 - [ ] min/max lenght for users for pass
-- [ ] fix pagination (select)
-- [ ] solve double fetching
-- [ ] add no info message on index pages
 - [ ] requiried all for props in format card
-- [ ] add functionality to buttons in nna/:id
-- [ ] add trequired to pros in CUTemplate
 - [ ] add is required in forms 
+- [ ] pags if one do no show pagination
 
 ## Routes para el API
 

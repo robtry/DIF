@@ -1,6 +1,8 @@
 import React from 'react';
-import { Card } from 'semantic-ui-react';
+import { Card, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+//own
+import defaultUser from '../../assets/default.png';
 //context
 import ButtonsCard from './ButtonsCard';
 
@@ -10,11 +12,16 @@ const FormatCard = (props) => {
 			<Card>
 				<Card.Content>
 					<Card.Header>Informe Psicológico</Card.Header>
-					<Card.Meta>Sin llenar</Card.Meta>
-					<Card.Description>Formato que se llena cuendo llega el NNA</Card.Description>
+					<Card.Meta>4 - ago -2012</Card.Meta>
+					<Card.Description>
+						<Label as="a" image>
+							<img src={defaultUser} alt='usr-pic-profile'/>
+							Stevie
+						</Label>
+					</Card.Description>
 				</Card.Content>
 				<Card.Content extra>
-					<ButtonsCard type="format" id={1} />
+					<ButtonsCard type="format" id={props.id} />
 				</Card.Content>
 			</Card>
 		</Card.Group>

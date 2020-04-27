@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Image, Icon } from 'semantic-ui-react';
+import { Card, Image, Icon, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // own
@@ -30,19 +30,20 @@ const UserTable = (props) => {
 	};
 
 	return (
-		<Card.Group centered>
+		<Card.Group centered stackable>
 			<Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
 					<Card.Meta>
 						<Icon name={convertToIcon('admin')} />
-						Admin
+						Administrador
 					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
+					<br />
+					<Button icon basic color='black' fluid labelPosition="left" as={NavLink} to="/historial/1">
+						Ir al historial
+						<Icon name="history" />
+					</Button>
 				</Card.Content>
 				<Card.Content extra>
 					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
@@ -54,92 +55,85 @@ const UserTable = (props) => {
 					<Card.Header>Steve Sanders</Card.Header>
 					<Card.Meta>
 						<Icon name={convertToIcon('admin')} />
-						Admin
+						Administrador
 					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
+					<br />
+					<Button icon basic color='black' fluid labelPosition="left" as={NavLink} to="/historial/1">
+						Ir al historial
+						<Icon name="history" />
+					</Button>
 				</Card.Content>
 				<Card.Content extra>
 					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card><Card>
+			</Card>
+			<Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
 					<Card.Meta>
 						<Icon name={convertToIcon('admin')} />
-						Admin
+						Administrador
 					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
+					<br />
+					<Button icon basic color='black' fluid labelPosition="left" as={NavLink} to="/historial/1">
+						Ir al historial
+						<Icon name="history" />
+					</Button>
 				</Card.Content>
 				<Card.Content extra>
 					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card><Card>
+			</Card>
+			<Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
 					<Card.Meta>
 						<Icon name={convertToIcon('admin')} />
-						Admin
+						Administrador
 					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
+					<br />
+					<Button icon basic color='black' fluid labelPosition="left" as={NavLink} to="/historial/1">
+						Ir al historial
+						<Icon name="history" />
+					</Button>
 				</Card.Content>
 				<Card.Content extra>
 					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card><Card>
+			</Card>
+			<Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
 					<Card.Meta>
 						<Icon name={convertToIcon('admin')} />
-						Admin
+						Administrador
 					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
+					<br />
+					<Button icon basic color='black' fluid labelPosition="left" as={NavLink} to="/historial/1">
+						Ir al historial
+						<Icon name="history" />
+					</Button>
 				</Card.Content>
 				<Card.Content extra>
 					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
 				</Card.Content>
-			</Card><Card>
+			</Card>
+			<Card>
 				<Card.Content>
 					<Image floated="left" size="mini" src={defaultUser} />
 					<Card.Header>Steve Sanders</Card.Header>
 					<Card.Meta>
 						<Icon name={convertToIcon('admin')} />
-						Admin
+						Administrador
 					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
-				</Card.Content>
-				<Card.Content extra>
-					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />
-				</Card.Content>
-			</Card><Card>
-				<Card.Content>
-					<Image floated="left" size="mini" src={defaultUser} />
-					<Card.Header>Steve Sanders</Card.Header>
-					<Card.Meta>
-						<Icon name={convertToIcon('admin')} />
-						Admin
-					</Card.Meta>
-					<NavLink to="/historial/1" exact>
-					<Icon name='right arrow'/>
-						Ir al historial 
-					</NavLink>
+					<br />
+					<Button icon basic color='black' fluid labelPosition="left" as={NavLink} to="/historial/1">
+						Ir al historial
+						<Icon name="history" />
+					</Button>
 				</Card.Content>
 				<Card.Content extra>
 					<CrudButton id="1" onDelete="John Lilki" onEdit={UserForm} refresh={props.loadData} />

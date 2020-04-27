@@ -30,11 +30,7 @@ const Dashboard = () => {
 				</Grid.Row>
 				<Grid.Row columns={2}>
 					<Grid.Column>
-						<Header> Formatos Editados </Header>
-						<FormatChart />
-					</Grid.Column>
-					<Grid.Column>
-						<Header>Formatos Creados</Header>
+						<Header> Formatos Editados/Creados </Header>
 						<FormatChart />
 					</Grid.Column>
 				</Grid.Row>

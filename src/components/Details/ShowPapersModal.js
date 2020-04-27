@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Header, Container, Dimmer, Loader } from 'semantic-ui-react';
+import { Modal, Button, Header, Container, Dimmer, Loader, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
 import { useFetchDetails } from '../../util/useFetchDetails';
@@ -25,8 +25,11 @@ const ShowModal = (props) => {
 	return (
 		<Modal
 			trigger={
-				<Button basic color="blue" onClick={handleOpen}>
-					Revisar
+				<Button animated="fade" onClick={handleOpen} basic color="black">
+					<Button.Content visible>Revisar</Button.Content>
+					<Button.Content hidden>
+						<Icon name="eye" />
+					</Button.Content>
 				</Button>
 			}
 			closeIcon

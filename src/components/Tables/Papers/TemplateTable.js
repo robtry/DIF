@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table }  from 'semantic-ui-react';
+import { Card, Icon, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // own
 import ButtonsCard from '../../Cards/ButtonsCard';
@@ -10,41 +10,35 @@ import RudButton from '../_shared/RUD_Button';
  * Es la tabla que se usa para el index de todos las plantillas
 */
 
-const TemplateTable = props => (
-	<React.Fragment>
-	<Table striped>
-		<Table.Header>
-			<Table.Row>
-				<Table.HeaderCell>Título</Table.HeaderCell>
-				<Table.HeaderCell>Categoría</Table.HeaderCell>
-				<Table.HeaderCell>Formatos Llenados</Table.HeaderCell>
-				<Table.HeaderCell>#</Table.HeaderCell>
-				<Table.HeaderCell>#</Table.HeaderCell>
-			</Table.Row>
-		</Table.Header>
-		<Table.Body>
-			<Table.Row>
-				<Table.Cell>Informe Psicológico</Table.Cell>
-				<Table.Cell>Psicología</Table.Cell>
-				<Table.Cell>14</Table.Cell>
-				<Table.Cell>
-					<ButtonsCard
-						id={1}
-						type='template'
-						title='Informe Psicológico'
-					/>
-				</Table.Cell>
-				<RudButton
-						id={1}
-						onDelete='Informe Psicológico'
-						onEdit={TemplateInitForm}
-						refresh={props.loadData}
-					/>
-			</Table.Row>
-		</Table.Body>
-	</Table>
-	</React.Fragment>
-)
+const TemplateTable = (props) => (
+	<Card.Group centered stackable>
+		<Card>
+			<Card.Content>
+				<Card.Header>Informe Psicológico</Card.Header>
+				<Card.Meta>Esta es una descripción del archivo</Card.Meta>
+				<br/>
+				<Label tag>Psicología</Label>
+			</Card.Content>
+			<Card.Content extra>
+				<Label color="blue" size="mini">
+					<Icon name="chart bar" />
+					12 Formatos
+				</Label>
+				<Label color='teal' size="mini">
+					<Icon name="user" />
+					15 usuarios
+				</Label>
+			</Card.Content>
+			<Card.Content extra>
+				<ButtonsCard id={1} type="template" title="Informe Psicológico" />
+			</Card.Content>
+			<Card.Content extra>
+				<RudButton id={1} onDelete="Informe Psicológico" onEdit={TemplateInitForm} refresh={props.loadData} />
+			</Card.Content>
+		</Card>
+
+	</Card.Group>
+);
 
 TemplateTable.propTypes = {
 	/** Info para rendear */

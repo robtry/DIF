@@ -13,13 +13,13 @@ const IndexSearch = (props) => {
 	};
 
 	return (
-		<Input icon={<Icon name="search" inverted circular link />} placeholder="Buscar..." onChange={searchByName} />
+		<Input fluid icon={<Icon name="search" inverted circular link />} placeholder="Buscar..." onChange={searchByName} />
 	);
 };
 
 IndexSearch.propTypes = {
 	searcher: PropTypes.func.isRequired,
-	type: PropTypes.oneOf([ 'user', 'nna' ]).isRequired,
+	type: PropTypes.oneOf([ 'user', 'nna', 'template' ]).isRequired,
 	reloader: PropTypes.func.isRequired
 };
 

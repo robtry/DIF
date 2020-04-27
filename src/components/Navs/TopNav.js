@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
-import { Breadcrumb, Menu, Button, Icon, Responsive } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useContext } from 'react';
+import { Breadcrumb, Menu, Button, Icon, Responsive, Image } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+//own
+import defaultUser from '../../assets/default.png';
 //context
 import UserContext from '../../context/userContext';
 /**
@@ -10,40 +12,47 @@ import UserContext from '../../context/userContext';
  * la barra lateral
  */
 
-const TopNav = props => {
-
+const TopNav = (props) => {
 	const logOut = useContext(UserContext).logOut;
 
 	return (
 		// si se quita fixed="top", poner secondary
-		<Menu stackable fixed={props.sideBarStatus ? null : "top"}>
+		<Menu stackable fixed={props.sideBarStatus ? null : 'top'}>
 			<Menu.Item header>
 				DIF
 				{/* DIF | by &nbsp;<a href="https://robtry.github.io/"> Rob </a> */}
 			</Menu.Item>
 			<Menu.Item>
 				<Button icon onClick={() => props.toggleSideBar()}>
-					<Icon name={props.sideBarStatus ? "close" : "bars"} />
+					<Icon name={props.sideBarStatus ? 'close' : 'bars'} />
 				</Button>
 			</Menu.Item>
 			<Menu.Item as={NavLink} to="/profile/1" exact>
-				<Icon name="user circle" size="large" />
+				<Image src={defaultUser} avatar />
 				Usuario | Tipo
 			</Menu.Item>
 			<Menu.Menu position="right">
 				<Responsive minWidth={345}>
 					<Menu.Item>
-					<Breadcrumb>
-    <Breadcrumb.Section link>Home</Breadcrumb.Section>
-    <Breadcrumb.Divider icon='right chevron' />
-    <Breadcrumb.Section link>Registration</Breadcrumb.Section>
-    <Breadcrumb.Divider icon='right arrow' />
-    <Breadcrumb.Section active>Personal Information</Breadcrumb.Section>
-  </Breadcrumb>
+						<Breadcrumb>
+							<Breadcrumb.Section link>Home</Breadcrumb.Section>
+							<Breadcrumb.Divider icon="right chevron" />
+							<Breadcrumb.Section link>Registration</Breadcrumb.Section>
+							<Breadcrumb.Divider icon="right arrow" />
+							<Breadcrumb.Section active>Personal Information</Breadcrumb.Section>
+						</Breadcrumb>
 					</Menu.Item>
 				</Responsive>
 				<Menu.Item>
-					<Button primary basic onClick={() => {logOut('un token')}}>Salir</Button>
+					<Button
+						primary
+						basic
+						onClick={() => {
+							logOut('un token');
+						}}
+					>
+						Salir
+					</Button>
 				</Menu.Item>
 			</Menu.Menu>
 		</Menu>

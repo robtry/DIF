@@ -43,18 +43,21 @@ const UserPage = () => {
 			<Header size="huge"> {convertToHeader(types)} </Header>
 			<Copyright />
 
-			<Grid columns={3}>
+			<Grid stackable columns={2}>
 				<Grid.Row>
 					<Grid.Column>
 						<New message="Nuevo Usuario" Form={UserForm} refresh={loadData} />
 					</Grid.Column>
 					<Grid.Column>
-						<IndexSearch searcher={searchByName} type="user" reloader={loadData} />
-					</Grid.Column>
-					<Grid.Column>
 						{isLoadingPages ? <PaginationLoader /> : !isSearching && <Pagination totalPages={totalPages} />}
 					</Grid.Column>
 				</Grid.Row>
+				<Grid.Row centered>
+					<Grid.Column>
+						<IndexSearch searcher={searchByName} type="user" reloader={loadData} />
+					</Grid.Column>
+				</Grid.Row>
+				<Grid.Row />
 			</Grid>
 
 			<Form>
@@ -69,9 +72,10 @@ const UserPage = () => {
 						<option value="all">Todos</option>
 						<option value="admin">Administradores</option>
 						<option value="medico">Médicos</option>
-						<option value="abogado">Abagados</option>
+						<option value="juridico">Jurídicos</option>
 						<option value="tsocial">Trabajadores Sociales</option>
 						<option value="psicologo">Psicólogos</option>
+						<option value="pedagogico">Pedagógicos</option>
 					</select>
 				</Form.Field>
 			</Form>

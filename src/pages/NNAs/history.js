@@ -1,10 +1,16 @@
 import React from 'react';
-import { Header, Table, Container } from 'semantic-ui-react';
+import { Item, Table, Container } from 'semantic-ui-react';
 //own
 import Copyright from '../../components/Copyright/index';
 import Loader from '../../components/Loader/MainLoader';
 import { useFetch } from '../../util/useFetch';
 import FormatCard from '../../components/Cards/FormatCard';
+import FormatPage from '../Papers/FormatIndex';
+import defaultImage from '../../assets/defaultNNA.png';
+
+/**
+ * Child details
+*/
 
 const History = (props) => {
 	const { isLoading /*data*/ } = useFetch();
@@ -16,7 +22,14 @@ const History = (props) => {
 				<Loader />
 			) : (
 				<React.Fragment>
-					<Header size="huge"> |Nombre completo| </Header>
+					<Item.Group className="center-item">
+					<Item>
+						<Item.Image size="tiny" src={defaultImage} />
+						<Item.Content verticalAlign="middle">
+							<Item.Header>Nombre Completo</Item.Header>
+						</Item.Content>
+					</Item>
+					</Item.Group>
 					<Table striped textAlign="center">
 						<Table.Header>
 							<Table.Row>
@@ -63,12 +76,13 @@ const History = (props) => {
 							</Table.Row>
 						</Table.Body>
 					</Table>
-					<Header size="huge"> Formatos </Header>
+					{/* <Header size="huge"> Formatos </Header>
 					<Header> Trabajo social </Header>
 					<Header> Psicológico </Header>
 					<FormatCard id={4}/>
 					<Header> Legal </Header>
-					<Header> Medicina </Header>
+					<Header> Medicina </Header> */}
+					<FormatPage />
 				</React.Fragment>
 			)}
 		</Container>

@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 //import axios from '../util/axios';
 
 export const useFetch = (extra = '') => {
 	//con useRef si el value cambia no causa un re-render
 	const isCurrent = useRef(true);
 
-	//data
+	//data to export
 	const [ data, setData ] = useState([]);
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ isSearching, setIsSearching ] = useState(false);
@@ -15,8 +15,26 @@ export const useFetch = (extra = '') => {
 
 	//location for pags
 	const location = useLocation();
-	const currentPage = new URLSearchParams(location.search).get('pag');
-	const currentUrl = location.pathname;
+	const history = useHistory();
+
+	//data inside
+	const [ currentPage, setCurrentPage ] = useState(new URLSearchParams(location.search).get('pag'));
+	const [ currentUrl, setCurrentUrl ] = useState(location.pathname);
+
+	useEffect(
+		() => {
+			setCurrentPage(new URLSearchParams(location.search).get('pag'));
+			setCurrentUrl(location.pathname);
+		},
+		[ location ]
+	);
+
+	useEffect(
+		() => {
+			history.replace(currentUrl); //no page needed
+		},
+		[ extra, history, currentUrl ]
+	);
 
 	// do get request
 	const loadData = useCallback(
@@ -29,9 +47,9 @@ export const useFetch = (extra = '') => {
 					setData((prev) => prev.concat('1'));
 					setIsLoading(false);
 				}
-			}, 200);
+			}, 500);
 			// axios
-			// 	.get(currentUrl + extra + (currentPage == null ? '1' : currentPage) + '/')
+			// 	.get()
 			// 	.then((res) => {
 			// 		//console.log(res.data);
 			// 		if (isCurrent.current) {
@@ -48,7 +66,7 @@ export const useFetch = (extra = '') => {
 
 	// do post request
 	const searchByName = useCallback((pathname, payload = {}) => {
-		console.log('axios posting: ', pathname);
+		console.log('axios posting: ', pathname, payload);
 		setIsSearching(true);
 		setIsLoading(true);
 
@@ -72,7 +90,7 @@ export const useFetch = (extra = '') => {
 
 	const getTotalPages = useCallback(
 		() => {
-			console.log('axios pages: ', currentUrl.replace('s/', ''));
+			console.log('axios pages: ', currentUrl);
 			setIsLoadingPages(true);
 
 			setTimeout(() => {
@@ -80,7 +98,7 @@ export const useFetch = (extra = '') => {
 					setTotalPages(10);
 					setIsLoadingPages(false);
 				}
-			}, 200);
+			}, 800);
 			// axios
 			// 	.get(currentUrl.replace('s/', ''))
 			// 	.then((res) => {
@@ -97,11 +115,9 @@ export const useFetch = (extra = '') => {
 	useEffect(
 		() => {
 			loadData();
-			if(!isSearching){
-				getTotalPages();
-			}
+			getTotalPages();
 		},
-		[ loadData, getTotalPages, isSearching ]
+		[ loadData, getTotalPages ]
 	);
 
 	// to avoid set state when it is gone

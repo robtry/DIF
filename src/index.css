@@ -34,3 +34,14 @@ body {
 		margin-top: 240px !important;
 	}
 }
+
+.center-item{
+	margin: auto !important;
+	width: 50%;
+}
+
+@media (max-width: 567px) {
+	.center-item {
+		margin: 1.5em 0 !important;
+	}
+}

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 //own
@@ -16,7 +16,7 @@ const ButtonsCard = (props) => {
 	const isAdmin = useContext(UserContext).isAdmin;
 	return (
 		<React.Fragment>
-			<Button.Group>
+			<Button.Group fluid>
 				{/* <Button basic color="grey">
 					Imprimir
 				</Button> */}
@@ -26,14 +26,27 @@ const ButtonsCard = (props) => {
 					Body={props.type === 'template' ? TemplatePreview : FormatPreview}
 				/>
 				{isAdmin && ( //other types
+					// <Button
+					// 	basic
+					// 	color="teal"
+					// 	as={NavLink}
+					// 	to={props.type === 'template' ? '/plantilla/1' : '/formato/1'}
+					// 	exact
+					// >
+					// 	Modificar
+					// </Button>
 					<Button
+						animated="fade"
 						basic
-						color="teal"
+						color="black"
 						as={NavLink}
 						to={props.type === 'template' ? '/plantilla/1' : '/formato/1'}
 						exact
 					>
-						Modificar
+						<Button.Content visible>Modificar</Button.Content>
+						<Button.Content hidden>
+							<Icon name="write" />
+						</Button.Content>
 					</Button>
 				)}
 			</Button.Group>
@@ -45,7 +58,9 @@ ButtonsCard.propTypes = {
 	/** Id to get something */
 	id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired,
 	/** Para saber que botones mostrar */
-	type: PropTypes.oneOf([ 'template', 'format' ]).isRequired
+	type: PropTypes.oneOf([ 'template', 'format' ]).isRequired,
+
+	title: PropTypes.string
 };
 
 export default ButtonsCard;
