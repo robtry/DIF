@@ -49,13 +49,14 @@ Se trata de funciones que ya están optimizadas para el funcionamiento de MongoD
 
 ### Base de datos
 
-La solución fue implementada sobre ![mongo](https://www.mongodb.com/). Una base de datos no relacional, no obstante gracias al framework de agregación se pueden manejar relaciones. Es una base de datos distribuida, basada en documentos. Lo que permite almacenar grandes cantidades de información, haciendo la aplicación altamente escalable.
+La solución fue implementada sobre [mongo](https://www.mongodb.com/). Una base de datos no relacional, no obstante gracias al framework de agregación se pueden manejar relaciones. Es una base de datos distribuida, basada en documentos. Lo que permite almacenar grandes cantidades de información, haciendo la aplicación altamente escalable.
 
 ## API
 
 ### Usuarios
 
 ```txt
+/*---Usuarios---*/
 # Crear usuario
 POST: /users/
 ## Campos
@@ -75,11 +76,19 @@ POST: /users/:name
 ## Parámetros
 - name: expresión a buscar, regresa los primeros 30
 
+/*---NNAs---*/
+# Crear NNA
+POST: /nnas/
+- nombre:
+- app:
+- apm:
+- fecha_nacimiento:
+- sexo: (m|h)
+- expediente
 ```
 
 ## ToDo
 
 - [ ] min/max lenght for users for pass
 - [ ] requiried all for props in format card
-- [ ] add is required in forms 
-- [ ] pags if one do no show pagination
+- [ ] add is required in forms

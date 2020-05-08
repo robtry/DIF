@@ -8,7 +8,7 @@ const IndexSearch = (props) => {
 		if (value.length === 0) {
 			props.reloader();
 		} else {
-			props.searcher(`${props.type}/` + value);
+			props.searcher(`${props.type}/search/` + value);
 		}
 	};
 

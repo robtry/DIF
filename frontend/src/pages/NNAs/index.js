@@ -14,7 +14,7 @@ import NoRegs from '../../components/UI/NoRegs';
 
 const NNAPage = () => {
 	const [ types, setTypes ] = useState('actdesc');
-	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch(types + '/');
+	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch('nnas', types + '/');
 
 	return (
 		<React.Fragment>
@@ -27,7 +27,7 @@ const NNAPage = () => {
 						<New message="Agregar NNA" Form={NNAForm} refresh={loadData} />
 					</Grid.Column>
 					<Grid.Column>
-						{isLoadingPages ? <PaginationLoader /> : !isSearching && <Pagination totalPages={totalPages} />}
+						{isLoadingPages ? <PaginationLoader /> : !isSearching && totalPages > 1 && <Pagination totalPages={totalPages} />}
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row centered>
@@ -89,7 +89,7 @@ const NNAPage = () => {
 						</Button.Group>}
 					</Grid.Column>
 					<Grid.Column>
-						<IndexSearch searcher={searchByName} type="nna" reloader={loadData} />
+						<IndexSearch searcher={searchByName} type="nnas" reloader={loadData} />
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row />

@@ -13,8 +13,14 @@ router.get('/total/', userController.getTotalRegs);
 router.get('/history/total/', userController.getTotalRegsHistory);
 router.get('/history/:id/:page', userController.getHistoryUser);
 
+router.post('/login', userController.login);
+router.patch('/password/:id', userController.updateUserPassword);
+
+// search by name
+router.get('/search/:name', userController.getByName);
+
 //get all
-router.get('/:type/:page', [ check('page').isInt(), check('type').isString() ], userController.getAllUsers);
+router.get('/:type/:page', [ check('page').notEmpty().isInt(), check('type').notEmpty().isString() ], userController.getAllUsers);
 // create new user
 router.post(
 	'/',
@@ -26,8 +32,6 @@ router.post(
 	],
 	userController.createUser
 );
-router.post('/login', userController.login);
-router.patch('/password/:id', userController.updateUserPassword);
 
 //update user
 router.post(
@@ -44,8 +48,5 @@ router.post(
 router.delete('/:id', userController.deleteUser);
 
 router.get('/:id', userController.getUserById);
-// search by name
-router.post('/:name', userController.getByName);
-// get total regs
 
 module.exports = router;

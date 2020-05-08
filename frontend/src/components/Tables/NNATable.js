@@ -2,9 +2,10 @@ import React from 'react';
 import { Icon, Item, Grid, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { AgeFromDateString } from 'age-calculator';
 // own
 //import Formats from './AccordionFormats/AccordionFormats';
-import RudButton from './_shared/RUD_Button';
+import CrudButton from './_shared/RUD_Button';
 import NNAForm from '../Forms/NNAForm';
 
 import defaultImage from '../../assets/defaultNNA.png';
@@ -16,39 +17,58 @@ import defaultImage from '../../assets/defaultNNA.png';
 const NNATable = (props) => {
 	return (
 		<Item.Group relaxed className="center-item">
-			<Item>
-				<Item.Image size="tiny" src={defaultImage} />
-				<Item.Content>
-					<Item.Header>Stevie Feliciano</Item.Header>
-					<Item.Meta>Expediente</Item.Meta>
-					<Item.Description>
-						<Grid>
-							<Grid.Row>
-								<Grid.Column width={8}>
-									<Button icon basic primary labelPosition="left" as={NavLink} to="/nna/1">
-										Perfil
-										<Icon name="user circle outline" />
-									</Button>
-								</Grid.Column>
-								<Grid.Column width={5} />
-								<Grid.Column width={3}>
-									<RudButton id={1} onDelete="John Lilki" onEdit={NNAForm} refresh={props.loadData} />
-								</Grid.Column>
-							</Grid.Row>
-						</Grid>
-					</Item.Description>
-					<Item.Extra>
-						<Label color="blue" size="mini">
-							<Icon name="chart bar" />
-							12 Formatos
-						</Label>
-						<Label color="grey" size="mini">
-							<Icon name="calendar alternate" />
-							15 años
-						</Label>
-					</Item.Extra>
-				</Item.Content>
-			</Item>
+			{props.data.map((item) => {
+				return (
+					<Item key={item._id}>
+						<Item.Image size="tiny" src={item.image ? item.image : defaultImage} />
+						<Item.Content>
+							<Item.Header>
+								{item.nombre} {item.app} {item.apm}
+							</Item.Header>
+							<Item.Meta>{item.expediente}</Item.Meta>
+							<Item.Description>
+								<Grid>
+									<Grid.Row>
+										<Grid.Column width={8}>
+											<Button
+												icon
+												basic
+												primary
+												labelPosition="left"
+												as={NavLink}
+												to={'/nna/' + item._id}
+											>
+												Perfil
+												<Icon name="user circle outline" />
+											</Button>
+										</Grid.Column>
+										<Grid.Column width={5} />
+										<Grid.Column width={3}>
+											<CrudButton
+												deletePath={'nnas/' + item._id}
+												onDelete={item.nombre}
+												onEdit={NNAForm}
+												refresh={props.loadData}
+												item={item}
+											/>
+										</Grid.Column>
+									</Grid.Row>
+								</Grid>
+							</Item.Description>
+							<Item.Extra>
+								<Label color="blue" size="mini">
+									<Icon name="chart bar" />
+									12 Formatos
+								</Label>
+								<Label color="grey" size="mini">
+									<Icon name="calendar alternate" />
+									{new AgeFromDateString(item.fecha_nacimiento).age} años
+								</Label>
+							</Item.Extra>
+						</Item.Content>
+					</Item>
+				);
+			})}
 		</Item.Group>
 	);
 };

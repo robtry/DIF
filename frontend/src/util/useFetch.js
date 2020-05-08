@@ -66,7 +66,7 @@ export const useFetch = (path = '', extra = '') => {
 
 	// do post request
 	const searchByName = useCallback((pathname, payload = {}) => {
-		console.log('axios posting: ', pathname, payload);
+		console.log('axios getting: ', pathname, payload);
 		setIsSearching(true);
 		setIsLoading(true);
 
@@ -77,7 +77,7 @@ export const useFetch = (path = '', extra = '') => {
 		// 	}
 		// }, 200);
 		axios
-			.post(pathname, payload)
+			.get(pathname, payload)
 			.then((res) => {
 				console.log('axios searchByName', res.data);
 				if (isCurrent.current) {

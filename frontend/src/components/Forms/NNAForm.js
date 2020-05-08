@@ -1,159 +1,146 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import es from 'date-fns/locale/es';
-import { Form, Button, Label } from 'semantic-ui-react';
+import { Form, Button, Label, Message } from 'semantic-ui-react';
 //own
 import NameField from './_shared/NameField';
-import 'react-datepicker/dist/react-datepicker.css';
-
-registerLocale('es', es);
+import axios from '../../util/axios';
 
 const NNAForm = (props) => {
 	// Forms Validation
 	const { register, handleSubmit, errors } = useForm();
-	const [ bornDate, setbornDate ] = useState();
-	const [ isValidDate, setIsValidDate ] = useState(true);
+
+	const [ isPosting, setIsPosting ] = useState(false);
+	const [ isError, setIsError ] = useState(false);
 
 	const onSubmitHandler = (data) => {
-		if (!bornDate) {
-			setIsValidDate(false);
-			return;
-		}
-		if (props.isEditing) {
-			console.log('[NNAForm.js] editing user', props.id, data, bornDate);
-		} else {
-			console.log('[NNAForm.js] creating', data, bornDate);
-		}
-		props.refresh();
-		props.handleClose();
+		console.log('NNAForm', data);
+		setIsPosting(true);
+		axios
+			.post(props.item ? '/nnas/' + props.item._id : '/nnas/', data)
+			.then(() => {
+				//console.log('UserForm', res);
+				setIsPosting(false);
+				props.handleClose();
+				props.refresh();
+			})
+			.catch((err) => {
+				console.log('NNAForm error:', err.response);
+				setIsError(true);
+				setIsPosting(false);
+			});
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
-			<Form.Group widths="equal">
-				<NameField name="nombre" tag="Nombre" errors={errors} register={register} />
-				<NameField name="app" tag="Apellido Paterno" errors={errors} register={register} />
-				<NameField name="apm" tag="Apellido Materno" errors={errors} register={register} />
-			</Form.Group>
+		<React.Fragment>
+			{isError ? (
+				<Message
+					color="black"
+					header="Algo anda mal..."
+					content="Intente volviendo a cargar el sitio o contacte al administrador"
+				/>
+			) : (
+				<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off" loading={isPosting}>
+					<Form.Group widths="equal">
+						<NameField
+							name="nombre"
+							tag="Nombre"
+							errors={errors}
+							register={register}
+							defaultValue={props.item ? props.item.nombre : ''}
+						/>
+						<NameField
+							name="app"
+							tag="Apellido Paterno"
+							errors={errors}
+							register={register}
+							defaultValue={props.item ? props.item.app : ''}
+						/>
+						<NameField
+							name="apm"
+							tag="Apellido Materno"
+							errors={errors}
+							register={register}
+							defaultValue={props.item ? props.item.apm : ''}
+						/>
+					</Form.Group>
 
-			<Form.Group widths="equal">
-				<Form.Field required>
-					<label> Expediente </label>
-					{errors.exp &&
-					errors.exp.type === 'required' && (
-						<Label basic color="red" pointing="below">
-							Para agregar un NNA se requiere un expediente
-						</Label>
-					)}
-					<input
-						type="text"
-						name="exp"
-						ref={register({ required: true })}
-						//defaultValue={}
+					<Form.Group widths="equal">
+						<Form.Field required>
+							<label> Expediente </label>
+							{errors.exp &&
+							errors.exp.type === 'required' && (
+								<Label basic color="red" pointing="below">
+									Para agregar un NNA se requiere un expediente
+								</Label>
+							)}
+							<input
+								type="text"
+								name="expediente"
+								ref={register({ required: true, maxLength: 100 })}
+								defaultValue={props.item ? props.item.expediente : ''}
+							/>
+						</Form.Field>
+
+						<Form.Field required>
+							<label> Fecha de nacimiento </label>
+							{errors.fecha_nacimiento && (
+								<Label basic color="red" pointing="below">
+									Seleccione una fecha de naciemiento
+								</Label>
+							)}
+							<input
+								type="date"
+								ref={register({ required: true })}
+								name="fecha_nacimiento"
+								defaultValue={
+									props.item ? new Date(props.item.fecha_nacimiento).toISOString().substr(0, 10) : null
+								}
+							/>
+						</Form.Field>
+						<Form.Field required>
+							<label> Sexo </label>
+							{errors.sexo &&
+							errors.sexo.type === 'required' && (
+								<Label basic color="red" pointing="below">
+									Se debe selccionar un sexo
+								</Label>
+							)}
+							<select
+								name="sexo"
+								ref={register({ required: true })}
+								defaultValue={ props.item ? props.item.sexo : '' }
+							>
+								<option value="">--seleccione--</option>
+								<option value="m">Femenino</option>
+								<option value="h">Masculino</option>
+							</select>
+						</Form.Field>
+					</Form.Group>
+
+					<Button
+						positive
+						icon="checkmark"
+						labelPosition="right"
+						content={props.item ? 'Actualizar' : 'Agregar'}
+						type="submit"
+						floated="right"
 					/>
-				</Form.Field>
-
-				<Form.Field required>
-					<label> Fecha de nacimiento </label>
-					{!isValidDate && (
-						<Label basic color="red" pointing="below">
-							Seleccione una fecha de naciemiento
-						</Label>
-					)}
-					<DatePicker
-						selected={bornDate}
-						onChange={(date) => {
-							setbornDate(date);
-							setIsValidDate(date && true);
-						}}
-						peekNextMonth
-						showMonthDropdown
-						showYearDropdown
-						dropdownMode="scroll"
-						maxDate={new Date()}
-						locale="es"
-						placeholderText="Fecha de Nacimiento"
-					/>
-				</Form.Field>
-			</Form.Group>
-
-			<Form.Group>
-				<Form.Field required>
-					<label> Sexo </label>
-					{errors.sexo &&
-					errors.sexo.type === 'required' && (
-						<Label basic color="red" pointing="below">
-							Se debe selccionar un sexo
-						</Label>
-					)}
-					<select
-						name="sexo"
-						ref={register({ required: true })}
-						//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
-					>
-						<option value="">--seleccione--</option>
-						<option value="f">Femenino</option>
-						<option value="m">Masculino</option>
-					</select>
-				</Form.Field>
-				<Form.Field>
-					<label> Peso </label>
-					{errors.peso &&
-					errors.peso.type === 'pattern' && (
-						<Label basic color="red" pointing="below">
-							Sólo se permiten números con dos decimales ej: 39.5
-						</Label>
-					)}
-					<input
-						name="peso"
-						type="text"
-						ref={register({ pattern: /^\d{1,6}(\.\d{1,2})?$/ })}
-						placeholder="Kg"
-					/>
-				</Form.Field>
-
-				<Form.Field>
-					<label> Talla </label>
-					{errors.talla &&
-					errors.talla.type === 'pattern' && (
-						<Label basic color="red" pointing="below">
-							Sólo se permiten números con dos decimales ej: 1.65
-						</Label>
-					)}
-					<input
-						name="talla"
-						type="text"
-						ref={register({ pattern: /^\d{1,6}(\.\d{1,2})?$/ })}
-						placeholder="mts"
-					/>
-				</Form.Field>
-			</Form.Group>
-
-			<Button
-				positive
-				icon="checkmark"
-				labelPosition="right"
-				content={props.isEditing ? 'Actualizar' : 'Agregar'}
-				type="submit"
-				floated="right"
-			/>
-			<br />
-			<br />
-		</Form>
+					<br />
+					<br />
+				</Form>
+			)}
+		</React.Fragment>
 	);
 };
 
 NNAForm.propTypes = {
-	/** id for get details */
-	id: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-	/** Para saber si se debe hacer un request para obtener info */
-	isEditing: PropTypes.bool,
 	/** To close the modal */
 	handleClose: PropTypes.func.isRequired,
 	/** Refresher */
-	refresh: PropTypes.func.isRequired
+	refresh: PropTypes.func.isRequired,
+	/** Needed if editing */
+	item: PropTypes.object
 };
 
 export default NNAForm;
