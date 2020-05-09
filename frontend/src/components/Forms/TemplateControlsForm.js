@@ -5,15 +5,16 @@ import PropTypes from 'prop-types';
 // own
 import Open from './TemplateControls/Open';
 import DescriptionField from './TemplateControls/_DescrptionField';
-import Separator from './TemplateControls/Separator';
 import File from './TemplateControls/File';
 import Consistent from './TemplateControls/Consistent';
 import CloseMulti from './TemplateControls/CloseMulti';
+import axios from '../../util/axios';
 
 const TemplateControlsForm = (props) => {
-	//console.log(props)
+	//console.log('Template controls form ', props);
+
 	// radio btn
-	const [ radioValue, setRadioValue ] = useState('open');
+	const [ radioValue, setRadioValue ] = useState(props.item ? props.item.tipo : 'abierta');
 	const handleChangeRadioBtn = (_, { value }) => {
 		setRadioValue(value);
 		reset();
@@ -22,8 +23,18 @@ const TemplateControlsForm = (props) => {
 	//form
 	const { register, handleSubmit, errors, reset } = useForm();
 	const onSubmitHandler = (data) => {
-		console.log(radioValue);
-		console.log(data);
+		//console.log(props.postPath)
+		//console.log('TemplateContrlosForm', { ...data, tipo: radioValue, index: +data.index });
+		//return
+		axios
+			.post(props.postPath, { ...data, tipo: radioValue, index: +data.index })
+			.then(() => {
+				props.refresh();
+				reset();
+			})
+			.catch((err) => {
+				console.log('Template Controls Form', err);
+			});
 	};
 
 	return (
@@ -63,15 +74,15 @@ const TemplateControlsForm = (props) => {
 				<Form.Field
 					control={Radio}
 					label="Abierta"
-					value="open"
-					checked={radioValue === 'open'}
+					value="abierta"
+					checked={radioValue === 'abierta'}
 					onChange={handleChangeRadioBtn}
 				/>
 				<Form.Field
 					control={Radio}
 					label="Cerrada"
-					value="close"
-					checked={radioValue === 'close'}
+					value="cerrada"
+					checked={radioValue === 'cerrada'}
 					onChange={handleChangeRadioBtn}
 				/>
 				<Form.Field
@@ -83,95 +94,144 @@ const TemplateControlsForm = (props) => {
 				/>
 				<Form.Field
 					control={Radio}
-					label="Consistente"
-					value="consistent"
-					checked={radioValue === 'consistent'}
+					label="Constante"
+					value="constante"
+					checked={radioValue === 'constante'}
 					onChange={handleChangeRadioBtn}
 				/>
 				<Form.Field
 					control={Radio}
 					label="Archivo"
-					value="file"
-					checked={radioValue === 'file'}
+					value="archivo"
+					checked={radioValue === 'archivo'}
 					onChange={handleChangeRadioBtn}
 				/>
 				<Form.Field
 					control={Radio}
 					label="Separador"
-					value="separator"
-					checked={radioValue === 'separator'}
+					value="separador"
+					checked={radioValue === 'separador'}
 					onChange={handleChangeRadioBtn}
 				/>
 			</Form.Group>
 
-			{radioValue === 'separator' && <Separator register={register} errors={errors} />}
+			{/* {radioValue === 'separador' && <Separator register={register} errors={errors} />} */}
 
 			<Form.Group widths="equal">
-				{radioValue !== 'separator' && (
+				{/*radioValue !== 'separador'*/ true && (
 					<React.Fragment>
 						<Form.Field required>
 							<label>Nombre del Campo</label>
-							{errors.fieldName &&
-							errors.fieldName.type === 'required' && (
+							{errors.nombre &&
+							errors.nombre.type === 'required' && (
 								<Label basic color="red" pointing="below">
 									Ingrese el nombre del campo
 								</Label>
 							)}
-							{errors.fieldName &&
-							errors.fieldName.type === 'pattern' && (
+							{errors.nombre &&
+							errors.nombre.type === 'pattern' && (
 								<Label basic color="red" pointing="below">
 									El nombre no puede iniciar con espacio
 								</Label>
 							)}
 							<input
 								type="text"
-								name="fieldName"
+								name="nombre"
 								ref={register({ required: true, pattern: /^[^-\s].*/ })}
+								defaultValue={props.item ? props.item.nombre : ''}
 							/>
 						</Form.Field>
-						{radioValue === 'open' && <Open register={register} errors={errors} />}
-						{radioValue === 'file' && <File register={register} errors={errors} />}
-						{radioValue === 'consistent' && <Consistent register={register} errors={errors} />}
+						{radioValue === 'abierta' && (
+							<Open
+								register={register}
+								errors={errors}
+								defaultCampo={props.item && props.item.tipo === 'abierta' ? props.item.tipo_campo : ''}
+								defaultPlaceHolder={
+									props.item && props.item.tipo === 'abierta' ? props.item.placeholder : ''
+								}
+							/>
+						)}
+						{radioValue === 'archivo' && (
+							<File
+								register={register}
+								errors={errors}
+								default={props.item && props.item.tipo === 'archivo' ? props.item.tipo_archivo : ''}
+							/>
+						)}
+						{radioValue === 'constante' && (
+							<Consistent
+								register={register}
+								errors={errors}
+								default={props.item && props.item.tipo === 'constante' ? props.item.fuente : ''}
+							/>
+						)}
 					</React.Fragment>
 				)}
 			</Form.Group>
 
-			{(radioValue === 'close' || radioValue === 'multi') && <CloseMulti register={register} errors={errors} />}
+			{(radioValue === 'cerrada' || radioValue === 'multi') && (
+				<CloseMulti
+					register={register}
+					errors={errors}
+					default={
+						props.item && (props.item.tipo === 'cerrada' || props.item.tipo === 'multi') ? (
+							props.item.opciones.map(op => op.valor).join('\n')
+						) : (
+							''
+						)
+					}
+				/>
+			)}
 
-			{radioValue !== 'consistent' && radioValue !== 'separator' && <DescriptionField />}
+			{radioValue !== 'constante' &&
+			radioValue !== 'separador' && (
+				<DescriptionField
+					register={register}
+					default={
+						props.item && props.item.tipo !== 'constante' && props.item.tipo !== 'separador' ? (
+							props.item.pista
+						) : (
+							''
+						)
+					}
+				/>
+			)}
 
 			<Form.Field width="4">
 				<label>
 					Index
 					<Popup content="Para establecer un orden" trigger={<Icon circular name="question circle" />} />
 				</label>
-				{errors.fieldIndex &&
-				errors.fieldIndex.type === 'required' && (
+				{errors.index &&
+				errors.index.type === 'required' && (
 					<Label basic color="red" pointing="below">
 						Ingrese un index para el campo
 					</Label>
 				)}
-				{errors.fieldIndex &&
-				errors.fieldIndex.type === 'pattern' && (
+				{errors.index &&
+				errors.index.type === 'pattern' && (
 					<Label basic color="red" pointing="below">
 						Sólo se permiten números
 					</Label>
 				)}
 				<input
 					type="number"
-					name="fieldIndex"
-					defaultValue={0}
+					name="index"
+					defaultValue={props.item ? props.item.index : 0}
 					ref={register({ required: true, pattern: /^-?[0-9]+/ })}
 				/>
 			</Form.Field>
 
-			<Form.Button primary>{props.isEditing ? 'Actualizar Campo' : 'Agregar Campo'}</Form.Button>
+			<Form.Button primary>{props.item ? 'Actualizar Campo' : 'Agregar Campo'}</Form.Button>
 		</Form>
 	);
 };
 
 TemplateControlsForm.propTypes = {
-	isEditing: PropTypes.bool
+	/** when editing */
+	item: PropTypes.object,
+	postPath: PropTypes.string.isRequired,
+	refresh: PropTypes.func.isRequired
 };
 
 export default TemplateControlsForm;

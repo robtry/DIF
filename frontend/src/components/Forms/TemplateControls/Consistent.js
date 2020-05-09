@@ -7,24 +7,24 @@ const Consistent = (props) => {
 	return (
 		<Form.Field required>
 			<label>Campo de donde se obtiene la info</label>
-			{props.errors.fieldConsistent &&
-			props.errors.fieldConsistent.type === 'required' && (
+			{props.errors.fuente &&
+			props.errors.fuente.type === 'required' && (
 				<Label basic color="red" pointing="below">
 					Debe seleccionar el campo del cual recuperar
 				</Label>
 			)}
 			<select
-				name="fieldConsistent"
+				name="fuente"
 				ref={props.register({ required: true })}
-				//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
+				defaultValue={ props.default }
 			>
 				<option value="">--seleccione--</option>
-				<option value="char">Expediente</option>
-				<option value="int">Nombre</option>
-				<option value="int">Apellido Paterno</option>
-				<option value="int">Apellido Materno</option>
-				<option value="float">Fecha de nacimiento</option>
-				<option value="varchar">Sexo</option>
+				<option value="expediente">Expediente</option>
+				<option value="nombre">Nombre</option>
+				<option value="app">Apellido Paterno</option>
+				<option value="apm">Apellido Materno</option>
+				<option value="fecha_nacimiento">Fecha de nacimiento</option>
+				<option value="sexo">Sexo</option>
 			</select>
 		</Form.Field>
 	);
@@ -32,9 +32,12 @@ const Consistent = (props) => {
 
 Consistent.propTypes = {
 	/** Para saber si se debe hacer un request para obtener info */
-	isEditing: PropTypes.bool,
-	/** Refresher */
-	refresh: PropTypes.func //.isRequired
+	item: PropTypes.object,
+	/** Referencia a useForm */
+	register: PropTypes.func.isRequired,
+	/** Referencia a useForm */
+	errors: PropTypes.object.isRequired,
+	default: PropTypes.string.isRequired
 };
 
 export default Consistent;

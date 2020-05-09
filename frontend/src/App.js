@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 // ui
 import { Segment, Sidebar } from 'semantic-ui-react';
 // own
@@ -28,62 +28,81 @@ import UserHistory from './pages/Users/history';
 import UserContext from './context/userContext';
 
 const App = () => {
-
 	/** Controla, el **Sidebar**, icono en el **TopNav** y **Dimmer** en App */
-	const [sideBarVisible, setSideBarVisible] = useState(false);
+	const [ sideBarVisible, setSideBarVisible ] = useState(false);
 
 	// Controlar el estado del user con el context
-	const [userIsLoggedIn, setUserIsLoggedIn] = useState(true); //false
-	const [userType, setUserType] = useState('admin'); //''
+	const [ userIsLoggedIn, setUserIsLoggedIn ] = useState(true); //false
+	const [ userType, setUserType ] = useState('admin'); //''
 
 	const authenticateUser = (username, password) => {
 		console.log('iniciando sesion: ', username, password);
 		setUserIsLoggedIn(true);
 		setUserType('admin');
-	}
+	};
 
 	const endSessionUser = (token) => {
 		console.log('terminando sesion', token);
 		setUserIsLoggedIn(false);
 		setUserType('');
-	}
+	};
 
 	return (
-	<UserContext.Provider value={{
-			userIsLoggedIn: userIsLoggedIn,
-			userType: userType,
-			isAdmin: userType === 'admin',
-			authUser: authenticateUser,
-			logOut: endSessionUser,
-		}}
-	>
-		<Router>
-			{ userIsLoggedIn && 
-			<TopNavbar sideBarStatus={sideBarVisible} toggleSideBar={ () => setSideBarVisible(prev => !prev) }/> }
-			<Sidebar.Pushable as={Segment} className='full-height'>
-				<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)}/>
-				<Sidebar.Pusher dimmed={sideBarVisible}>
-					<Segment basic className='margin-top-bar'>
-							{ !userIsLoggedIn && <Redirect to='/'/> }
-						<Switch>
-							<Route path='/' exact component={userIsLoggedIn ? Dashboard : Authenticate}/>
-							<Route path='/profile/:id' exact component={UserProfile}/>
-							{ userType === 'admin' && <Route path='/usuarios' exact component={User} />}
-							<Route path='/nnas' exact component={NNAs} /> } />
-							<Route path='/nna/:id' exact component={NNAsHistory} />
-							{ userType === 'admin' && <Route path='/plantillas' exact component={Templates} />}
-							{ userType === 'admin' && <Route path='/plantilla/:id' exact component={CUTemplate} />}
-							<Route path='/formatos' exact component={Format} />
-							<Route path='/formato/:id' exact component={RUFormat} />
-							<Route path='/historial/:id' exact component={UserHistory} />
-							<Route render={ () => <h1> Bad route </h1> }/>
-						</Switch>
-					</Segment>
-				</Sidebar.Pusher>
-			</Sidebar.Pushable>
-		</Router>
-	</UserContext.Provider>
+		<UserContext.Provider
+			value={{
+				userIsLoggedIn: userIsLoggedIn,
+				userType: userType,
+				isAdmin: userType === 'admin',
+				authUser: authenticateUser,
+				logOut: endSessionUser
+			}}
+		>
+			<Router>
+				{userIsLoggedIn && (
+					<TopNavbar
+						sideBarStatus={sideBarVisible}
+						toggleSideBar={() => setSideBarVisible((prev) => !prev)}
+					/>
+				)}
+				<Sidebar.Pushable as={Segment} className="full-height">
+					<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)} />
+					<Sidebar.Pusher dimmed={sideBarVisible}>
+						<Segment basic className="margin-top-bar">
+							{!userIsLoggedIn && <Redirect to="/" />}
+							<Switch>
+								<Route path="/" exact component={userIsLoggedIn ? Dashboard : Authenticate} />
+								<Route path="/profile/:id" exact component={UserProfile} />
+								{userType === 'admin' && <Route path="/usuarios" exact component={User} />}
+								<Route path="/nnas" exact component={NNAs} /> } />
+								<Route path="/nna/:id" exact component={NNAsHistory} />
+								{userType === 'admin' && <Route path="/plantillas" exact component={Templates} />}
+								{userType === 'admin' && <Route path="/plantilla/:id" exact component={CUTemplate} />}
+								<Route path="/formatos" exact component={Format} />
+								<Route path="/formato/:id" exact component={RUFormat} />
+								<Route path="/historial/:id" exact component={UserHistory} />
+								{userIsLoggedIn && (
+									<Route
+										render={() => (
+											<React.Fragment>
+												<h2>
+													Revisa
+													<span role="img" aria-label="up">
+														👆️
+													</span>
+													el menú
+												</h2>
+												<h1> Parece que esta URL no existe </h1>
+											</React.Fragment>
+										)}
+									/>
+								)}
+							</Switch>
+						</Segment>
+					</Sidebar.Pusher>
+				</Sidebar.Pushable>
+			</Router>
+		</UserContext.Provider>
 	);
-}
+};
 
 export default App;

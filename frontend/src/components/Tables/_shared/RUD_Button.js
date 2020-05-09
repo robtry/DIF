@@ -15,7 +15,7 @@ const CrudButton = (props) => {
 
 	return (
 		<Button.Group fluid>
-			{props.onEdit && <EditModal Form={props.onEdit} item={props.item} refresh={props.refresh} />}
+			{props.onEdit && <EditModal Form={props.onEdit} item={props.item} refresh={props.refresh} postPath={props.postPath} />}
 			{props.onDelete && <DeleteModal message={props.onDelete} path={props.deletePath} refresh={props.refresh} />}
 		</Button.Group>
 	);
@@ -32,6 +32,8 @@ CrudButton.propTypes = {
 	refresh: PropTypes.func.isRequired,
 	/** for fill form when editing */
 	item: PropTypes.object.isRequired,
+	/** para el controls form */
+	postPath: PropTypes.string
 };
 
 /** @component */

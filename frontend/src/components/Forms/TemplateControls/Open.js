@@ -8,16 +8,16 @@ const Open = (props) => {
 		<React.Fragment>
 			<Form.Field required>
 				<label>Tipo Campo</label>
-				{props.errors.fieldType &&
-				props.errors.fieldType.type === 'required' && (
+				{props.errors.tipo_campo &&
+				props.errors.tipo_campo.type === 'required' && (
 					<Label basic color="red" pointing="below">
 						Debe seleccionar el tipo del campo
 					</Label>
 				)}
 				<select
-					name="fieldType"
+					name="tipo_campo"
 					ref={props.register({ required: true })}
-					//defaultValue={ (props.isEditing && mesa) && mesa.id_eleccion ? mesa.id_eleccion : null }
+					defaultValue={ props.defaultCampo }
 				>
 					<option value="">--seleccione--</option>
 					<option value="int">Numérico Entero</option>
@@ -31,10 +31,11 @@ const Open = (props) => {
 			<Form.Field>
 				<label>Ejemplo</label>
 				<input
-					type='text'
-					placeholder='Mostrará un ejemplo como este'
-					name='fieldExample'
+					type="text"
+					placeholder="Mostrará un ejemplo como este"
+					name="placeholder"
 					ref={props.register()}
+					defaultValue={props.defaultPlaceHolder}
 				/>
 			</Form.Field>
 		</React.Fragment>
@@ -43,9 +44,14 @@ const Open = (props) => {
 
 Open.propTypes = {
 	/** Para saber si se debe hacer un request para obtener info */
-	isEditing: PropTypes.bool,
-	/** Refresher */
-	refresh: PropTypes.func //.isRequired
+	item: PropTypes.object,
+	/** Referencia a useForm */
+	register: PropTypes.func.isRequired,
+	/** Referencia a useForm */
+	errors: PropTypes.object.isRequired,
+	/** default */
+	defaultCampo: PropTypes.string.isRequired,
+	defaultPlaceHolder: PropTypes.string.isRequired
 };
 
 export default Open;

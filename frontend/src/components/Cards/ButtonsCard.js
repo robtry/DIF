@@ -40,7 +40,13 @@ const ButtonsCard = (props) => {
 						basic
 						color="black"
 						as={NavLink}
-						to={props.type === 'template' ? '/plantilla/1' : '/formato/1'}
+						to={
+							props.type === 'template' ? (
+								'/plantilla/' + props.id.replace('templates/', '')
+							) : (
+								'/formato/1'
+							)
+						}
 						exact
 					>
 						<Button.Content visible>Modificar</Button.Content>
@@ -56,11 +62,11 @@ const ButtonsCard = (props) => {
 
 ButtonsCard.propTypes = {
 	/** Id to get something */
-	id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired,
+	id: PropTypes.string.isRequired,
 	/** Para saber que botones mostrar */
 	type: PropTypes.oneOf([ 'template', 'format' ]).isRequired,
 
-	title: PropTypes.string
+	title: PropTypes.string.isRequired
 };
 
 export default ButtonsCard;

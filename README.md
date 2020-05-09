@@ -92,3 +92,5 @@ POST: /nnas/
 - [ ] min/max lenght for users for pass
 - [ ] requiried all for props in format card
 - [ ] add is required in forms
+- [ ] cath no foud errors in get one
+- [ ] borrados en cascada

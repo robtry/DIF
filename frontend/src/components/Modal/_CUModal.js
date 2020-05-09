@@ -37,7 +37,7 @@ const CUModal = (props) => {
 				content={props.item ? '¿Está seguro que desea actualizar?' : props.message}
 			/>
 			<Modal.Content>
-				<props.Form handleClose={() => handleClose()} refresh={props.refresh} item={props.item} />
+				<props.Form handleClose={() => handleClose()} refresh={props.refresh} item={props.item} postPath={props.postPath}/>
 			</Modal.Content>
 		</Modal>
 	);

@@ -17,7 +17,7 @@ const Templates = () => {
 	// type of current table
 	const [ types, setTypes ] = useState('all');
 
-	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch(types + '/');
+	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch('templates', types + '/');
 
 	return (
 		<React.Fragment>
@@ -30,12 +30,12 @@ const Templates = () => {
 						<New message="Crear Plantilla" Form={TemplateForm} refresh={loadData} />
 					</Grid.Column>
 					<Grid.Column>
-						{isLoadingPages ? <PaginationLoader /> : !isSearching && <Pagination totalPages={totalPages} />}
+						{isLoadingPages ? <PaginationLoader /> : !isSearching && totalPages > 1 &&  <Pagination totalPages={totalPages} />}
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row centered>
 					<Grid.Column>
-						<IndexSearch searcher={searchByName} type="template" reloader={loadData} />
+						<IndexSearch searcher={searchByName} type="templates" reloader={loadData} />
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row />

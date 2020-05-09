@@ -8,12 +8,11 @@ const nnaSchema = new Schema({
 	apm: { type: String, required: true },
 	fecha_nacimiento: { type: Date, required: true },
 	fecha_ingreso: { type: Date, required: true },
-	sexo: { type: String, required: true },
-	estatus: { type: String, required: true },
+	sexo: { type: String, required: true, enum: ['m','h'] },
+	estatus: { type: String, required: true, enum: ['in','out'] },
 	image: { type: String },
 	fecha_egreso: { type: Date },
 	ultima_actividad: { type: Date }
-	//token:
 });
 
 module.exports = mongoose.model('nnas', nnaSchema);

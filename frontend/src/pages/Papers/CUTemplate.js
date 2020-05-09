@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Header, Checkbox } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
 //own
 import { useFetchDetails } from '../../util/useFetchDetails';
 import Loader from '../../components/Loader/MainLoader';
 import TemplateControlsForm from '../../components/Forms/TemplateControlsForm';
 import TemplateDetails from './TemplateDetails';
+import NotFound from '../NotFound';
+
+/* Aqui es donde se crean las plantillas */
 
 const CUTemplate = (props) => {
-	const { isLoading, loadData, data } = useFetchDetails();
+	//console.log(props);
+
+	const { isLoading, loadData, data, notFound } = useFetchDetails('templates/' + props.match.params.id);
 	const [ controllsUp, setControlsUp ] = useState(true);
 
 	useEffect(
@@ -18,19 +22,22 @@ const CUTemplate = (props) => {
 		[ loadData ]
 	);
 
+	const table = isLoading ? <Loader /> : <TemplateDetails data={data[0] ? data[0] : {}} loadData={loadData} />
+
 	return (
 		<Container>
-			{isLoading ? (
-				<Loader />
+			{notFound ? (
+				<NotFound />
 			) : (
 				<React.Fragment>
-					<Header size="huge">Nombre de plantilla</Header>
+					<Header size="huge">{data[0] ? data[0].nombre : ''}</Header>
 
-					{!controllsUp && 
-					<React.Fragment>
-						<Header size="huge">Preview</Header>
-						<TemplateDetails data={data} loadData={loadData}/>
-					</React.Fragment>}
+					{!controllsUp && (
+						<React.Fragment>
+							<Header size="huge">Preview</Header>
+							{table}
+						</React.Fragment>
+					)}
 
 					<Header size="large">Controles</Header>
 					<Checkbox
@@ -40,21 +47,18 @@ const CUTemplate = (props) => {
 						onChange={() => setControlsUp((prev) => !prev)}
 					/>
 
-					<TemplateControlsForm />
+					<TemplateControlsForm postPath={'templates/fields/' + props.match.params.id} refresh={loadData}/>
 
-					{controllsUp && 
-					<React.Fragment>
-						<Header size="huge">Preview</Header>
-						<TemplateDetails data={data} loadData={loadData}/>
-					</React.Fragment>}
+					{controllsUp && (
+						<React.Fragment>
+							<Header size="huge">Preview</Header>
+							{table}
+						</React.Fragment>
+					)}
 				</React.Fragment>
 			)}
 		</Container>
 	);
-};
-
-CUTemplate.propTypes = {
-	nombre: PropTypes.string //.isRequired,
 };
 
 export default CUTemplate;

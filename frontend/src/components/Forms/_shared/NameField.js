@@ -21,7 +21,7 @@ const NameField = (props) => {
 				maxLength={100}
 				ref={props.register({
 					required: true,
-					pattern: /^[A-ZÁÉÍÓÚÑñáéíóú]+(([ ][a-zA-ZÁÉÍÓÚÑñáéíóú])?[a-zA-ZÁÉÍÓÚÑñáéíóú]*)*$/,
+					pattern: /^[A-ZÁÉÍÓÚÑñáéíóú]+(([ ][a-zA-ZÁÉÍÓÚÑñáéíóú0-9])?[a-zA-ZÁÉÍÓÚÑñáéíóú0-9]*)*$/,
 					minLength: 3,
 					maxLength: 100
 				})}

@@ -11,7 +11,7 @@ import Consistent from '../../components/Forms/FormatControls/Constant';
 /** Es contruida con todos los campos desabilitados, o habilitados y llenos o vacios */
 
 const TemplatePreview = (props) => {
-	console.log(props);
+	//console.log(props);
 
 	return (
 		<Form>
