@@ -21,8 +21,7 @@ const ButtonsCard = (props) => {
 					Imprimir
 				</Button> */}
 				<OnShow
-					id={props.id}
-					title={props.title}
+					item={props.item}
 					Body={props.type === 'template' ? TemplatePreview : FormatPreview}
 				/>
 				{isAdmin && ( //other types
@@ -61,12 +60,12 @@ const ButtonsCard = (props) => {
 };
 
 ButtonsCard.propTypes = {
-	/** Id to get something */
+	/**  */
 	id: PropTypes.string.isRequired,
 	/** Para saber que botones mostrar */
 	type: PropTypes.oneOf([ 'template', 'format' ]).isRequired,
-
-	title: PropTypes.string.isRequired
+	/** Item para hacer load de lo necesario */
+	item: PropTypes.object.isRequired
 };
 
 export default ButtonsCard;

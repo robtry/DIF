@@ -17,7 +17,7 @@ const CloseOne = (props) => {
 			{props.options.map((option) => {
 				//console.log(option);
 				return (
-					<div className="field" key={option.id}>
+					<div className="field" key={option._id}>
 						<div className="ui radio checkbox">
 							<input
 								type="radio"
@@ -27,12 +27,11 @@ const CloseOne = (props) => {
 								//ref={register({ required: true })}
 								disabled={props.isReview}
 							/>
-							<label htmlFor={option.id}>{option.label}</label>
+							<label htmlFor={option._id}>{option.valor}</label>
 						</div>
 					</div>
 				);
 			})}
-			{/* {errors.vehicles && <div className="form_error">Number of Vehicles is required</div>} */}
 		</React.Fragment>
 	);
 };

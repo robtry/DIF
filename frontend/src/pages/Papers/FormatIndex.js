@@ -17,7 +17,7 @@ const Formats = () => {
 	// type of current table
 	const [ types, setTypes ] = useState('all');
 
-	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch(types + '/');
+	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch('templates',types + '/');
 
 	return (
 		<React.Fragment>

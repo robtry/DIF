@@ -14,7 +14,7 @@ const MultiValue = (props) => {
 
 			{props.options.map((option) => {
 				return (
-					<React.Fragment key={option.id}>
+					<React.Fragment key={option._id}>
 					<div className="ui checkbox">
 						<input
 							type="checkbox"
@@ -24,13 +24,12 @@ const MultiValue = (props) => {
 							//ref={register}
 							disabled={props.isReview}
 						/>
-						<label htmlFor={option.id}>{option.label}</label>
+						<label htmlFor={option._id}>{option.valor}</label>
 					</div>
 						<br/>
 						</React.Fragment>
 				);
 			})}
-			{/* {errors.vehicles && <div className="form_error">Number of Vehicles is required</div>} */}
 		</React.Fragment>
 	);
 };

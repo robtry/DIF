@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Header, Container, Dimmer, Loader, Icon } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Modal, Button, Container, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
-import { useFetchDetails } from '../../util/useFetchDetails';
+//import { useFetchDetails } from '../../util/useFetchDetails';
 
 const ShowModal = (props) => {
 	// para saber cuando hacer el resquest
@@ -11,16 +11,16 @@ const ShowModal = (props) => {
 	const handleClose = () => setModelState(false);
 
 	//get info
-	const { isLoading, data, loadData } = useFetchDetails(props.id);
+	//const { isLoading, data, loadData, notFound } = useFetchDetails(props.id);
 
-	useEffect(
-		() => {
-			if (isOpenModel) {
-				loadData();
-			}
-		},
-		[ isOpenModel, loadData ]
-	);
+	// useEffect(
+	// 	() => {
+	// 		if (isOpenModel) {
+	// 			loadData();
+	// 		}
+	// 	},
+	// 	[ isOpenModel, loadData ]
+	// );
 
 	return (
 		<Modal
@@ -37,26 +37,17 @@ const ShowModal = (props) => {
 			onClose={handleClose}
 			open={isOpenModel}
 		>
-			<Header>{props.title}</Header>
 			<Modal.Content>
-				{isLoading ? (
-					<Dimmer active>
-						<Loader />
-					</Dimmer>
-				) : (
-					<Container>{<props.Body id={props.id} data={data} />}</Container>
-				)}
+				<Container>{<props.Body item={props.item} isFormatMode={false} />}</Container>
 			</Modal.Content>
 		</Modal>
 	);
 };
 
 ShowModal.propTypes = {
-	/** Id para hacer el get */
-	id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired,
-	/** Es un header dentro del modal */
-	title: PropTypes.string,
-	/** Body si details esta disponible */
+	/** Item para hacer load de lo necesario */
+	item: PropTypes.object.isRequired,
+	/** Form */
 	Body: PropTypes.elementType.isRequired
 };
 

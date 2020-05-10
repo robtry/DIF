@@ -49,7 +49,7 @@ const TemplateTable = (props) => {
 						</Label>
 					</Card.Content>
 					<Card.Content extra>
-						<ButtonsCard id={'templates/' + item._id} type="template" title={item.nombre} />
+						<ButtonsCard id={'templates/' + item._id} type="template" item={item} />
 					</Card.Content>
 					<Card.Content extra>
 						<CrudButton
