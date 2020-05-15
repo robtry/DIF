@@ -8,18 +8,25 @@ const IndexSearch = (props) => {
 		if (value.length === 0) {
 			props.reloader();
 		} else {
-			props.searcher(`${props.type}/search/` + value);
+			props.searcher(`${props.type}/search/` + value + (props.type === 'formats' ? '/' + props.extraID : ''));
 		}
 	};
 
 	return (
-		<Input fluid icon={<Icon name="search" inverted circular link />} placeholder="Buscar..." onChange={searchByName} />
+		<Input
+			fluid
+			icon={<Icon name="search" inverted circular link />}
+			placeholder="Buscar..."
+			onChange={searchByName}
+		/>
 	);
 };
 
 IndexSearch.propTypes = {
 	searcher: PropTypes.func.isRequired,
-	type: PropTypes.oneOf([ 'users', 'nnas', 'templates' ]).isRequired,
+	type: PropTypes.oneOf([ 'users', 'nnas', 'templates', 'formats' ]).isRequired,
+	/** for formats */
+	extraID: PropTypes.string,
 	reloader: PropTypes.func.isRequired
 };
 

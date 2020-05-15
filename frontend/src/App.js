@@ -19,7 +19,7 @@ import UserProfile from './pages/Users/profile';
 import Templates from './pages/Papers/TemplateIndex';
 import CUTemplate from './pages/Papers/CUTemplate';
 // format
-import Format from './pages/Papers/FormatIndex';
+//import Format from './pages/Papers/FormatIndex';
 import RUFormat from './pages/Papers/RUFormat';
 // history
 import UserHistory from './pages/Users/history';
@@ -77,7 +77,7 @@ const App = () => {
 								<Route path="/nna/:id" exact component={NNAsHistory} />
 								{userType === 'admin' && <Route path="/plantillas" exact component={Templates} />}
 								{userType === 'admin' && <Route path="/plantilla/:id" exact component={CUTemplate} />}
-								<Route path="/formatos" exact component={Format} />
+								{/* <Route path="/formatos" exact component={Format} /> */}
 								<Route path="/formato/:id" exact component={RUFormat} />
 								<Route path="/historial/:id" exact component={UserHistory} />
 								{userIsLoggedIn && (

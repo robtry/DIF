@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import dateTime from 'date-time';
 //own
 import defaultUser from '../../assets/default.png';
 //context
@@ -10,8 +11,9 @@ const FormatCard = (props) => {
 	return (
 		<Card>
 			<Card.Content>
-				<Card.Header>Informe Psicológico</Card.Header>
-				<Card.Meta>4 - ago -2012</Card.Meta>
+				<Card.Header>{props.item.plantilla.nombre}</Card.Header>
+				<Card.Meta>Creado: {dateTime(new Date(props.item.fecha_creacion)).split(' ')[0]}</Card.Meta>
+				<Card.Meta>Actualizado: {dateTime(new Date(props.item.ultima_actualizacion))}</Card.Meta>
 				<Card.Description>
 					<Label as="a" image>
 						<img src={defaultUser} alt="usr-pic-profile" />
@@ -20,7 +22,7 @@ const FormatCard = (props) => {
 				</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<ButtonsCard type="format" id={props.id} />
+				<ButtonsCard type="format" id={props.item._id} item={props.item} />
 			</Card.Content>
 		</Card>
 	);
@@ -28,7 +30,7 @@ const FormatCard = (props) => {
 
 FormatCard.propTypes = {
 	/** Id to get something */
-	id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]).isRequired
+	item: PropTypes.object.isRequired
 };
 
 export default FormatCard;

@@ -72,11 +72,6 @@ exports.getAllTemplates = (req, res, next) => {
 			{
 				$limit: 30
 			},
-			// {
-			// 	$sort: {
-			// 		name: 1
-			// 	}
-			// },
 			{
 				$match: {
 					tipo: {
@@ -122,6 +117,14 @@ exports.getByName = (req, res, next) => {
 						$regex: '(?i)' + name
 					}
 				}
+			},
+			{
+				$lookup: {
+					from: 'campos',
+					localField: '_id',
+					foreignField: 'id_plantilla',
+					as: 'campos'
+				}
 			}
 		])
 		.exec((err, data) => {
@@ -157,6 +160,14 @@ exports.getTemplate = (req, res, next) => {
 			{
 				$match: {
 					_id: ObjectId(req.params.id)
+				}
+			},
+			{
+				$lookup: {
+					from: 'campos',
+					localField: '_id',
+					foreignField: 'id_plantilla',
+					as: 'campos'
 				}
 			}
 		])

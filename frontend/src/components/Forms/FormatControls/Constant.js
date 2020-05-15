@@ -11,7 +11,7 @@ const Constanr = (props) => {
 
 Constanr.propTypes = {
 	label: PropTypes.string.isRequired,
-	value: PropTypes.string,
+	value: PropTypes.string.isRequired,
 	file: PropTypes.string
 };
 

@@ -9,7 +9,7 @@ const File = (props) => {
 				{props.label}
 				{props.hint && <Popup content={props.hint} trigger={<Icon circular name="question circle" />} />}
 			</label>
-			<input type="file" disabled={props.isReview} />
+			<input type="file" disabled={props.isReview} name={props.name} ref={props.register()} />
 		</Form.Field>
 	);
 };
@@ -18,7 +18,11 @@ File.propTypes = {
 	label: PropTypes.string.isRequired,
 	isEditing: PropTypes.bool,
 	hint: PropTypes.string,
-	isReview: PropTypes.bool
+	isReview: PropTypes.bool,
+	// id
+	name: PropTypes.string.isRequired,
+	/** Referencia a useForm */
+	register: PropTypes.func.isRequired
 };
 
 export default File;

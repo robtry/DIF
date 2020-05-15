@@ -1,81 +1,60 @@
-import React from 'react';
-import { Item, Table, Container } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Item, Container } from 'semantic-ui-react';
 //own
 import Copyright from '../../components/Copyright/index';
 import Loader from '../../components/Loader/MainLoader';
-import { useFetch } from '../../util/useFetch';
+import { useFetchDetails } from '../../util/useFetchDetails';
 import FormatPage from '../Papers/FormatIndex';
 import defaultImage from '../../assets/defaultNNA.png';
+import NNADetails from '../../components/Details/NNADetails';
+import NotFound from '../NotFound';
 
 /**
  * Child details
 */
 
 const History = (props) => {
-	const { isLoading /*data*/ } = useFetch();
+	const { isLoading, loadData, data, notFound } = useFetchDetails('nnas/' + props.match.params.id);
+
+	const [ item, setItem ] = useState({});
+
+	useEffect(
+		() => {
+			setItem(data[0]);
+		},
+		[ data ]
+	);
+
+	useEffect(
+		() => {
+			loadData();
+		},
+		[ loadData ]
+	);
 
 	return (
 		<Container textAlign="center">
 			<Copyright />
-			{isLoading ? (
+			{notFound ? (
+				<NotFound />
+			) : isLoading ? (
 				<Loader />
 			) : (
 				<React.Fragment>
 					<Item.Group className="center-item">
 						<Item>
-							<Item.Image size="tiny" src={defaultImage} />
+							<Item.Image size="tiny" src={item && item.image ? item.image : defaultImage} />
 							<Item.Content verticalAlign="middle">
-								<Item.Header>Nombre Completo</Item.Header>
+								<Item.Header>{`${item ? item.nombre : ''} ${item ? item.app : ''} ${item
+									? item.apm
+									: ''}`}</Item.Header>
 							</Item.Content>
 						</Item>
 					</Item.Group>
-					<Table striped textAlign="center">
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell>Dato</Table.HeaderCell>
-								<Table.HeaderCell>Info</Table.HeaderCell>
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
-							<Table.Row>
-								<Table.Cell>Expediente</Table.Cell>
-								<Table.Cell>
-									<b>ASLFALDMSL</b>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Fecha de nacimiento</Table.Cell>
-								<Table.Cell>
-									<b>una fecha</b>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Sexo</Table.Cell>
-								<Table.Cell>
-									<b>MAsculino o femenino</b>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Peso</Table.Cell>
-								<Table.Cell>
-									<b>53.2 kg</b>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Talla</Table.Cell>
-								<Table.Cell>
-									<b>1.21 mts</b>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell>Escolaridad</Table.Cell>
-								<Table.Cell>
-									<b>Primaria</b>
-								</Table.Cell>
-							</Table.Row>
-						</Table.Body>
-					</Table>
+					<NNADetails item={item ? item : {}} />
+
 					<FormatPage />
+
 				</React.Fragment>
 			)}
 		</Container>

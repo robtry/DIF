@@ -21,10 +21,10 @@ const CloseOne = (props) => {
 						<div className="ui radio checkbox">
 							<input
 								type="radio"
-								name={props.label}
-								id={option.id}
-								value={option.id}
-								//ref={register({ required: true })}
+								name={props.name}
+								id={option._id}
+								value={option._id}
+								ref={props.register()}
 								disabled={props.isReview}
 							/>
 							<label htmlFor={option._id}>{option.valor}</label>
@@ -41,7 +41,11 @@ CloseOne.propTypes = {
 	hint: PropTypes.string,
 	isReview: PropTypes.bool,
 	options: PropTypes.arrayOf(PropTypes.object).isRequired,
-	isEditing: PropTypes.bool
+	isEditing: PropTypes.bool,
+	// id
+	name: PropTypes.string.isRequired,
+	/** Referencia a useForm */
+	register: PropTypes.func.isRequired
 };
 
 export default CloseOne;

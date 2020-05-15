@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const templateCollection = require('../models/template-model');
+const fieldColletion = require('../models/field-model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -73,26 +74,24 @@ exports.addFieldToTemplate = (req, res, next) => {
 
 	//return res.json({ message: 'complete' }); //for development
 
-	templateCollection.updateOne(
-		{ _id: ObjectId(req.params.id) },
-		{
-			$push: {
-				campos: {
-					nombre,
-					tipo,
-					index,
-					...field
-				}
+	new fieldColletion({
+		nombre,
+		tipo,
+		index,
+		...field,
+		id_plantilla: ObjectId(req.params.id)
+	})
+		.save()
+		.then(
+			(/*ans*/) => {
+				//console.log('Complete', ans);
+				return res.status(201).json({ message: 'complete' });
 			}
-		},
-		(err) => {
-			if (err) {
-				console.log('template add field', err);
-				return next(new HttpError(err, 500));
-			}
-			res.json({ message: 'complete' });
-		}
-	);
+		)
+		.catch((err) => {
+			console.log('Error creating format:', err);
+			return next(new HttpError(err.errmsg, 422));
+		});
 };
 
 exports.deleteField = (req, res, next) => {

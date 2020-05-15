@@ -41,9 +41,9 @@ const ButtonsCard = (props) => {
 						as={NavLink}
 						to={
 							props.type === 'template' ? (
-								'/plantilla/' + props.id.replace('templates/', '')
+								'/plantilla/' + props.id
 							) : (
-								'/formato/1'
+								'/formato/' + props.id
 							)
 						}
 						exact

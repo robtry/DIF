@@ -10,12 +10,12 @@ const Open = (props) => {
 				{props.label}
 				{props.hint && <Popup content={props.hint} trigger={<Icon circular name="question circle" />} />}
 			</label>
-			{props.type === 'char' && <input type="text" disabled={props.isReview} placeholder={props.placeholder}/>}
-			{props.type === 'varchar' && <textarea disabled={props.isReview} placeholder={props.placeholder}/>}
-			{props.type === 'int' && <input type="number" disabled={props.isReview} placeholder={props.placeholder}/>}
-			{props.type === 'float' && <input type="text" disabled={props.isReview} placeholder={props.placeholder}/>}
-			{props.type === 'date' && <input type="date" disabled={props.isReview} placeholder={props.placeholder}/>}
-			{props.type === 'datetime' && <input type="datetime-local" disabled={props.isReview} placeholder={props.placeholder}/>}
+			{props.type === 'char' && <input type="text" disabled={props.isReview} placeholder={props.placeholder} name={props.name} ref={props.register()} defaultValue={props.default}/>}
+			{props.type === 'varchar' && <textarea disabled={props.isReview} placeholder={props.placeholder} name={props.name} ref={props.register()} defaultValue={props.default}/>}
+			{props.type === 'int' && <input type="number" disabled={props.isReview} placeholder={props.placeholder} name={props.name} ref={props.register()} defaultValue={props.default}/>}
+			{props.type === 'float' && <input type="text" disabled={props.isReview} placeholder={props.placeholder} name={props.name} ref={props.register()} defaultValue={props.default}/>}
+			{props.type === 'date' && <input type="date" disabled={props.isReview} placeholder={props.placeholder} name={props.name} ref={props.register()} defaultValue={props.default}/>}
+			{props.type === 'datetime' && <input type="datetime-local" disabled={props.isReview} placeholder={props.placeholder} name={props.name} ref={props.register()} defaultValue={props.default}/>}
 		</Form.Field>
 	);
 };
@@ -27,6 +27,11 @@ Open.propTypes = {
 	hint: PropTypes.string,
 	isReview: PropTypes.bool,
 	placeholder: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	// id
+	name: PropTypes.string.isRequired,
+	/** Referencia a useForm */
+	register: PropTypes.func.isRequired,
+	default: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default Open;

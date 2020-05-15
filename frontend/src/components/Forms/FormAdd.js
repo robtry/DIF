@@ -1,50 +1,44 @@
 import React from 'react';
-import { Form } from 'semantic-ui-react';
+import { Form, Button, FormGroup } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { useRouteMatch } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 //own
-import SearchBar from '../SearchBar/FastSearch';
-//import axios from '../../util/axios';
+import SearchBar from '../SearchBar/FormatSearch';
+import axios from '../../util/axios';
 
-const AddEditSongsForm = ({ item, refresh, toggle }) => {
+const FormatAddForm = ({ refresh, handleClose }) => {
 	const { register, handleSubmit, errors } = useForm();
+	const location = useRouteMatch();
 
 	const onSubmitHandler = (data) => {
-		//console.log({...data, genres: data.genres.split('\n')});
-		console.log(data);
-		// axios
-		// 	.post(!item ? '/songs/' : '/songs/' + item._id + '/', {...data, genres: data.genres.split('\n')})
-		// 	.then(() => {
-		// 		toggle();
-		// 		refresh();
-		// 	})
-		// 	.catch((err) => console.log(err));
+		//console.log({ ...data, id_nna: location.params.id });
+		axios
+			.post('/formats/', { ...data, id_nna: location.params.id })
+			.then(() => {
+				handleClose();
+				refresh();
+			})
+			.catch((err) => console.log(err));
 	};
-
-	//console.log(item);
-	//console.log(errors);
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmitHandler)} autoComplete="off">
-			<Form.Group>
-				<label>Formato: </label>
-				<SearchBar
-					type="Album"
-					name="id_album"
-					text={item ? item.album.name : null}
-					id={item ? item.album._id : null}
-					errors={errors}
-					register={register}
-				/>
-			</Form.Group>
+			<FormGroup widths="equal">
+				<SearchBar errors={errors} register={register} />
+			</FormGroup>
+			<Button positive icon="checkmark" labelPosition="right" content={'Agregar'} type="submit" floated="right" />
+			<br />
+			<br />
 		</Form>
 	);
 };
 
-AddEditSongsForm.propTypes = {
-	toggle: PropTypes.func.isRequired,
-	item: PropTypes.object,
+FormatAddForm.propTypes = {
+	/** To close the modal */
+	handleClose: PropTypes.func.isRequired,
+	/** Refresher */
 	refresh: PropTypes.func.isRequired
 };
 
-export default AddEditSongsForm;
+export default FormatAddForm;

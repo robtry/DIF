@@ -175,3 +175,28 @@ exports.getByName = (req, res, next) => {
 			res.json(data);
 		});
 };
+
+exports.getNNA = (req, res, next) => {
+	console.log('Getting NNA', req.params.id);
+	try {
+		console.log(ObjectId(req.params.id));
+	} catch (_) {
+		return next(new HttpError('Invalid id', 404));
+	}
+
+	nnaCollection
+		.aggregate([
+			{
+				$match: {
+					_id: ObjectId(req.params.id)
+				}
+			}
+		])
+		.exec((err, data) => {
+			if (err) {
+				console.log(err);
+				return next(new HttpError(err, 404));
+			}
+			res.json(data);
+		});
+};

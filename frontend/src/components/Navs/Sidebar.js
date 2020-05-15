@@ -44,10 +44,10 @@ const SidebarNav = props => {
 					<Icon name='file' />
 					Plantillas
 				</Menu.Item>}
-				<Menu.Item as={NavLink} to="/formatos">
+				{/* <Menu.Item as={NavLink} to="/formatos">
 					<Icon name='file alternate' />
 					Formatos
-				</Menu.Item>
+				</Menu.Item> */}
 			</Sidebar>
 	)
 }

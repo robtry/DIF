@@ -22,11 +22,6 @@ exports.getAllUsers = (req, res, next) => {
 			{
 				$limit: 30
 			},
-			// {
-			// 	$sort: {
-			// 		name: 1
-			// 	}
-			// },
 			{
 				$match: {
 					tipo: {
@@ -156,11 +151,6 @@ exports.getByName = (req, res, next) => {
 			{
 				$limit: 30
 			},
-			// {
-			// 	$sort: {
-			// 		name: 1
-			// 	}
-			// },
 			{
 				$match: {
 					nombre: {

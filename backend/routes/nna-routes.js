@@ -1,6 +1,6 @@
 const express = require('express');
 const { check } = require('express-validator');
-//user
+//nna
 const nnaController = require('../controllers/nna-controller');
 
 const router = express.Router();
@@ -47,6 +47,6 @@ router.post(
 
 router.delete('/:id', nnaController.deleteNNA);
 
-// router.get('/:id', nnaController);
+router.get('/:id', nnaController.getNNA);
 
 module.exports = router;

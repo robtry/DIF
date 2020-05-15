@@ -15,19 +15,19 @@ const MultiValue = (props) => {
 			{props.options.map((option) => {
 				return (
 					<React.Fragment key={option._id}>
-					<div className="ui checkbox">
-						<input
-							type="checkbox"
-							name={props.label}
-							value={option.id}
-							id={option.id}
-							//ref={register}
-							disabled={props.isReview}
-						/>
-						<label htmlFor={option._id}>{option.valor}</label>
-					</div>
-						<br/>
-						</React.Fragment>
+						<div className="ui checkbox">
+							<input
+								type="checkbox"
+								name={props.name}
+								value={option._id}
+								id={option._id}
+								ref={props.register()}
+								disabled={props.isReview}
+							/>
+							<label htmlFor={option._id}>{option.valor}</label>
+						</div>
+						<br />
+					</React.Fragment>
 				);
 			})}
 		</React.Fragment>
@@ -39,7 +39,11 @@ MultiValue.propTypes = {
 	hint: PropTypes.string,
 	isReview: PropTypes.bool,
 	options: PropTypes.arrayOf(PropTypes.object).isRequired,
-	isEditing: PropTypes.bool
+	isEditing: PropTypes.bool,
+	// id
+	name: PropTypes.string.isRequired,
+	/** Referencia a useForm */
+	register: PropTypes.func.isRequired
 };
 
 export default MultiValue;
