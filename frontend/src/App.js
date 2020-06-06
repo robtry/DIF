@@ -27,38 +27,63 @@ import UserHistory from './pages/Users/history';
 // context
 import UserContext from './context/userContext';
 
+import axios from './util/axios';
+
 const App = () => {
 	/** Controla, el **Sidebar**, icono en el **TopNav** y **Dimmer** en App */
 	const [ sideBarVisible, setSideBarVisible ] = useState(false);
 
 	// Controlar el estado del user con el context
-	const [ userIsLoggedIn, setUserIsLoggedIn ] = useState(true); //false
+	const [ userIsAuth, setUserIsAuth ] = useState(true); //false
 	const [ userType, setUserType ] = useState('admin'); //''
+	const [ user, setUser ] = useState(''); //''
+	const [ errorAuth, setErrorAuth ] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(false);
 
 	const authenticateUser = (username, password) => {
-		console.log('iniciando sesion: ', username, password);
-		setUserIsLoggedIn(true);
-		setUserType('admin');
+		//console.log('iniciando sesion: ', username, password);
+		setIsLoading(true);
+		setErrorAuth(false);
+		axios
+			.post('/users/login', { username, password })
+			.then((res) => {
+				console.log(res.data);
+				setUserIsAuth(true);
+				setUserType(res.data.tipo);
+				setIsLoading(false);
+				setUser(res.data);
+			})
+			.catch((err) => {
+				console.log('Login error', err.response);
+				if (err.response && err.response.data.message === 'Log in failed') {
+					setErrorAuth('Log in failed');
+				} else {
+					setErrorAuth(true);
+				}
+				setIsLoading(false);
+			});
 	};
 
-	const endSessionUser = (token) => {
-		console.log('terminando sesion', token);
-		setUserIsLoggedIn(false);
+	const endSessionUser = () => {
+		setUserIsAuth(false);
 		setUserType('');
 	};
 
 	return (
 		<UserContext.Provider
 			value={{
-				userIsLoggedIn: userIsLoggedIn,
-				userType: userType,
+				isAuth: userIsAuth,
+				currentUser: user,
 				isAdmin: userType === 'admin',
-				authUser: authenticateUser,
+				errorInAuth: errorAuth, // already exists, no exists, wrong pass
+				clearError: setErrorAuth,
+				isLoading: isLoading, // when authing
+				logIn: authenticateUser,
 				logOut: endSessionUser
 			}}
 		>
 			<Router>
-				{userIsLoggedIn && (
+				{userIsAuth && (
 					<TopNavbar
 						sideBarStatus={sideBarVisible}
 						toggleSideBar={() => setSideBarVisible((prev) => !prev)}
@@ -68,10 +93,10 @@ const App = () => {
 					<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)} />
 					<Sidebar.Pusher dimmed={sideBarVisible}>
 						<Segment basic className="margin-top-bar">
-							{!userIsLoggedIn && <Redirect to="/" />}
+							{!userIsAuth && <Redirect to="/" />}
 							<Switch>
-								<Route path="/" exact component={userIsLoggedIn ? Dashboard : Authenticate} />
-								<Route path="/profile/:id" exact component={UserProfile} />
+								<Route path="/" exact component={userIsAuth ? Dashboard : Authenticate} />
+								{userIsAuth && <Route path="/profile/:id" exact component={UserProfile} />}
 								{userType === 'admin' && <Route path="/usuarios" exact component={User} />}
 								<Route path="/nnas" exact component={NNAs} /> } />
 								<Route path="/nna/:id" exact component={NNAsHistory} />
@@ -80,7 +105,7 @@ const App = () => {
 								{/* <Route path="/formatos" exact component={Format} /> */}
 								<Route path="/formato/:id" exact component={RUFormat} />
 								<Route path="/historial/:id" exact component={UserHistory} />
-								{userIsLoggedIn && (
+								{userIsAuth && (
 									<Route
 										render={() => (
 											<React.Fragment>

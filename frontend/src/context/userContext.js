@@ -1,9 +1,16 @@
 import React from 'react';
 
 export default React.createContext({
-	userIsLoggedIn: false,
-	userType: '',
+	isAuth: false,
+	currentUser: '',
 	isAdmin: false,
-	authUser: (username, password) => {},
-	logOut: token => {},
+
+	errorInAuth: false, // already exists, no exists, wrong pass
+	clearError: () => {},
+
+	isLoading: false, // when authing
+
+	logIn: (username, password) => {},
+	singUp: (username, password) => {},
+	logOut: () => {}
 });

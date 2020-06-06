@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 // own
 import CrudButton from './_shared/RUD_Button';
 import UserForm from '../Forms/UserForm';
+import ResetModal from '../Modal/ResetModal';
 
 import defaultUserImage from '../../assets/default.png';
+import axios from '../../util/axios';
 /**
  * Es la tabla que se usa para el index de todos los usuarios
  */
@@ -51,42 +53,46 @@ const UserTable = (props) => {
 	};
 
 	return (
-		<Card.Group centered stackable /*itemsPerRow={4}*/>
-			{props.data.map((item) => (
-				<Card key={item._id}>
-					<Card.Content>
-						<Image floated="left" size="mini" src={item.image ? item.image : defaultUserImage} />
-						<Card.Header>{item.nombre}</Card.Header>
-						<Card.Meta>
-							<Icon name={convertToIcon(item.tipo)} />
-							&nbsp; {readable(item.tipo, item.sexo)}
-						</Card.Meta>
-						<br />
-						<Button
-							icon
-							basic
-							color="black"
-							fluid
-							labelPosition="left"
-							as={NavLink}
-							to={'/historial/' + item._id}
-						>
-							Ir al historial
-							<Icon name="history" />
-						</Button>
-					</Card.Content>
-					<Card.Content extra>
-						<CrudButton
-							deletePath={'users/' + item._id}
-							onDelete={item.nombre}
-							onEdit={UserForm}
-							refresh={props.loadData}
-							item={item}
-						/>
-					</Card.Content>
-				</Card>
-			))}
-		</Card.Group>
+		<React.Fragment>
+			<Card.Group centered stackable /*itemsPerRow={4}*/>
+				{props.data.map((item) => (
+					<Card key={item._id}>
+						<Card.Content>
+							<Image floated="left" size="mini" src={item.image ? item.image : defaultUserImage} />
+							<Card.Header>{item.nombre}</Card.Header>
+							<Card.Meta>
+								<Icon name={convertToIcon(item.tipo)} />
+								&nbsp; {readable(item.tipo, item.sexo)}
+							</Card.Meta>
+							<br />
+							<Button
+								icon
+								basic
+								color="black"
+								fluid
+								labelPosition="left"
+								as={NavLink}
+								to={'/historial/' + item._id}
+							>
+								Ir al historial
+								<Icon name="history" />
+							</Button>
+							<br />
+							<ResetModal message={item.username} id={item._id} refresh={props.loadData} />
+						</Card.Content>
+						<Card.Content extra>
+							<CrudButton
+								deletePath={'users/' + item._id}
+								onDelete={item.nombre}
+								onEdit={UserForm}
+								refresh={props.loadData}
+								item={item}
+							/>
+						</Card.Content>
+					</Card>
+				))}
+			</Card.Group>
+		</React.Fragment>
 	);
 };
 

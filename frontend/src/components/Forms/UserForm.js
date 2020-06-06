@@ -91,22 +91,20 @@ const UserForm = (props) => {
 							<label>Username</label>
 							{errors.username && (
 								<Label basic color="red" pointing="below">
-									Se debe proporcionar un username para que el usuario pueda ingresar.
+									Se debe proporcionar un nick para que el usuario pueda ingresar.
 								</Label>
 							)}
 							<input
 								name="username"
 								type="text"
-								maxLength={30}
-								minLength={3}
-								ref={register({ required: true, pattern: /^[^-\s].*/, maxLength: 30, minLength: 3 })}
+								ref={register({ required: true, pattern:  /^\S*$/, maxLength: 30, minLength: 6 })}
 								placeholder="Para que el usuario ingrese"
 								defaultValue={props.item ? props.item.username : ''}
 							/>
 							{errors.username &&
 							errors.username.type === 'minLength' && (
 								<Label basic color="red" pointing="above">
-									El username debe tener al menos de 3 carácteres
+									El username debe tener al menos de 6 carácteres
 								</Label>
 							)}
 							{errors.username &&

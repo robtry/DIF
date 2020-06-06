@@ -9,9 +9,7 @@ const dbConnection = require('./config/keys').mongoURI;
 mongoose
 	.connect(dbConnection, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 	.then(() => {
-		console.log('Connected to the db correctly! :D');
-		//check collections
-		//console.log(Object.keys(mongoose.connection.collections));
+		console.log('Connected to the db correctly!');
 	})
 	.catch((err) => {
 		console.log(`DB connection Error: ${err.message}`);

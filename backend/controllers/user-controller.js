@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const userCollection = require('../models/user-model');
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -21,6 +22,9 @@ exports.getAllUsers = (req, res, next) => {
 			},
 			{
 				$limit: 30
+			},
+			{
+				$project: { password: 0 }
 			},
 			{
 				$match: {
@@ -73,22 +77,30 @@ exports.createUser = (req, res, next) => {
 	}
 
 	const { nombre, tipo, username, sexo } = req.body;
-	const password = username;
 
-	//console.log(nombre, tipo, username, password);
-	new userCollection({ nombre, tipo, username, password, sexo })
-		.save()
-		.then(() => {
-			//console.log(ans);
-			return res.status(201).json({ message: 'complete' });
-		})
-		.catch((err) => {
-			console.log('Error creating user:', err);
-			if (err.errmsg && err.errmsg.includes('E11000 duplicate key error collection')) {
-				return next(new HttpError('username already exists', 422));
+	bcrypt.genSalt(12, function(err, salt) {
+		if (err) {
+			return next(new HttpError('Can not create user', 500));
+		}
+		bcrypt.hash(username, salt, function(err, hash) {
+			if (err) {
+				return next(new HttpError('Can not create user', 500));
 			}
-			return next(new HttpError('Server error', 500));
+			new userCollection({ nombre, tipo, username, password: hash, sexo })
+				.save()
+				.then(() => {
+					//console.log(ans);
+					return res.status(201).json({ message: 'complete' });
+				})
+				.catch((err) => {
+					console.log('Error creating user:', err);
+					if (err.errmsg && err.errmsg.includes('E11000 duplicate key error collection')) {
+						return next(new HttpError('username already exists', 422));
+					}
+					return next(new HttpError('Server error', 500));
+				});
 		});
+	});
 };
 
 exports.updateUser = (req, res, next) => {
@@ -136,13 +148,6 @@ exports.deleteUser = (req, res, next) => {
 	res.json({ message: 'complete' });
 };
 
-const login = (req, res, next) => {
-	console.log('Log in user');
-	const { username, password } = req.body;
-	return next(new HttpError('no log in', 401));
-	res.json({ message: 'complete' });
-};
-
 exports.getByName = (req, res, next) => {
 	console.log('Searching by name');
 	const { name } = req.params;
@@ -150,6 +155,9 @@ exports.getByName = (req, res, next) => {
 		.aggregate([
 			{
 				$limit: 30
+			},
+			{
+				$project: { password: 0 }
 			},
 			{
 				$match: {
@@ -182,6 +190,68 @@ exports.getTotalRegs = (_, res, next) => {
 		});
 };
 
+exports.login = (req, res, next) => {
+	console.log('Loggin user');
+	const { username, password } = req.body;
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return next(new HttpError('Invalid request, check your data', 422));
+	}
+	userCollection.findOne({ username }, (err, user) => {
+		if (err) {
+			return next(new HttpError('Server error', 500));
+		}
+		if (!user) {
+			return next(new HttpError('Log in failed', 422));
+		}
+
+		bcrypt.compare(password, user.password, function(err, result) {
+			if (err) {
+				return next(new HttpError('Server error', 500));
+			}
+
+			if (result) {
+				// was ok
+				return res.json(user);
+			}
+			return next(new HttpError('Log in failed', 422));
+		});
+	});
+};
+
+exports.resetPassword = (req, res, next) => {
+	console.log('resetting user password');
+
+	userCollection.findOne({ _id: ObjectId(req.params.id) }, (err, user) => {
+		if (err) {
+			return next(new HttpError('Server error', 500));
+		}
+		if (!user) {
+			return next(new HttpError('User not found', 422));
+		}
+
+		bcrypt.genSalt(12, function(err, salt) {
+			if (err) {
+				return next(new HttpError('Can not update user', 500));
+			}
+			bcrypt.hash(user.username, salt, function(err, hash) {
+				if (err) {
+					return next(new HttpError('Can not update user', 500));
+				}
+
+				user
+					.update({ $set: { password: hash } })
+					.then(() => {
+						//console.log(ans);
+						return res.json({ message: 'complete' });
+					})
+					.catch((err) => {
+						return next(new HttpError('Server error' + err, 500));
+					});
+			});
+		});
+	});
+};
+
 exports.getUserById = getUserById;
 exports.updateUserPassword = updateUserPassword;
-exports.login = login;

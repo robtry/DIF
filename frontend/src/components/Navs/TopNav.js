@@ -14,8 +14,27 @@ import UserContext from '../../context/userContext';
  */
 
 const TopNav = (props) => {
-	const logOut = useContext(UserContext).logOut;
+	const { logOut, currentUser } = useContext(UserContext);
 	const location = useLocation();
+
+	const readable = (abbreviateName, sex) => {
+		switch (abbreviateName) {
+			case 'admin':
+				return 'Administrador' + (sex === 'm' ? 'a' : '');
+			case 'medico':
+				return 'Médic' + (sex === 'm' ? 'a' : 'o');
+			case 'juridico':
+				return 'Jurídic' + (sex === 'm' ? 'a' : 'o');
+			case 'tsocial':
+				return 'Trabajador' + (sex === 'm' ? 'a' : '') + ' Social';
+			case 'psicologo':
+				return 'Psicológ' + (sex === 'm' ? 'a' : 'o');
+			case 'pedagogo':
+				return 'Pedagog' + (sex === 'm' ? 'a' : 'o');
+			default:
+				console.log('[TopNav.js]: No icon for this user');
+		}
+	};
 
 	return (
 		// si se quita fixed="top", poner secondary
@@ -31,7 +50,7 @@ const TopNav = (props) => {
 			</Menu.Item>
 			<Menu.Item as={NavLink} to="/profile/1" exact>
 				<Image src={defaultUser} avatar />
-				Usuario | Tipo
+				{`${currentUser.nombre} | ${readable(currentUser.tipo, currentUser.sexo)}`}
 			</Menu.Item>
 			<Menu.Menu position="right">
 				<Responsive minWidth={345}>

@@ -13,21 +13,32 @@ router.get('/total/', userController.getTotalRegs);
 router.get('/history/total/', userController.getTotalRegsHistory);
 router.get('/history/:id/:page', userController.getHistoryUser);
 
-router.post('/login', userController.login);
+// login
+router.post(
+	'/login',
+	[ check('username').notEmpty().trim(), check('password').notEmpty().trim().isLength({ min: 6 }) ],
+	userController.login
+);
+router.post('/reset/:id', userController.resetPassword )
 router.patch('/password/:id', userController.updateUserPassword);
 
 // search by name
 router.get('/search/:name', userController.getByName);
 
 //get all
-router.get('/:type/:page', [ check('page').notEmpty().isInt(), check('type').notEmpty().isString() ], userController.getAllUsers);
+router.get(
+	'/:type/:page',
+	[ check('page').notEmpty().isInt(), check('type').notEmpty().isString() ],
+	userController.getAllUsers
+);
+
 // create new user
 router.post(
 	'/',
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('tipo').notEmpty().matches(REXEG_USER_TYPES, 'i'),
-		check('username').notEmpty().trim().isLength({ min: 3, max: 30 }),
+		check('username').notEmpty().trim().isLength({ min: 6, max: 30 }),
 		check('sexo').notEmpty().matches(/^(m|h)$/, 'i')
 	],
 	userController.createUser
