@@ -9,6 +9,7 @@ import defaultImage from '../../assets/defaultNNA.png';
 import NNADetails from '../../components/Details/NNADetails';
 import NotFound from '../NotFound';
 
+const fileServer = process.env.REACT_APP_SERVER;
 /**
  * Child details
 */
@@ -42,8 +43,10 @@ const History = (props) => {
 			) : (
 				<React.Fragment>
 					<Item.Group className="center-item">
+						<br/>
+						<br/>
 						<Item>
-							<Item.Image size="tiny" src={item && item.image ? item.image : defaultImage} />
+							<Item.Image size="small" src={item && item.image ? fileServer + item.image : defaultImage} />
 							<Item.Content verticalAlign="middle">
 								<Item.Header>{`${item ? item.nombre : ''} ${item ? item.app : ''} ${item
 									? item.apm
@@ -52,9 +55,7 @@ const History = (props) => {
 						</Item>
 					</Item.Group>
 					<NNADetails item={item ? item : {}} />
-
 					<FormatPage />
-
 				</React.Fragment>
 			)}
 		</Container>

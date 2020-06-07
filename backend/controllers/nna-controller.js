@@ -2,7 +2,10 @@ const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const nnaCollection = require('../models/nna-model');
 const mongoose = require('mongoose');
+const path = require('path');
 const ObjectId = mongoose.Types.ObjectId;
+
+const finaluploadsPath = process.env.UPLOADS_PATH;
 
 exports.getAllNNAs = (req, res, next) => {
 	console.log('Getting all nnas!');
@@ -60,12 +63,27 @@ exports.getAllNNAs = (req, res, next) => {
 		});
 };
 
-exports.createNNA = (req, res, next) => {
+exports.createNNA = async (req, res, next) => {
 	console.log('Creating NNA');
+
+	const imagePic = req.files.image;
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(new HttpError('Invalid request, check your data', 422));
+	}
+
+	if (imagePic) {
+		if (
+			!(
+				imagePic.mimetype === 'image/jpeg' ||
+				imagePic.mimetype === 'image/jpg' ||
+				imagePic.mimetype === 'image/png'
+			) ||
+			imagePic.name.indexOf(' ') !== -1
+		) {
+			return next(new HttpError('The image format or name is wrong', 422));
+		}
 	}
 
 	const { nombre, app, apm, expediente, sexo, fecha_nacimiento } = req.body;
@@ -73,7 +91,7 @@ exports.createNNA = (req, res, next) => {
 	const estatus = 'in';
 
 	//console.log(nombre, tipo, username, password);
-	new nnaCollection({
+	const nna = new nnaCollection({
 		expediente,
 		nombre,
 		app,
@@ -82,7 +100,16 @@ exports.createNNA = (req, res, next) => {
 		sexo,
 		fecha_ingreso,
 		estatus
-	})
+	});
+
+	if (imagePic) {
+		const uploadsPath = path.join(path.resolve(finaluploadsPath), nna.id);
+		const filepath = path.join(uploadsPath, `main.${imagePic.name.split('.')[1]}`);
+		await imagePic.mv(filepath);
+		nna.image = filepath;
+	}
+
+	nna
 		.save()
 		.then(
 			(/*ans*/) => {
@@ -96,14 +123,36 @@ exports.createNNA = (req, res, next) => {
 		});
 };
 
-exports.updateNNA = (req, res, next) => {
+exports.updateNNA = async (req, res, next) => {
 	console.log('Updating NNA...', req.params.id);
+
+	const imagePic = req.files.image;
+
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(new HttpError('Invalid request, check your data', 422));
 	}
+	if (imagePic) {
+		if (
+			!(
+				imagePic.mimetype === 'image/jpeg' ||
+				imagePic.mimetype === 'image/jpg' ||
+				imagePic.mimetype === 'image/png'
+			) ||
+			imagePic.name.indexOf(' ') !== -1
+		) {
+			return next(new HttpError('The image format or name is wrong', 422));
+		}
+	}
 
 	const { nombre, app, apm, expediente, sexo, fecha_nacimiento } = req.body;
+
+	let filepath;
+	if (imagePic) {
+		const uploadsPath = path.join(path.resolve(finaluploadsPath), req.params.id);
+		filepath = path.join(uploadsPath, `main.${imagePic.name.split('.')[1]}`);
+		await imagePic.mv(filepath);
+	}
 
 	nnaCollection.updateOne(
 		{ _id: ObjectId(req.params.id) },
@@ -114,7 +163,8 @@ exports.updateNNA = (req, res, next) => {
 				apm,
 				expediente,
 				sexo,
-				fecha_nacimiento
+				fecha_nacimiento,
+				image: imagePic ? filepath : ''
 			}
 		},
 		(err) => {

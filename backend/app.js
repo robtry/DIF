@@ -1,7 +1,9 @@
 const express = require('express');
+const path = require('path')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const fileUpload = require('express-fileupload');
 const HttpError = require('./models/http-error');
 
 // connect db
@@ -25,10 +27,20 @@ const formatRoutes = require('./routes/format-routes');
 const app = express();
 
 // set up middlewares
+const finaluploadsPath = process.env.UPLOADS_PATH;
 // - general
 app.use(cors());
 app.use(bodyParser.json());
+app.use(
+	fileUpload({
+		useTempFiles: true,
+		tempFileDir: '/tmp',
+		preserveExtension: true,
+		createParentPath: true
+	})
+);
 // - routes
+app.use(finaluploadsPath, express.static(path.resolve(finaluploadsPath)));
 app.use('/users/', userRoutes);
 app.use('/nnas/', nnaRoutes);
 app.use('/templates/', templateRoutes);

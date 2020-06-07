@@ -21,7 +21,7 @@ const NNADetails = ({ item }) => {
 				<Table.Row>
 					<Table.Cell>Fecha de nacimiento</Table.Cell>
 					<Table.Cell>
-						<b>{item.fecha_nacimiento}</b>
+						<b>{item.fecha_nacimiento ? item.fecha_nacimiento.split('T')[0] : ''}</b>
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row>

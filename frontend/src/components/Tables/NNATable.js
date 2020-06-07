@@ -10,6 +10,7 @@ import NNAForm from '../Forms/NNAForm';
 
 import defaultImage from '../../assets/defaultNNA.png';
 
+const fileServer = process.env.REACT_APP_SERVER;
 /**
  * Es la tabla que se muestra los NNAs
 */
@@ -20,7 +21,7 @@ const NNATable = (props) => {
 			{props.data.map((item) => {
 				return (
 					<Item key={item._id}>
-						<Item.Image size="tiny" src={item.image ? item.image : defaultImage} />
+						<Item.Image size="tiny" src={item.image ? fileServer + item.image : defaultImage} />
 						<Item.Content>
 							<Item.Header>
 								{item.nombre} {item.app} {item.apm}

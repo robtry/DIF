@@ -15,9 +15,20 @@ const NNAForm = (props) => {
 
 	const onSubmitHandler = (data) => {
 		console.log('NNAForm', data);
+		//return;
+		let fd = new FormData();
+
+		fd.append('nombre', data.nombre);
+		fd.append('app', data.app);
+		fd.append('apm', data.apm);
+		fd.append('expediente', data.expediente);
+		fd.append('sexo', data.sexo);
+		fd.append('fecha_nacimiento', data.fecha_nacimiento);
+		fd.append('image', data.image[0], data.image[0].name.replace(/\s/g, ''));
+
 		setIsPosting(true);
 		axios
-			.post(props.item ? '/nnas/' + props.item._id : '/nnas/', data)
+			.post(props.item ? '/nnas/' + props.item._id : '/nnas/', fd)
 			.then(() => {
 				//console.log('UserForm', res);
 				setIsPosting(false);
@@ -68,16 +79,18 @@ const NNAForm = (props) => {
 					<Form.Group widths="equal">
 						<Form.Field required>
 							<label> Expediente </label>
-							{errors.exp &&
-							errors.exp.type === 'required' && (
+							{errors.expediente && (
 								<Label basic color="red" pointing="below">
-									Para agregar un NNA se requiere un expediente
+									{errors.expediente.message}
 								</Label>
 							)}
 							<input
 								type="text"
 								name="expediente"
-								ref={register({ required: true, maxLength: 100 })}
+								ref={register({
+									required: 'Para agregar un NNA se requiere un expediente',
+									maxLength: { value: 100, message: 'El expediente es muy largo' }
+								})}
 								defaultValue={props.item ? props.item.expediente : ''}
 							/>
 						</Form.Field>
@@ -94,7 +107,9 @@ const NNAForm = (props) => {
 								ref={register({ required: true })}
 								name="fecha_nacimiento"
 								defaultValue={
-									props.item ? new Date(props.item.fecha_nacimiento).toISOString().substr(0, 10) : null
+									props.item ? (
+										new Date(props.item.fecha_nacimiento).toISOString().substr(0, 10)
+									) : null
 								}
 							/>
 						</Form.Field>
@@ -109,12 +124,25 @@ const NNAForm = (props) => {
 							<select
 								name="sexo"
 								ref={register({ required: true })}
-								defaultValue={ props.item ? props.item.sexo : '' }
+								defaultValue={props.item ? props.item.sexo : ''}
 							>
 								<option value="">--seleccione--</option>
 								<option value="m">Femenino</option>
 								<option value="h">Masculino</option>
 							</select>
+						</Form.Field>
+					</Form.Group>
+
+					<Form.Group>
+						<Form.Field>
+							<label>Foto</label>
+							<input
+								name="image"
+								type="file"
+								accept=".jpg,.png,.jpeg"
+								ref={register()}
+								multiple={false}
+							/>
 						</Form.Field>
 					</Form.Group>
 
