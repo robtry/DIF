@@ -36,7 +36,7 @@ const App = () => {
 	// Controlar el estado del user con el context
 	const [ userIsAuth, setUserIsAuth ] = useState(true); //false
 	const [ userType, setUserType ] = useState('admin'); //''
-	const [ user, setUser ] = useState(''); //''
+	const [ user, setUser ] = useState({ _id: '5edc06381b5af10ded22c67e', nombre: 'rob', tipo: 'admin', username:'roberto' }); //''
 	const [ errorAuth, setErrorAuth ] = useState(false);
 	const [ isLoading, setIsLoading ] = useState(false);
 
@@ -96,9 +96,9 @@ const App = () => {
 							{!userIsAuth && <Redirect to="/" />}
 							<Switch>
 								<Route path="/" exact component={userIsAuth ? Dashboard : Authenticate} />
-								{userIsAuth && <Route path="/profile/:id" exact component={UserProfile} />}
+								{userIsAuth && <Route path="/perfil/:id" exact component={UserProfile} />}
 								{userType === 'admin' && <Route path="/usuarios" exact component={User} />}
-								<Route path="/nnas" exact component={NNAs} /> } />
+								<Route path="/nnas" exact component={NNAs} />
 								<Route path="/nna/:id" exact component={NNAsHistory} />
 								{userType === 'admin' && <Route path="/plantillas" exact component={Templates} />}
 								{userType === 'admin' && <Route path="/plantilla/:id" exact component={CUTemplate} />}

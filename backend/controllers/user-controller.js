@@ -43,9 +43,9 @@ exports.getAllUsers = (req, res, next) => {
 		});
 };
 
-const getUserById = (req, res, next) => {
+exports.getUserById = (req, res, next) => {
 	console.log('Get User By Id | Profile');
-	console.log(req.params);
+	console.log(req.params.id);
 	return next(new HttpError('not found', 404));
 };
 
@@ -131,10 +131,53 @@ exports.updateUser = (req, res, next) => {
 	);
 };
 
-const updateUserPassword = (req, res, next) => {
-	console.log('UpdatingPassword', req.params.id);
-	const { password } = req.body;
-	res.json({ message: 'complete' });
+exports.updateUserPassword = (req, res, next) => {
+	console.log('Updating Password', req.params.id);
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return next(new HttpError('Invalid request, check your data', 422));
+	}
+	const { current_password, new_password } = req.body;
+
+	userCollection.findOne({ _id: ObjectId(req.params.id) }, (err, user) => {
+		if (err) {
+			return next(new HttpError('Server error', 500));
+		}
+		if (!user) {
+			return next(new HttpError('Bad user id', 422));
+		}
+
+		bcrypt.compare(current_password, user.password, function(err, result) {
+			if (err) {
+				return next(new HttpError('Server error', 500));
+			}
+			if (result) {
+				// was ok
+				bcrypt.genSalt(12, function(err, salt) {
+					if (err) {
+						return next(new HttpError('Can not update user', 500));
+					}
+					bcrypt.hash(new_password, salt, function(err, hash) {
+						if (err) {
+							return next(new HttpError('Can not update user', 500));
+						}
+						user
+							.update({ $set: { password: hash } })
+							.then(() => {
+								//console.log(ans);
+								return res.status(201).json({ message: 'complete' });
+							})
+							.catch((err) => {
+								return next(new HttpError('Server error', 500));
+							});
+					});
+				});
+			} else {
+				return next(new HttpError('Password not match', 422));
+			}
+		});
+	});
+
 };
 
 exports.deleteUser = (req, res, next) => {
@@ -252,6 +295,3 @@ exports.resetPassword = (req, res, next) => {
 		});
 	});
 };
-
-exports.getUserById = getUserById;
-exports.updateUserPassword = updateUserPassword;

@@ -16,11 +16,22 @@ router.get('/history/:id/:page', userController.getHistoryUser);
 // login
 router.post(
 	'/login',
-	[ check('username').notEmpty().trim(), check('password').notEmpty().trim().isLength({ min: 6 }) ],
+	[ check('username').notEmpty().trim(), check('password').notEmpty().trim().isLength({ min: 6, max: 30 }) ],
 	userController.login
 );
-router.post('/reset/:id', userController.resetPassword )
-router.patch('/password/:id', userController.updateUserPassword);
+
+// reset password
+router.post('/reset/:id', userController.resetPassword);
+
+// update password
+router.post(
+	'/password/:id',
+	[
+		check('current_password').notEmpty().isLength({ min: 6, max: 30 }),
+		check('new_password').notEmpty().isLength({ min: 6, max: 30 })
+	],
+	userController.updateUserPassword
+);
 
 // search by name
 router.get('/search/:name', userController.getByName);

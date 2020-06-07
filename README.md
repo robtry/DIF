@@ -89,7 +89,7 @@ POST: /nnas/
 
 ## ToDo
 
-- [ ] min/max lenght for users for pass
+- [ ] participations for users
 - [ ] requiried all for props in format card
 - [ ] add is required in forms
 - [ ] cath no foud errors in get one

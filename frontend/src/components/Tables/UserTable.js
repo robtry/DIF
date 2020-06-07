@@ -8,7 +8,6 @@ import UserForm from '../Forms/UserForm';
 import ResetModal from '../Modal/ResetModal';
 
 import defaultUserImage from '../../assets/default.png';
-import axios from '../../util/axios';
 /**
  * Es la tabla que se usa para el index de todos los usuarios
  */

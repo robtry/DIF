@@ -48,7 +48,7 @@ const TopNav = (props) => {
 					<Icon name={props.sideBarStatus ? 'close' : 'bars'} />
 				</Button>
 			</Menu.Item>
-			<Menu.Item as={NavLink} to="/profile/1" exact>
+			<Menu.Item as={NavLink} to={`/perfil/${currentUser._id}`} exact>
 				<Image src={defaultUser} avatar />
 				{`${currentUser.nombre} | ${readable(currentUser.tipo, currentUser.sexo)}`}
 			</Menu.Item>

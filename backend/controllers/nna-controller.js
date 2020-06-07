@@ -179,7 +179,7 @@ exports.getByName = (req, res, next) => {
 exports.getNNA = (req, res, next) => {
 	console.log('Getting NNA', req.params.id);
 	try {
-		console.log(ObjectId(req.params.id));
+		ObjectId(req.params.id);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}

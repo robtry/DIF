@@ -19,7 +19,7 @@ const UserForm = (props) => {
 
 	//handle edit or create
 	const onSubmitHandler = (data) => {
-		console.log('UserForm', data);
+		//console.log('UserForm', data);
 		setIsPosting(true);
 		setUserExists(false);
 		axios

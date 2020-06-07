@@ -67,19 +67,26 @@ const AuthPage = () => {
 									/>
 								</Form.Field>
 								<Form.Field required>
-									{errors.password &&
-									errors.password.type === 'required' && (
+									{errors.password && (
 										<Message negative>
 											<Message.Header>Campo requerido</Message.Header>
-											<p> Por favor ingrese su contraseña </p>
+											<p> {errors.password.message} </p>
 										</Message>
 									)}
 									<label>Contraseña</label>
 									<input
 										placeholder="password"
-										ref={register({ required: true })}
+										ref={register({
+											required: 'Por favor ingrese su contraseña',
+											maxLength: { value: 30, message: 'La contraseña es muy larga' },
+											minLength: {
+												value: 6,
+												message: 'La contraseña debe tener al menos 6 carácteres'
+											}
+										})}
 										name="password"
 										type="password"
+										autoComplete="on"
 									/>
 								</Form.Field>
 								<Button basic color="teal" type="submit">
