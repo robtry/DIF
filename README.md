@@ -97,6 +97,4 @@ POST: /nnas/
 - [ ] update de child, update formato
 - [ ] historial se borra cada 30 dias
 - [ ] participaciones cada año
-- [ ] upload files
-- [ ] arreglar lo de las fuentes(cuando es constante) en formas preview y template preview
-- [ ] ver lo de subir archivos
+- [ ] index for fields in template

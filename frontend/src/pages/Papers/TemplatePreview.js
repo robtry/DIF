@@ -26,9 +26,27 @@ const TemplatePreview = ({ item, isFormatMode }) => {
 	const [ visible, setVisible ] = useState(false);
 
 	const onSubmitHandler = (data) => {
-		console.log(data);
+		const fd = new FormData();
+		const dataKeys = Object.keys(data);
+		for (let i = 0; i < dataKeys.length; i++) {
+			//console.log('appending', dataKeys[i], data[dataKeys[i]]);
+			if (data[dataKeys[i]] instanceof FileList) {
+				//is file
+				if (data[dataKeys[i]][0] && data[dataKeys[i]][0].name) {
+					console.log('file');
+					fd.append(dataKeys[i], data[dataKeys[i]][0], data[dataKeys[i]][0].name.replace(/\s/g, ''));
+				}
+			} else if (data[dataKeys[i]] instanceof Array) {
+				console.log('array');
+				fd.append(dataKeys[i], JSON.stringify(data[dataKeys[i]]));
+			} else {
+				console.log('normal');
+				fd.append(dataKeys[i], data[dataKeys[i]]);
+			}
+		}
+		//return;
 		axios
-			.post('formats/' + location.params.id, data)
+			.post('formats/' + location.params.id, fd)
 			.then(() => {
 				if (isFormatMode) {
 					setVisible(true);
@@ -113,17 +131,19 @@ const TemplatePreview = ({ item, isFormatMode }) => {
 							if (c.tipo === 'archivo') {
 								return (
 									// <p key={c._id}>file proximamente</p>
-									<File
-										key={c._id}
-										label={c.nombre}
-										isReview={!isFormatMode}
-										name={c._id}
-										register={register}
-									/>
+									<React.Fragment key={c._id}>
+										<br />
+										<File
+											label={c.nombre}
+											isReview={!isFormatMode}
+											name={c._id}
+											register={register}
+										/>
+									</React.Fragment>
 								);
 							}
 							//const
-							return <Consistent label={c.nombre} value={`[${c.fuente}]`} key={c._id} />;
+							return <Consistent label={c.nombre} value={item.nna[c.fuente]} key={c._id} />;
 						})
 					) : (
 						<Loader />

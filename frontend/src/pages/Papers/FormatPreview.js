@@ -32,7 +32,7 @@ const FormatPreview = (props) => {
 							<Constant
 								label={c.nombre}
 								file={fileServer + c.respuesta}
-								value={c.respuesta ? c.respuesta : ''}
+								value={typeof c.respuesta !== 'object'}
 								key={c._id}
 							/>
 						);
