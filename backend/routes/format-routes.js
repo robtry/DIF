@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const formatController = require('../controllers/format-controller');
 const answerController = require('../controllers/answer-controller');
-const { REXEG_USER_TYPES } = require('../models/userTypes');
+//const { REXEG_USER_TYPES } = require('../models/userTypes');
 
 const router = express.Router();
 

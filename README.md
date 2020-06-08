@@ -94,10 +94,9 @@ POST: /nnas/
 - [ ] add is required in forms
 - [ ] cath no foud errors in get one
 - [ ] borrados en cascada
-- [ ] recuperar en cascada
 - [ ] update de child, update formato
 - [ ] historial se borra cada 30 dias
 - [ ] participaciones cada año
-- [ ] cambiar nombre de las colecciones
-- [ ] update nombre de formats cuando se updatea template
 - [ ] upload files
+- [ ] arreglar lo de las fuentes(cuando es constante) en formas preview y template preview
+- [ ] ver lo de subir archivos

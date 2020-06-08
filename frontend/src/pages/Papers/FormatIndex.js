@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Header, Grid } from 'semantic-ui-react';
-import { useRouteMatch } from 'react-router-dom';
 //own
 import Table from '../../components/Tables/Papers/FormatTable';
 import Pagination from '../../components/UI/Pagination';
@@ -17,11 +16,10 @@ import New from '../../components/Modal/_CUModal';
 const Formats = (props) => {
 	// type of current table
 	const [ types, setTypes ] = useState('all');
-	const location = useRouteMatch();
 
 	const { data, isLoading, loadData, totalPages, isLoadingPages, isSearching, searchByName } = useFetch(
 		'formats',
-		types + '/' + location.params.id + '/'
+		types + '/' + props.idNNA + '/'
 	);
 
 	return (
@@ -44,7 +42,7 @@ const Formats = (props) => {
 				<Grid.Row centered>
 					<Grid.Column>
 						<IndexSearch
-							extraID={location.params.id}
+							extraID={props.idNNA}
 							searcher={searchByName}
 							type="formats"
 							reloader={loadData}
@@ -58,7 +56,7 @@ const Formats = (props) => {
 
 			<div style={{ marginTop: '30px' }} />
 
-			{isLoading ? <Loader /> : data.length === 0 ? <NoRegs /> : <Table data={data} loadData={loadData} />}
+			{isLoading ? <Loader /> : data.length === 0 ? <NoRegs /> : <Table data={data} loadData={loadData} nna={props.nna}/>}
 
 			<div style={{ marginBottom: '150px' }} />
 		</React.Fragment>

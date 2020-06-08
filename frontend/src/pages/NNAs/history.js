@@ -10,6 +10,7 @@ import NNADetails from '../../components/Details/NNADetails';
 import NotFound from '../NotFound';
 
 const fileServer = process.env.REACT_APP_SERVER;
+
 /**
  * Child details
 */
@@ -55,7 +56,7 @@ const History = (props) => {
 						</Item>
 					</Item.Group>
 					<NNADetails item={item ? item : {}} />
-					<FormatPage />
+					<FormatPage idNNA={props.match.params.id} nna={item}/>
 				</React.Fragment>
 			)}
 		</Container>

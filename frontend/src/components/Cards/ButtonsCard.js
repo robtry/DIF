@@ -21,8 +21,10 @@ const ButtonsCard = (props) => {
 					Imprimir
 				</Button> */}
 				<OnShow
+					title={props.type === 'template' ? props.item.nombre : props.item._id.plantilla.nombre }
 					item={props.item}
 					Body={props.type === 'template' ? TemplatePreview : FormatPreview}
+					nna={props.nna}
 				/>
 				{isAdmin && ( //other types
 					// <Button

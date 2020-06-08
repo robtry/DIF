@@ -66,7 +66,7 @@ const TemplateInitForm = (props) => {
 								<option value="juridico">Jurídico</option>
 								<option value="tsocial">Trabajo Social</option>
 								<option value="psicologo">Psicólogico</option>
-								<option value="pedagogico">Pedagógico</option>
+								<option value="pedagogo">Pedagógico</option>
 							</select>
 						</Form.Field>
 					</Form.Group>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import dateTime from 'date-time';
 //own
 import defaultUser from '../../assets/default.png';
 //context
@@ -11,18 +10,20 @@ const FormatCard = (props) => {
 	return (
 		<Card>
 			<Card.Content>
-				<Card.Header>{props.item.plantilla.nombre}</Card.Header>
-				<Card.Meta>Creado: {dateTime(new Date(props.item.fecha_creacion)).split(' ')[0]}</Card.Meta>
-				<Card.Meta>Actualizado: {dateTime(new Date(props.item.ultima_actualizacion))}</Card.Meta>
+				<Card.Header>{props.item._id.plantilla.nombre}</Card.Header>
+				<Card.Meta>Creado: {new Date(props.item._id.fecha_creacion).toLocaleDateString('es')}</Card.Meta>
+				<Card.Meta>Actualizado: {new Date(props.item._id.ultima_actualizacion).toLocaleString('es')}</Card.Meta>
 				<Card.Description>
-					<Label as="a" image>
-						<img src={defaultUser} alt="usr-pic-profile" />
-						Stevie
-					</Label>
+					{props.item.participaciones.map((usr) => (
+						<Label as="a" image key={usr._id}>
+							<img src={defaultUser} alt="usr-pic-profile" />
+							{usr.nombre}
+						</Label>
+					))}
 				</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<ButtonsCard type="format" id={props.item._id} item={props.item} />
+				<ButtonsCard type="format" id={props.item._id._id} item={props.item} nna={props.nna}/>
 			</Card.Content>
 		</Card>
 	);

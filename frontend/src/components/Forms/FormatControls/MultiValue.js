@@ -13,6 +13,10 @@ const MultiValue = (props) => {
 			</Form.Field>
 
 			{props.options.map((option) => {
+				let shouldBeChecked;
+				if (props.default) {
+					shouldBeChecked = props.default.find(o => o === option._id)
+				}
 				return (
 					<React.Fragment key={option._id}>
 						<div className="ui checkbox">
@@ -23,6 +27,7 @@ const MultiValue = (props) => {
 								id={option._id}
 								ref={props.register()}
 								disabled={props.isReview}
+								defaultChecked={!!shouldBeChecked}
 							/>
 							<label htmlFor={option._id}>{option.valor}</label>
 						</div>
@@ -43,7 +48,8 @@ MultiValue.propTypes = {
 	// id
 	name: PropTypes.string.isRequired,
 	/** Referencia a useForm */
-	register: PropTypes.func.isRequired
+	register: PropTypes.func.isRequired,
+	default: PropTypes.array.isRequired
 };
 
 export default MultiValue;

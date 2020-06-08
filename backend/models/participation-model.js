@@ -6,4 +6,4 @@ const participationSchema = new Schema({
 	id_usuario: { type: Schema.Types.ObjectId, required: true },
 });
 
-module.exports = mongoose.model('particiciones', participationSchema);
+module.exports = mongoose.model('participaciones', participationSchema);

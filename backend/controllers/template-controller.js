@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const templateCollection = require('../models/template-model');
+const fieldCollction = require('../models/field-model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -78,6 +79,14 @@ exports.getAllTemplates = (req, res, next) => {
 						$regex: type === 'all' ? '.*' : type
 					}
 				}
+			},
+			{
+				$lookup: {
+					from: 'campos',
+					localField: '_id',
+					foreignField: 'id_plantilla',
+					as: 'campos'
+				}
 			}
 		])
 		.exec((err, data) => {
@@ -136,8 +145,10 @@ exports.getByName = (req, res, next) => {
 		});
 };
 
-exports.deleteTemplate = (req, res, next) => {
+exports.deleteTemplate = async (req, res, next) => {
 	console.log('Delete Template', req.params.id);
+
+	await fieldCollction.deleteMany({ id_plantilla: ObjectId(req.params.id) }).exec();
 
 	templateCollection.deleteOne({ _id: ObjectId(req.params.id) }, (err) => {
 		if (err) {

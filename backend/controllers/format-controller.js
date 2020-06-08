@@ -2,51 +2,48 @@ const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const formatCollection = require('../models/format-model');
 const historyCollection = require('../models/history-model');
-const paticipationCollection = require('../models/participation-model');
+const participationCollection = require('../models/participation-model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
-exports.createFormat = (req, res, next) => {
-	console.log('Creating formart');
+exports.createFormat = async (req, res, next) => {
+	console.log('Creating format');
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(new HttpError('Invalid request, check your data', 422));
 	}
 
-	const { id_plantilla, id_nna } = req.body;
+	let { id_plantilla, id_nna, id_user } = req.body;
 
 	try {
-		console.log(ObjectId(id_nna));
-		console.log(ObjectId(id_plantilla));
+		id_nna = ObjectId(id_nna);
+		id_plantilla = ObjectId(id_plantilla);
+		id_user = ObjectId(id_user);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}
 
-	const fecha_creacion = new Date();
-	const ultima_actualizacion = new Date();
-
-	new formatCollection({
-		id_nna: ObjectId(id_nna),
-		id_plantilla: ObjectId(id_plantilla),
-		ultima_actualizacion,
-		fecha_creacion
-	})
-		.save()
-		.then(
-			(/*ans*/) => {
-				//console.log('Complete', ans);
-				return res.status(201).json({ message: 'complete' });
-			}
-		)
-		.catch((err) => {
-			console.log('Error creating format:', err);
-			return next(new HttpError(err.errmsg, 422));
-		});
+	try {
+		const formato = await new formatCollection({
+			id_nna,
+			id_plantilla
+		}).save();
+		await new participationCollection({ id_formato: formato._id, id_usuario: id_user }).save();
+		await new historyCollection({
+			id_formato: formato._id,
+			id_usuario: id_user,
+			accion: 'creó'
+		}).save();
+		return res.status(201).json({ message: 'complete' });
+	} catch (err) {
+		console.log('Error creating format:', err);
+		return next(new HttpError(err.errmsg, 422));
+	}
 };
 
 exports.getAllFormatsForNNA = (req, res, next) => {
-	console.log('Getting Alllll Formats');
+	console.log('Getting All Formats for NNA');
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -56,19 +53,14 @@ exports.getAllFormatsForNNA = (req, res, next) => {
 	const { type, page, id_nna } = req.params;
 
 	try {
-		console.log(ObjectId(id_nna));
+		//console.log(ObjectId(id_nna));
+		ObjectId(id_nna);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}
 
 	formatCollection
 		.aggregate([
-			{
-				$skip: (page - 1) * 30
-			},
-			{
-				$limit: 30
-			},
 			{
 				$lookup: {
 					from: 'plantillas',
@@ -84,20 +76,10 @@ exports.getAllFormatsForNNA = (req, res, next) => {
 				}
 			},
 			{
-				$lookup: {
-					from: 'campos',
-					localField: 'id_plantilla',
-					foreignField: 'id_plantilla',
-					as: 'campos'
-				}
+				$skip: (page - 1) * 30
 			},
 			{
-				$lookup: {
-					from: 'respuestas',
-					localField: '_id',
-					foreignField: 'id_formato',
-					as: 'respuestas'
-				}
+				$limit: 30
 			},
 			{
 				$match: {
@@ -105,6 +87,76 @@ exports.getAllFormatsForNNA = (req, res, next) => {
 						$regex: type === 'all' ? '.*' : type
 					},
 					id_nna: ObjectId(id_nna)
+				}
+			},
+			{
+				$lookup: {
+					from: 'campos',
+					localField: 'id_plantilla',
+					foreignField: 'id_plantilla',
+					as: 'campo'
+				}
+			},
+			{
+				$unwind: {
+					path: '$campo',
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 'respuestas',
+					let: { id: '$_id', campo: '$campo' },
+					pipeline: [
+						{ $match: { $expr: { $eq: [ '$id_formato', '$$id' ] } } },
+						{ $match: { $expr: { $eq: [ '$id_campo', '$$campo._id' ] } } }
+					],
+					as: 'respuesta'
+				}
+			},
+			{
+				$unwind: {
+					path: '$respuesta',
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$addFields: {
+					'campo.respuesta': '$respuesta.respuesta'
+				}
+			},
+			{
+				$group: {
+					_id: {
+						_id: '$_id',
+						fecha_creacion: '$fecha_creacion',
+						ultima_actualizacion: '$ultima_actualizacion',
+						plantilla: '$plantilla'
+					},
+					campos: {
+						$push: '$campo'
+					}
+				}
+			},
+			{
+				$lookup: {
+					from: 'participaciones',
+					localField: '_id._id',
+					foreignField: 'id_formato',
+					as: 'participacionestemp'
+				}
+			},
+			{
+				$lookup: {
+					from: 'usuarios',
+					localField: 'participacionestemp.id_usuario',
+					foreignField: '_id',
+					as: 'participaciones'
+				}
+			},
+			{
+				$project: {
+					participacionestemp: 0
 				}
 			}
 		])
@@ -152,6 +204,76 @@ exports.getByName = (req, res, next) => {
 						$regex: '(?i)' + name
 					},
 					id_nna: ObjectId(id_nna)
+				}
+			},
+			{
+				$lookup: {
+					from: 'campos',
+					localField: 'id_plantilla',
+					foreignField: 'id_plantilla',
+					as: 'campo'
+				}
+			},
+			{
+				$unwind: {
+					path: '$campo',
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 'respuestas',
+					let: { id: '$_id', campo: '$campo' },
+					pipeline: [
+						{ $match: { $expr: { $eq: [ '$id_formato', '$$id' ] } } },
+						{ $match: { $expr: { $eq: [ '$id_campo', '$$campo._id' ] } } }
+					],
+					as: 'respuesta'
+				}
+			},
+			{
+				$unwind: {
+					path: '$respuesta',
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$addFields: {
+					'campo.respuesta': '$respuesta.respuesta'
+				}
+			},
+			{
+				$group: {
+					_id: {
+						_id: '$_id',
+						fecha_creacion: '$fecha_creacion',
+						ultima_actualizacion: '$ultima_actualizacion',
+						plantilla: '$plantilla'
+					},
+					campos: {
+						$push: '$campo'
+					}
+				}
+			},
+			{
+				$lookup: {
+					from: 'participaciones',
+					localField: '_id._id',
+					foreignField: 'id_formato',
+					as: 'participacionestemp'
+				}
+			},
+			{
+				$lookup: {
+					from: 'usuarios',
+					localField: 'participacionestemp.id_usuario',
+					foreignField: '_id',
+					as: 'participaciones'
+				}
+			},
+			{
+				$project: {
+					participacionestemp: 0
 				}
 			}
 		])
@@ -215,15 +337,63 @@ exports.getOneFormat = (req, res, next) => {
 					from: 'campos',
 					localField: 'id_plantilla',
 					foreignField: 'id_plantilla',
-					as: 'campos'
+					as: 'campo'
+				}
+			},
+			{
+				$unwind: {
+					path: '$campo',
+					preserveNullAndEmptyArrays: true
 				}
 			},
 			{
 				$lookup: {
 					from: 'respuestas',
-					localField: '_id',
-					foreignField: 'id_formato',
-					as: 'respuestas'
+					let: { id: '$_id', campo: '$campo' },
+					pipeline: [
+						{ $match: { $expr: { $eq: [ '$id_formato', '$$id' ] } } },
+						{ $match: { $expr: { $eq: [ '$id_campo', '$$campo._id' ] } } }
+					],
+					as: 'respuesta'
+				}
+			},
+			{
+				$unwind: {
+					path: '$respuesta',
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$addFields: {
+					'campo.respuesta': '$respuesta.respuesta'
+				}
+			},
+			{
+				$group: {
+					_id: {
+						_id: '$_id',
+						fecha_creacion: '$fecha_creacion',
+						ultima_actualizacion: '$ultima_actualizacion',
+						plantilla: '$plantilla',
+						id_nna: '$id_nna'
+					},
+					campos: {
+						$push: '$campo'
+					}
+				}
+			},
+			{
+				$lookup: {
+					from: 'nnas',
+					localField: '_id.id_nna',
+					foreignField: '_id',
+					as: 'nna'
+				}
+			},
+			{
+				$unwind: {
+					path: '$nna',
+					preserveNullAndEmptyArrays: false
 				}
 			}
 		])

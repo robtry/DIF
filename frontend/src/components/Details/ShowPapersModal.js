@@ -1,26 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, Button, Container, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-//own
-//import { useFetchDetails } from '../../util/useFetchDetails';
 
 const ShowModal = (props) => {
 	// para saber cuando hacer el resquest
 	const [ isOpenModel, setModelState ] = useState(false);
 	const handleOpen = () => setModelState(true);
 	const handleClose = () => setModelState(false);
-
-	//get info
-	//const { isLoading, data, loadData, notFound } = useFetchDetails(props.id);
-
-	// useEffect(
-	// 	() => {
-	// 		if (isOpenModel) {
-	// 			loadData();
-	// 		}
-	// 	},
-	// 	[ isOpenModel, loadData ]
-	// );
 
 	return (
 		<Modal
@@ -37,8 +23,11 @@ const ShowModal = (props) => {
 			onClose={handleClose}
 			open={isOpenModel}
 		>
+			<Modal.Header>
+				{props.title}
+			</Modal.Header>
 			<Modal.Content>
-				<Container>{<props.Body item={props.item} isFormatMode={false} />}</Container>
+				<Container>{<props.Body item={props.item} isFormatMode={false} nna={props.nna}/>}</Container>
 			</Modal.Content>
 		</Modal>
 	);
@@ -48,7 +37,10 @@ ShowModal.propTypes = {
 	/** Item para hacer load de lo necesario */
 	item: PropTypes.object.isRequired,
 	/** Form */
-	Body: PropTypes.elementType.isRequired
+	Body: PropTypes.elementType.isRequired,
+
+	/** header card */
+	title: PropTypes.string.isRequired
 };
 
 export default ShowModal;

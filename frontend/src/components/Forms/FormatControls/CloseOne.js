@@ -26,6 +26,7 @@ const CloseOne = (props) => {
 								value={option._id}
 								ref={props.register()}
 								disabled={props.isReview}
+								defaultChecked={props.default === option._id}
 							/>
 							<label htmlFor={option._id}>{option.valor}</label>
 						</div>
@@ -45,7 +46,8 @@ CloseOne.propTypes = {
 	// id
 	name: PropTypes.string.isRequired,
 	/** Referencia a useForm */
-	register: PropTypes.func.isRequired
+	register: PropTypes.func.isRequired,
+	default: PropTypes.string.isRequired
 };
 
 export default CloseOne;

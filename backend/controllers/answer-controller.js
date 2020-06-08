@@ -9,9 +9,8 @@ const ObjectId = mongoose.Types.ObjectId;
 exports.fillAnswers = (req, res, next) => {
 	console.log('Entrando al fill ans', req.params.id);
 	const { id } = req.params;
-	console.log(id);
 	try {
-		console.log(ObjectId(id));
+		ObjectId(id);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}
@@ -25,8 +24,8 @@ exports.fillAnswers = (req, res, next) => {
 
 	//console.log(answers);
 
-	answers.forEach((v) => {
-		answerCollection.updateOne(
+	answers.forEach(async (v) => {
+		await answerCollection.updateOne(
 			{ id_formato: v.id_formato, id_campo: v.id_campo },
 			{
 				$set: v
