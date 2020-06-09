@@ -22,6 +22,7 @@ const userRoutes = require('./routes/user-routes');
 const nnaRoutes = require('./routes/nna-routes');
 const templateRoutes = require('./routes/template-router');
 const formatRoutes = require('./routes/format-routes');
+const dashboardRoutes = require('./routes/dashboard-route');
 
 // start the app
 const app = express();
@@ -41,6 +42,7 @@ app.use(
 );
 // - routes
 app.use(finaluploadsPath, express.static(path.resolve(finaluploadsPath)));
+app.use('/dashboard/', dashboardRoutes);
 app.use('/users/', userRoutes);
 app.use('/nnas/', nnaRoutes);
 app.use('/templates/', templateRoutes);

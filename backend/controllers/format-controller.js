@@ -29,11 +29,15 @@ exports.createFormat = async (req, res, next) => {
 			id_nna,
 			id_plantilla
 		}).save();
-		await new participationCollection({ id_formato: formato._id, id_usuario: id_user }).save();
+		await participationCollection.updateOne(
+			{ id_usuario: id_user, id_formato: formato._id },
+			{ $set: { id_usuario: id_user, id_formato: formato._id } },
+			{ upsert: true }
+		);
 		await new historyCollection({
 			id_formato: formato._id,
 			id_usuario: id_user,
-			accion: 'creó'
+			accion_formato: 'creó'
 		}).save();
 		return res.status(201).json({ message: 'complete' });
 	} catch (err) {
@@ -404,4 +408,21 @@ exports.getOneFormat = (req, res, next) => {
 			}
 			res.json(data);
 		});
+};
+
+exports.deleteFormat = async (req, res, next) => {
+	//console.log('Deleting format')
+	const { id, id_usuario } = req.params;
+
+	try {
+		const formatToRemove = await formatCollection.findById(ObjectId(id));
+		await formatToRemove.remove();
+		res.json({ message: 'ok' });
+	} catch (err) {
+		return next(new HttpError(err, 500));
+	}
+	new historyCollection({
+		id_usuario: ObjectId(id_usuario),
+		accion_formato: 'eliminó'
+	}).save();
 };

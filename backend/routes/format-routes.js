@@ -28,4 +28,6 @@ router.get(
 	formatController.getAllFormatsForNNA
 );
 
+router.delete('/:id/:id_usuario', formatController.deleteFormat);
+
 module.exports = router;

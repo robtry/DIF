@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-error');
 const answerCollection = require('../models/answer-model');
 const historyCollection = require('../models/history-model');
-const paticipationCollection = require('../models/participation-model');
+const participationCollection = require('../models/participation-model');
 const formatCollection = require('../models/format-model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -12,11 +12,15 @@ const finaluploadsPath = process.env.UPLOADS_PATH;
 exports.fillAnswers = async (req, res, next) => {
 	console.log('Entrando al fill ans', req.params.id);
 	let { id } = req.params;
+	let id_usuario;
 	try {
 		id = ObjectId(id);
+		id_usuario = ObjectId(req.body.id_usuario);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}
+
+	delete req.body.id_usuario;
 
 	//console.log(req.body);
 	//console.log(req.files);
@@ -41,12 +45,12 @@ exports.fillAnswers = async (req, res, next) => {
 
 		const uploadsPath = path.join(path.resolve(finaluploadsPath), format.id_nna.toString(), format.id);
 		let filepath;
-		const filekeys = Object.keys(req.files)
-		for(let i = 0; i < filekeys.length; i++) {
+		const filekeys = Object.keys(req.files);
+		for (let i = 0; i < filekeys.length; i++) {
 			filepath = path.join(uploadsPath, `${filekeys[i]}.${req.files[filekeys[i]].name.split('.')[1]}`);
 			await req.files[filekeys[i]].mv(filepath);
 			answers.push({ id_campo: ObjectId(filekeys[i]), respuesta: filepath, id_formato: id });
-		};
+		}
 	}
 
 	//console.log(answers);
@@ -67,5 +71,17 @@ exports.fillAnswers = async (req, res, next) => {
 			}
 		);
 	});
+
+	await participationCollection.updateOne(
+		{ id_usuario, id_formato: id },
+		{ $set: { id_usuario, id_formato: id } },
+		{ upsert: true }
+	);
+	await new historyCollection({
+		id_formato: id,
+		id_usuario,
+		accion_formato: 'modificó'
+	}).save();
+
 	res.json({ message: 'complete' });
 };

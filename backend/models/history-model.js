@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const historyModel = new Schema({
 	id_usuario: { type: Schema.Types.ObjectId, required: true },
+
 	//formato ref
 	id_formato: { type: Schema.Types.ObjectId },
 	accion_formato: { type: String, enum: [ 'creó', 'modificó', 'eliminó' ] },

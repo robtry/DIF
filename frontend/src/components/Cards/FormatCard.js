@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
 import defaultUser from '../../assets/default.png';
-//context
+import CrudButton from '../Modal/DeleteModal';
 import ButtonsCard from './ButtonsCard';
+//context
+import userContext from '../../context/userContext';
 
 const FormatCard = (props) => {
+	const { currentUser } = useContext(userContext);
 	return (
 		<Card>
 			<Card.Content>
@@ -23,7 +26,14 @@ const FormatCard = (props) => {
 				</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<ButtonsCard type="format" id={props.item._id._id} item={props.item} nna={props.nna}/>
+				<ButtonsCard type="format" id={props.item._id._id} item={props.item} nna={props.nna} />
+			</Card.Content>
+			<Card.Content extra>
+				<CrudButton
+					path={'formats/' + props.item._id._id + '/' + currentUser._id}
+					refresh={props.refresh}
+					message={props.item._id.plantilla.nombre}
+				/>
 			</Card.Content>
 		</Card>
 	);
@@ -31,7 +41,9 @@ const FormatCard = (props) => {
 
 FormatCard.propTypes = {
 	/** Id to get something */
-	item: PropTypes.object.isRequired
+	item: PropTypes.object.isRequired,
+
+	refresh: PropTypes.func.isRequired
 };
 
 export default FormatCard;

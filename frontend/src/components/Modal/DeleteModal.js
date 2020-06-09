@@ -14,6 +14,7 @@ const DeleteModal = (props) => {
 	const [ errorDeleting, setErrorDeleting ] = useState(false);
 
 	const deleteRecord = () => {
+		//console.log('Deleting', props.path)
 		setDelitingState(true);
 		axios
 			.delete(props.path)

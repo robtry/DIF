@@ -12,7 +12,7 @@ const FormatTable = (props) => (
 	<React.Fragment>
 		<Card.Group centered>
 			{props.data.map((item) => {
-				return <FormatCard item={item} key={item._id._id} nna={props.nna} />;
+				return <FormatCard item={item} key={item._id._id} nna={props.nna} refresh={props.loadData} />;
 			})}
 		</Card.Group>
 	</React.Fragment>

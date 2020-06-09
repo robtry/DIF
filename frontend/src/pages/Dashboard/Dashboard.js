@@ -1,37 +1,63 @@
-import React, { useEffect } from 'react';
-import { Container, Header, Grid, Card, Feed } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Container, Header, Grid, Card, Feed} from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 // http://recharts.org/en-US/
 //own
 import Copyright from '../../components/Copyright';
 import FormatChart from './Charts/Formats';
-import NNAsChart from './Charts/NNAs';
+//import NNAsChart from './Charts/NNAs';
 import Loader from '../../components/Loader/MainLoader';
-import { useFetch } from '../../util/useFetch';
+import { useFetchDetails } from '../../util/useFetchDetails';
 
 import defaultUser from '../../assets/default.png';
 
 const Dashboard = () => {
-	const { isLoading } = useFetch();
+	const { isLoading, data, loadData } = useFetchDetails('/dashboard');
 
-	useEffect(() => {
-		console.log('[Dashboard.js] | fetching data for dashboard');
-	}, []);
+	useEffect(
+		() => {
+			loadData();
+		},
+		[ loadData ]
+	);
+
+	//console.log(data[0]);
+
+	const [ width, setWidth ] = useState(window.innerWidth);
+
+	useEffect(
+		() => {
+			window.addEventListener('resize', () => {
+				setWidth(window.innerWidth);
+			});
+		},
+		[ setWidth ]
+	);
 
 	return (
 		<Container textAlign="center">
 			<Header size="huge"> DIF | Naucalpan | </Header>
 			<Copyright />
 			<Grid divided="vertically">
-				<Grid.Row columns={1}>
+				{/* <Grid.Row columns={1}>
 					<Grid.Column>
 						<Header>NNA's </Header>
+						<NNAsChart size={width} />
 						{isLoading ? <Loader /> : <NNAsChart />}
 					</Grid.Column>
-				</Grid.Row>
-				<Grid.Row columns={2}>
+				</Grid.Row> */}
+				<Grid.Row columns={1}>
 					<Grid.Column>
 						<Header> Formatos Editados/Creados </Header>
-						<FormatChart />
+						{isLoading ? (
+							<Loader />
+						) : (
+							<FormatChart
+								size={width}
+								modificados={data[0] ? data[0].modificados : []}
+								creados={data[0] ? data[0].creados : []}
+							/>
+						)}
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row columns={1}>
@@ -42,35 +68,29 @@ const Dashboard = () => {
 							</Card.Content>
 							<Card.Content>
 								<Feed>
-									<Feed.Event>
-										<Feed.Label image={defaultUser} />
-										<Feed.Content>
-											<Feed.Date content="1 day ago" />
-											<Feed.Summary>
-												<a href='/'>Jenny Hess</a> modificó <a href='/'>formato</a>.
-											</Feed.Summary>
-										</Feed.Content>
-									</Feed.Event>
-
-									<Feed.Event>
-										<Feed.Label image={defaultUser} />
-										<Feed.Content>
-											<Feed.Date content="3 days ago" />
-											<Feed.Summary>
-												<a href='/'>Molly Malone</a> modificó <a href='/'>formato</a>.
-											</Feed.Summary>
-										</Feed.Content>
-									</Feed.Event>
-
-									<Feed.Event>
-										<Feed.Label image={defaultUser} />
-										<Feed.Content>
-											<Feed.Date content="4 days ago" />
-											<Feed.Summary>
-												<a href='/'>Elliot Baker</a> creó <a href='/'>formato</a>
-											</Feed.Summary>
-										</Feed.Content>
-									</Feed.Event>
+									{data[0] &&
+										data[0].historial.reverse().map((item) => {
+											return (
+												<Feed.Event key={item._id}>
+													<Feed.Label image={defaultUser} />
+													<Feed.Content>
+														<Feed.Date
+															content={new Date(item.fecha).toLocaleString('es')}
+														/>
+														<Feed.Summary>
+															{/* <a href="/">Jenny Hess</a> modificó <a href="/">formato</a>. */}
+															<NavLink to={'/historial/' + item.id_usuario}>
+																{item.usuario.nombre}
+															</NavLink>&nbsp;
+															{item.accion_formato}&nbsp;
+															<NavLink to={'/formato/' + item.id_formato}>
+																formato
+															</NavLink>
+														</Feed.Summary>
+													</Feed.Content>
+												</Feed.Event>
+											);
+										})}
 								</Feed>
 							</Card.Content>
 						</Card>
