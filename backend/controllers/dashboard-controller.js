@@ -1,4 +1,5 @@
 const historyCollection = require('../models/history-model');
+const HttpError = require('../models/http-error');
 
 exports.dashboard = async (req, res, next) => {
 	console.log('getting dashboard');

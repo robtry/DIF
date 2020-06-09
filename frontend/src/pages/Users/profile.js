@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Container, Header, Grid, Form, Button, Message, Icon, Label } from 'semantic-ui-react';
+import { Container, Header, Grid, Form, Button, Message, Icon, /*Label*/ } from 'semantic-ui-react';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 //own
@@ -179,11 +179,11 @@ const UserProfile = () => {
 						<Header size="large" className="margin-top">
 							Información
 						</Header>
-						<p className="margin-top"> Formatos Llenados/Editados </p>
+						{/* <p className="margin-top"> Formatos Llenados/Editados </p>
 						<Label color="blue" size="medium">
 							<Icon name="chart bar" />
 							12 Formatos
-						</Label>
+						</Label> */}
 						<p className="margin-top"> Historial </p>
 						<Button
 							icon

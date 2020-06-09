@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const userCollection = require('../models/user-model');
+const historyCollection = require('../models/history-model');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -43,29 +44,145 @@ exports.getAllUsers = (req, res, next) => {
 		});
 };
 
-exports.getUserById = (req, res, next) => {
-	console.log('Get User By Id | Profile');
-	console.log(req.params.id);
-	return next(new HttpError('not found', 404));
-};
+// exports.getUserById = (req, res, next) => {
+// 	console.log('Get User By Id | Profile');
+// 	console.log(req.params.id);
+// 	return next(new HttpError('not found', 404));
+// };
 
-exports.getHistoryUser = (req, res, next) => {
+exports.getHistoryUser = async (req, res, next) => {
 	console.log('User history, participations', req.params.id);
-	res.json({ message: 'complete' });
+	let { id_usuario, page } = req.params;
+	try {
+		id_usuario = ObjectId(req.params.id);
+	} catch (error) {
+		next(new HttpError('Invalid id', 422));
+	}
+
+	const history = await historyCollection.aggregate([
+		{
+			$match: {
+				id_usuario
+			}
+		},
+		{
+			$skip: (page - 1) * 30
+		},
+		{
+			$limit: 30
+		},
+		{
+			$lookup: {
+				from: 'usuarios',
+				localField: 'id_usuario',
+				foreignField: '_id',
+				as: 'usuario'
+			}
+		},
+		{
+			$unwind: {
+				path: '$usuario',
+				preserveNullAndEmptyArrays: false
+			}
+		},
+		{
+			$lookup: {
+				from: 'nnas',
+				localField: 'id_nna',
+				foreignField: '_id',
+				as: 'nna'
+			}
+		},
+		{
+			$unwind: {
+				path: '$nna',
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$lookup: {
+				from: 'formatos',
+				localField: 'id_formato',
+				foreignField: '_id',
+				as: 'formato'
+			}
+		},
+		{
+			$unwind: {
+				path: '$formato',
+				preserveNullAndEmptyArrays: true
+			}
+		},
+		{
+			$sort: {
+				fecha: -1
+			}
+		}
+	]);
+	res.json(history);
 };
 
-exports.getTotalRegsHistory = (_, res, next) => {
+exports.getTotalRegsHistory = async (req, res, next) => {
 	console.log('Getting total history pages');
-	userCollection
-		.estimatedDocumentCount()
-		.then((ans) => {
-			//console.log(res);
-			res.json(ans);
-		})
-		.catch((err) => {
-			console.log('Getting total pages:', err);
-			return next(new HttpError('Server error', 500));
-		});
+	let { id_usuario } = req.params;
+	try {
+		id_usuario = ObjectId(req.params.id);
+	} catch (error) {
+		next(new HttpError('Invalid id', 422));
+	}
+	const history = await historyCollection.aggregate([
+		[
+			{
+				$match: {
+					id_usuario
+				}
+			},
+			{
+				$lookup: {
+					from: 'usuarios',
+					localField: 'id_usuario',
+					foreignField: '_id',
+					as: 'usuario'
+				}
+			},
+			{
+				$unwind: {
+					path: '$usuario',
+					preserveNullAndEmptyArrays: false
+				}
+			},
+			{
+				$lookup: {
+					from: 'nnas',
+					localField: 'id_nna',
+					foreignField: '_id',
+					as: 'nna'
+				}
+			},
+			{
+				$unwind: {
+					path: '$nna',
+					preserveNullAndEmptyArrays: true
+				}
+			},
+			{
+				$lookup: {
+					from: 'formatos',
+					localField: 'id_formato',
+					foreignField: '_id',
+					as: 'formato'
+				}
+			},
+			{
+				$unwind: {
+					path: '$formato',
+					preserveNullAndEmptyArrays: true
+				}
+			}
+		]
+	]);
+
+	res.json(history.length);
 };
 
 exports.createUser = (req, res, next) => {
@@ -177,7 +294,6 @@ exports.updateUserPassword = (req, res, next) => {
 			}
 		});
 	});
-
 };
 
 exports.deleteUser = (req, res, next) => {

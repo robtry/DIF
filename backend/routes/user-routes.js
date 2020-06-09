@@ -69,6 +69,6 @@ router.post(
 
 router.delete('/:id', userController.deleteUser);
 
-router.get('/:id', userController.getUserById);
+//router.get('/:id', userController.getUserById);
 
 module.exports = router;

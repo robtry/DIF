@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Header } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/History/UserHistoryTable';
 import Copyright from '../../components/Copyright/index';
 import Pagination from '../../components/UI/Pagination';
+import PaginationLoader from '../../components/Loader/PaginationLoader';
 import Loader from '../../components/Loader/MainLoader';
 import { useFetch } from '../../util/useFetch';
-import { useLocation } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 const History = () => {
-	const location = useLocation();
-	const [ userId, setUserId ] = useState(location.pathname.replace('/historial/', ''));
+	const location = useRouteMatch();
 
-	useEffect(
-		() => {
-			//console.log(location.pathname.replace('/historial/',''))
-			setUserId(location.pathname.replace('/historial/', ''));
-		},
-		[ location ]
-	);
-
-	const { isLoading, data } = useFetch('users/history', userId + '/');
+	const { isLoading, data, totalPages, isLoadingPages } = useFetch('users/history', location.params.id + '/');
 
 	return (
 		<React.Fragment>
-			<Header size="huge"> Historial de |nombre| </Header>
+			<Header size="huge"> Historial </Header>
 			<Copyright />
-			<Pagination totalPages={data.length / 1} />
+			{isLoadingPages ? <PaginationLoader /> :  totalPages > 1 && <Pagination totalPages={totalPages} />}
 			{isLoading ? <Loader /> : <Table data={data} />}
 		</React.Fragment>
 	);

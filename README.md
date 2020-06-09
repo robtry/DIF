@@ -89,12 +89,7 @@ POST: /nnas/
 
 ## ToDo
 
-- [ ] participations for users
-- [ ] requiried all for props in format card
-- [ ] add is required in forms
 - [ ] cath no foud errors in get one
-- [ ] borrados en cascada
-- [ ] update de child, update formato
 - [ ] historial se borra cada 30 dias
 - [ ] participaciones cada año
 - [ ] index for fields in template

@@ -1,13 +1,14 @@
 import React from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 // own
 import defaultUser from '../../../assets/default.png';
 /**
  * Es la tabla que se usa para el index de el historial
 */
 
-const UserHistoryTable = () => (
+const UserHistoryTable = (props) => (
 	<React.Fragment>
 		<br />
 		<br />
@@ -18,35 +19,36 @@ const UserHistoryTable = () => (
 			</Card.Content>
 			<Card.Content>
 				<Feed>
-					<Feed.Event>
-						<Feed.Label image={defaultUser} />
-						<Feed.Content>
-							<Feed.Date content="1 day ago" />
-							<Feed.Summary>
-								<a href="/">Jenny Hess</a> modificó <a href="/">formato</a>.
-							</Feed.Summary>
-						</Feed.Content>
-					</Feed.Event>
-
-					<Feed.Event>
-						<Feed.Label image={defaultUser} />
-						<Feed.Content>
-							<Feed.Date content="3 days ago" />
-							<Feed.Summary>
-								<a href="/">Molly Malone</a> modificó <a href="/">formato</a>.
-							</Feed.Summary>
-						</Feed.Content>
-					</Feed.Event>
-
-					<Feed.Event>
-						<Feed.Label image={defaultUser} />
-						<Feed.Content>
-							<Feed.Date content="4 days ago" />
-							<Feed.Summary>
-								<a href="/">Elliot Baker</a> creó <a href="/">formato</a>
-							</Feed.Summary>
-						</Feed.Content>
-					</Feed.Event>
+					{props.data &&
+						props.data.reverse().map((item) => {
+							return (
+								<Feed.Event key={item._id}>
+									<Feed.Label image={defaultUser} />
+									<Feed.Content>
+										<Feed.Date content={new Date(item.fecha).toLocaleString('es')} />
+										<Feed.Summary>
+											{item.accion_formato ? (
+												<React.Fragment>
+													{`${item.usuario.nombre} ${item.accion_formato} `}
+													{item.accion_formato !== 'eliminó' ? (
+														<NavLink to={'/formato/' + item.id_formato}>formato</NavLink>
+													) : (
+														'formato'
+													)}
+												</React.Fragment>
+											) : (
+												<React.Fragment>
+													{`${item.usuario.nombre} ${item.accion_nna} NNA `}
+													<NavLink to={'/nna/' + item.id_nna}>
+														{item.nna.nombre_completo}
+													</NavLink>
+												</React.Fragment>
+											)}
+										</Feed.Summary>
+									</Feed.Content>
+								</Feed.Event>
+							);
+						})}
 				</Feed>
 			</Card.Content>
 		</Card>
