@@ -69,7 +69,7 @@ const NNAPage = () => {
 								}
 							/>
 
-							<Popup
+							{/* <Popup
 								content="Ordenar recien agregados"
 								trigger={
 									<Button icon onClick={() => setTypes('adddesc')} active={types === 'adddesc'}>
@@ -85,7 +85,7 @@ const NNAPage = () => {
 										<Icon name="sort down" />
 									</Button>
 								}
-							/>
+							/> */}
 						</Button.Group>}
 					</Grid.Column>
 					<Grid.Column>

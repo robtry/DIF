@@ -1,5 +1,4 @@
 const HttpError = require('../models/http-error');
-const { validationResult } = require('express-validator');
 const answerCollection = require('../models/answer-model');
 const historyCollection = require('../models/history-model');
 const paticipationCollection = require('../models/participation-model');

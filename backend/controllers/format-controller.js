@@ -306,7 +306,7 @@ exports.getOneFormat = (req, res, next) => {
 	const { id } = req.params;
 
 	try {
-		console.log(ObjectId(id));
+		ObjectId(id);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}

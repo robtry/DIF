@@ -6,7 +6,7 @@ const Constanr = (props) => {
 		<p>
 			<b>{props.label}:</b>
 			{props.file ? props.value ? (
-				<a href={props.file} target="_blank">
+				<a href={props.file} target="_blank" rel="noopener noreferrer">
 					Revisar
 				</a>
 			) : (

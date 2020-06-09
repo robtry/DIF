@@ -1,6 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const nnaCollection = require('../models/nna-model');
+const historyCollection = require('../models/history-model');
 const mongoose = require('mongoose');
 const path = require('path');
 const ObjectId = mongoose.Types.ObjectId;
@@ -27,17 +28,17 @@ exports.getAllNNAs = (req, res, next) => {
 			sortMode = { nombre: -1 };
 			break;
 		case 'actdesc':
-			sortMode = { ultima_actividad: 1 };
+			sortMode = { ultima_actualizacion: -1 };
 			break;
 		case 'actasc':
-			sortMode = { ultima_actividad: -1 };
+			sortMode = { ultima_actualizacion: 1 };
 			break;
-		case 'adddesc':
-			sortMode = { fecha_ingreso: 1 };
-			break;
-		case 'addasc':
-			sortMode = { fecha_ingreso: -1 };
-			break;
+		// case 'adddesc':
+		// 	sortMode = { fecha_ingreso: 1 };
+		// 	break;
+		// case 'addasc':
+		// 	sortMode = { fecha_ingreso: -1 };
+		// 	break;
 		default:
 			return next(new HttpError('Invalid request, check your data', 422));
 	}
@@ -52,6 +53,14 @@ exports.getAllNNAs = (req, res, next) => {
 			},
 			{
 				$limit: 30
+			},
+			{
+				$lookup: {
+					from: 'formatos',
+					localField: '_id',
+					foreignField: 'id_nna',
+					as: 'formatos'
+				}
 			}
 		])
 		.exec((err, data) => {
@@ -66,7 +75,7 @@ exports.getAllNNAs = (req, res, next) => {
 exports.createNNA = async (req, res, next) => {
 	console.log('Creating NNA');
 
-	const imagePic = req.files.image;
+	const imagePic = req.files ? req.files.image : undefined;
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -87,7 +96,6 @@ exports.createNNA = async (req, res, next) => {
 	}
 
 	const { nombre, app, apm, expediente, sexo, fecha_nacimiento } = req.body;
-	const fecha_ingreso = new Date();
 	const estatus = 'in';
 
 	//console.log(nombre, tipo, username, password);
@@ -98,8 +106,8 @@ exports.createNNA = async (req, res, next) => {
 		apm,
 		fecha_nacimiento: new Date(fecha_nacimiento),
 		sexo,
-		fecha_ingreso,
-		estatus
+		estatus,
+		nombre_completo: `${nombre} ${app} ${apm}`
 	});
 
 	if (imagePic) {
@@ -111,12 +119,18 @@ exports.createNNA = async (req, res, next) => {
 
 	nna
 		.save()
-		.then(
-			(/*ans*/) => {
-				//console.log('Complete', ans);
+		.then(async (ans) => {
+			try {
+				await new historyCollection({
+					id_usuario: ObjectId(req.body.id_usuario),
+					accion_nna: 'agregó',
+					id_nna: ans._id
+				}).save();
+			} catch (er) {
+			} finally {
 				return res.status(201).json({ message: 'complete' });
 			}
-		)
+		})
 		.catch((err) => {
 			console.log('Error creating nna:', err);
 			return next(new HttpError(err.errmsg, 422));
@@ -126,8 +140,14 @@ exports.createNNA = async (req, res, next) => {
 exports.updateNNA = async (req, res, next) => {
 	console.log('Updating NNA...', req.params.id);
 
-	const imagePic = req.files.image;
+	const imagePic = req.files ? req.files.image : undefined;
+	let id;
 
+	try {
+		id = ObjectId(req.params.id);
+	} catch (_) {
+		return next(new HttpError('Invalid id', 404));
+	}
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(new HttpError('Invalid request, check your data', 422));
@@ -154,9 +174,10 @@ exports.updateNNA = async (req, res, next) => {
 		await imagePic.mv(filepath);
 	}
 
-	nnaCollection.updateOne(
-		{ _id: ObjectId(req.params.id) },
-		{
+	const nna = await nnaCollection.findById(id);
+
+	try {
+		await nna.updateOne({
 			$set: {
 				nombre,
 				app,
@@ -164,16 +185,19 @@ exports.updateNNA = async (req, res, next) => {
 				expediente,
 				sexo,
 				fecha_nacimiento,
-				image: imagePic ? filepath : ''
+				image: imagePic ? filepath : nna.image,
+				nombre_completo: `${nombre} ${app} ${apm}`
 			}
-		},
-		(err) => {
-			if (err) {
-				return next(new HttpError(err, 500));
-			}
-			res.json({ message: 'complete' });
-		}
-	);
+		});
+		res.json({ message: 'ok' });
+	} catch (err) {
+		return next(new HttpError(err, 500));
+	}
+	await new historyCollection({
+		id_usuario: ObjectId(req.body.id_usuario),
+		accion_nna: 'actualizó',
+		id_nna: nna._id
+	}).save();
 };
 
 exports.getTotalRegs = (req, res, next) => {
@@ -190,15 +214,20 @@ exports.getTotalRegs = (req, res, next) => {
 		});
 };
 
-exports.deleteNNA = (req, res, next) => {
+exports.deleteNNA = async (req, res, next) => {
 	console.log('Delete NNa', req.params.id);
 
-	nnaCollection.deleteOne({ _id: ObjectId(req.params.id) }, (err) => {
-		if (err) {
-			return next(new HttpError(err, 500));
-		}
-	});
-	res.json({ message: 'complete' });
+	try {
+		const nna = await nnaCollection.findById(ObjectId(req.params.id));
+		await nna.remove();
+		res.json({ message: 'complete' });
+	} catch (err) {
+		return next(new HttpError(err, 500));
+	}
+	await new historyCollection({
+		id_usuario: ObjectId(req.body.id_usuario),
+		accion_nna: 'eliminó'
+	}).save();
 };
 
 exports.getByName = (req, res, next) => {
@@ -211,9 +240,17 @@ exports.getByName = (req, res, next) => {
 			},
 			{
 				$match: {
-					nombre: {
+					nombre_completo: {
 						$regex: '(?i)' + name
 					}
+				}
+			},
+			{
+				$lookup: {
+					from: 'formatos',
+					localField: '_id',
+					foreignField: 'id_nna',
+					as: 'formatos'
 				}
 			}
 		])
@@ -248,5 +285,33 @@ exports.getNNA = (req, res, next) => {
 				return next(new HttpError(err, 404));
 			}
 			res.json(data);
+		});
+};
+
+exports.changeStatus = (req, res, next) => {
+	console.log('Changing status', req.params.id);
+	let id;
+	try {
+		id = ObjectId(req.params.id);
+	} catch (_) {
+		return next(new HttpError('Invalid id', 404));
+	}
+	const { estatus } = req.body;
+	nnaCollection
+		.updateOne({ _id: id }, { $set: { estatus } })
+		.then(async (ans) => {
+			try {
+				await new historyCollection({
+					id_usuario: ObjectId(req.body.id_usuario),
+					accion_nna: 'actualizó',
+					id_nna: ans._id
+				}).save();
+			} catch (er) {
+			} finally {
+				return res.json({ message: 'complete' });
+			}
+		})
+		.catch(() => {
+			return next(new HttpError(err, 404));
 		});
 };

@@ -9,6 +9,7 @@ import CrudButton from './_shared/RUD_Button';
 import NNAForm from '../Forms/NNAForm';
 
 import defaultImage from '../../assets/defaultNNA.png';
+import UpgradeModal from '../Modal/UpgradeModal';
 
 const fileServer = process.env.REACT_APP_SERVER;
 /**
@@ -42,6 +43,7 @@ const NNATable = (props) => {
 												Perfil
 												<Icon name="user circle outline" />
 											</Button>
+											<UpgradeModal id={item._id} message={item.nombre} refresh={props.loadData} value={item.estatus} />
 										</Grid.Column>
 										<Grid.Column width={5} />
 										<Grid.Column width={3}>
@@ -59,7 +61,7 @@ const NNATable = (props) => {
 							<Item.Extra>
 								<Label color="blue" size="mini">
 									<Icon name="chart bar" />
-									12 Formatos
+									{item.formatos.length} Formato{item.formatos.length === 1 ? '' : 's'}
 								</Label>
 								<Label color="grey" size="mini">
 									<Icon name="calendar alternate" />

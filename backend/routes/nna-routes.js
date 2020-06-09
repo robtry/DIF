@@ -31,7 +31,10 @@ router.post(
 	nnaController.createNNA
 );
 
-// //update nna
+// change estatus
+router.post('/status/:id', check('estatus').notEmpty() ,nnaController.changeStatus);
+
+// update nna
 router.post(
 	'/:id',
 	[

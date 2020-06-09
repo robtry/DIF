@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Form, Button, Label, Message } from 'semantic-ui-react';
 //own
 import NameField from './_shared/NameField';
 import axios from '../../util/axios';
+// context
+import userContext from '../../context/userContext';
 
 const NNAForm = (props) => {
 	// Forms Validation
 	const { register, handleSubmit, errors } = useForm();
+	const { currentUser } = useContext(userContext);
 
 	const [ isPosting, setIsPosting ] = useState(false);
 	const [ isError, setIsError ] = useState(false);
@@ -24,7 +27,11 @@ const NNAForm = (props) => {
 		fd.append('expediente', data.expediente);
 		fd.append('sexo', data.sexo);
 		fd.append('fecha_nacimiento', data.fecha_nacimiento);
-		fd.append('image', data.image[0], data.image[0].name.replace(/\s/g, ''));
+		if (data.image[0] && data.image[0].name) {
+			fd.append('image', data.image[0], data.image[0].name.replace(/\s/g, ''));
+		}
+		//TODO remove when manage session users
+		fd.append('id_usuario', currentUser._id);
 
 		setIsPosting(true);
 		axios
