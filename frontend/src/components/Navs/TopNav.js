@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { Breadcrumb, Menu, Button, Icon, Responsive, Image } from 'semantic-ui-react';
+import { Menu, Button, Icon, /*Responsive, Breadcrumb,*/ Image } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 //own
 import defaultUser from '../../assets/default.png';
 //context
@@ -15,7 +15,7 @@ import UserContext from '../../context/userContext';
 
 const TopNav = (props) => {
 	const { logOut, currentUser } = useContext(UserContext);
-	const location = useLocation();
+	//const location = useLocation();
 
 	const readable = (abbreviateName, sex) => {
 		switch (abbreviateName) {
@@ -53,7 +53,7 @@ const TopNav = (props) => {
 				{`${currentUser.nombre} | ${readable(currentUser.tipo, currentUser.sexo)}`}
 			</Menu.Item>
 			<Menu.Menu position="right">
-				<Responsive minWidth={345}>
+				{/* <Responsive minWidth={345}>
 					<Menu.Item>
 						<Breadcrumb>
 							<Breadcrumb.Section>
@@ -65,7 +65,7 @@ const TopNav = (props) => {
 							</Breadcrumb.Section>
 						</Breadcrumb>
 					</Menu.Item>
-				</Responsive>
+				</Responsive> */}
 				<Menu.Item>
 					<Button
 						primary

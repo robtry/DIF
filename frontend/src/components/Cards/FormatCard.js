@@ -3,13 +3,13 @@ import { Card, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 //own
 import defaultUser from '../../assets/default.png';
-import CrudButton from '../Modal/DeleteModal';
+import DeleteModal from '../Modal/DeleteModal';
 import ButtonsCard from './ButtonsCard';
 //context
 import userContext from '../../context/userContext';
 
 const FormatCard = (props) => {
-	const { currentUser } = useContext(userContext);
+	const { currentUser, isAdmin } = useContext(userContext);
 	return (
 		<Card>
 			<Card.Content>
@@ -28,13 +28,15 @@ const FormatCard = (props) => {
 			<Card.Content extra>
 				<ButtonsCard type="format" id={props.item._id._id} item={props.item} nna={props.nna} />
 			</Card.Content>
-			<Card.Content extra>
-				<CrudButton
-					path={'formats/' + props.item._id._id + '/' + currentUser._id}
-					refresh={props.refresh}
-					message={props.item._id.plantilla.nombre}
-				/>
-			</Card.Content>
+			{(isAdmin || currentUser.tipo === props.item._id.plantilla.tipo) && (
+				<Card.Content extra>
+					<DeleteModal
+						path={'formats/' + props.item._id._id + '/' + currentUser._id}
+						refresh={props.refresh}
+						message={props.item._id.plantilla.nombre}
+					/>
+				</Card.Content>
+			)}
 		</Card>
 	);
 };

@@ -13,7 +13,7 @@ import UserContext from '../../context/userContext';
 /** Botones para el card de los formatos y templates */
 
 const ButtonsCard = (props) => {
-	const isAdmin = useContext(UserContext).isAdmin;
+	const { isAdmin, currentUser } = useContext(UserContext);
 	return (
 		<React.Fragment>
 			<Button.Group fluid>
@@ -21,33 +21,19 @@ const ButtonsCard = (props) => {
 					Imprimir
 				</Button> */}
 				<OnShow
-					title={props.type === 'template' ? props.item.nombre : props.item._id.plantilla.nombre }
+					title={props.type === 'template' ? props.item.nombre : props.item._id.plantilla.nombre}
 					item={props.item}
 					Body={props.type === 'template' ? TemplatePreview : FormatPreview}
 					nna={props.nna}
 				/>
-				{isAdmin && ( //other types
-					// <Button
-					// 	basic
-					// 	color="teal"
-					// 	as={NavLink}
-					// 	to={props.type === 'template' ? '/plantilla/1' : '/formato/1'}
-					// 	exact
-					// >
-					// 	Modificar
-					// </Button>
+				{(isAdmin ||
+					(props.type === 'template' ? true : props.item._id.plantilla.tipo === currentUser.tipo)) && (
 					<Button
 						animated="fade"
 						basic
 						color="black"
 						as={NavLink}
-						to={
-							props.type === 'template' ? (
-								'/plantilla/' + props.id
-							) : (
-								'/formato/' + props.id
-							)
-						}
+						to={props.type === 'template' ? '/plantilla/' + props.id : '/formato/' + props.id}
 						exact
 					>
 						<Button.Content visible>Modificar</Button.Content>

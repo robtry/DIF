@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon, Label } from 'semantic-ui-react';
+import { Card, /*Icon,*/ Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // own
 import ButtonsCard from '../../Cards/ButtonsCard';
@@ -38,7 +38,7 @@ const TemplateTable = (props) => {
 						<br />
 						<Label tag>{convertToHeader(item.tipo)}</Label>
 					</Card.Content>
-					<Card.Content extra>
+					{/* <Card.Content extra>
 						<Label color="blue" size="mini">
 							<Icon name="chart bar" />
 							12 Formatos
@@ -47,7 +47,7 @@ const TemplateTable = (props) => {
 							<Icon name="user" />
 							15 usuarios
 						</Label>
-					</Card.Content>
+					</Card.Content> */}
 					<Card.Content extra>
 						<ButtonsCard id={item._id} type="template" item={item} />
 					</Card.Content>

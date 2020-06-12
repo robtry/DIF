@@ -147,7 +147,7 @@ const TemplatePreview = ({ item, isFormatMode }) => {
 								);
 							}
 							//const
-							return <Consistent label={c.nombre} value={item.nna[c.fuente]} key={c._id} />;
+							return <Consistent label={c.nombre} value={!isFormatMode ? '' : item.nna[c.fuente]} key={c._id} />;
 						})
 					) : (
 						<Loader />
