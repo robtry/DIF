@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Icon, Item, Grid, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,6 +7,8 @@ import { AgeFromDateString } from 'age-calculator';
 //import Formats from './AccordionFormats/AccordionFormats';
 import CrudButton from './_shared/RUD_Button';
 import NNAForm from '../Forms/NNAForm';
+
+import userContext from '../../context/userContext';
 
 import defaultImage from '../../assets/defaultNNA.png';
 import UpgradeModal from '../Modal/UpgradeModal';
@@ -17,6 +19,9 @@ const fileServer = process.env.REACT_APP_SERVER;
 */
 
 const NNATable = (props) => {
+
+	const { isAdmin } = useContext(userContext);
+
 	return (
 		<Item.Group relaxed className="center-item">
 			{props.data.map((item) => {
@@ -47,13 +52,13 @@ const NNATable = (props) => {
 										</Grid.Column>
 										<Grid.Column width={5} />
 										<Grid.Column width={3}>
-											<CrudButton
+											{isAdmin && <CrudButton
 												deletePath={'nnas/' + item._id}
 												onDelete={item.nombre}
 												onEdit={NNAForm}
 												refresh={props.loadData}
 												item={item}
-											/>
+											/>}
 										</Grid.Column>
 									</Grid.Row>
 								</Grid>

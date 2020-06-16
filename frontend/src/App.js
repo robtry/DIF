@@ -34,9 +34,9 @@ const App = () => {
 	const [ sideBarVisible, setSideBarVisible ] = useState(false);
 
 	// Controlar el estado del user con el context
-	const [ userIsAuth, setUserIsAuth ] = useState(true); //false
-	const [ userType, setUserType ] = useState('admin'); //''
-	const [ user, setUser ] = useState({ _id: '5edc06381b5af10ded22c67e', nombre: 'rob', tipo: 'admin', username:'roberto' }); //''
+	const [ userIsAuth, setUserIsAuth ] = useState(false); //false
+	const [ userType, setUserType ] = useState(''); //''
+	const [ user, setUser ] = useState('');//useState({ _id: '5edc06381b5af10ded22c67e', nombre: 'rob', tipo: 'admin', username:'roberto' }); //''
 	const [ errorAuth, setErrorAuth ] = useState(false);
 	const [ isLoading, setIsLoading ] = useState(false);
 

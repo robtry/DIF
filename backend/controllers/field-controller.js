@@ -109,19 +109,19 @@ exports.deleteField = (req, res, next) => {
 		return next(new HttpError('Invalid id', 404));
 	}
 
-	templateCollection.updateOne(
-		{ _id: ObjectId(req.params.id_template) },
-		{
-			$pull: { campos: { _id: ObjectId(req.params.id_field) } }
-		},
-		(err) => {
-			if (err) {
-				console.log('template delete field', err);
-				return next(new HttpError(err, 500));
-			}
-			res.json({ message: 'complete' });
+	// templateCollection.updateOne(
+	// 	{ _id: ObjectId(req.params.id_template) },
+	// 	{
+	// 		$pull: { campos: { _id: ObjectId(req.params.id_field) } }
+	// 	},
+
+	fieldColletion.deleteOne({ _id: ObjectId(req.params.id_field) }, (err) => {
+		if (err) {
+			console.log('template delete field', err);
+			return next(new HttpError(err, 500));
 		}
-	);
+		res.json({ message: 'complete' });
+	});
 };
 
 exports.updateField = (req, res, next) => {
@@ -197,20 +197,16 @@ exports.updateField = (req, res, next) => {
 			return next(new HttpError('Invalid request, check your data', 422));
 	}
 
-	templateCollection.updateOne(
-		{ _id: ObjectId(req.params.id_template) },
+	fieldColletion.updateOne(
+		{ _id: ObjectId(req.params.id_field) },
 		{
 			$set: {
-				'campos.$[el]': {
-					nombre,
-					tipo,
-					index,
-					...field
-				}
+				nombre,
+				tipo,
+				index,
+				...field,
+				id_plantilla: ObjectId(req.params.id_template)
 			}
-		},
-		{
-			arrayFilters: [ { 'el._id': ObjectId(req.params.id_field) } ]
 		},
 		(err) => {
 			if (err) {
