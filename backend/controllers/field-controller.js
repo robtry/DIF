@@ -94,34 +94,25 @@ exports.addFieldToTemplate = (req, res, next) => {
 		});
 };
 
-exports.deleteField = (req, res, next) => {
+exports.deleteField = async (req, res, next) => {
 	console.log('Deleting field from template', req.params.id_template, req.params.id_field);
 
+	let { id_template, id_field } = req.params;
+
 	try {
-		console.log(ObjectId(req.params.id_template));
+		id_template = ObjectId(id_template);
+		id_field = ObjectId(id_field);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}
 
 	try {
-		console.log(ObjectId(req.params.id_field));
-	} catch (_) {
-		return next(new HttpError('Invalid id', 404));
+		const field = await fieldColletion.findById(id_field);
+		await field.remove();
+		return res.json({ message: 'complete' });
+	} catch (error) {
+		return next(new HttpError(error, 500));
 	}
-
-	// templateCollection.updateOne(
-	// 	{ _id: ObjectId(req.params.id_template) },
-	// 	{
-	// 		$pull: { campos: { _id: ObjectId(req.params.id_field) } }
-	// 	},
-
-	fieldColletion.deleteOne({ _id: ObjectId(req.params.id_field) }, (err) => {
-		if (err) {
-			console.log('template delete field', err);
-			return next(new HttpError(err, 500));
-		}
-		res.json({ message: 'complete' });
-	});
 };
 
 exports.updateField = (req, res, next) => {

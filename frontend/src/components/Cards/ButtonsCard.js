@@ -27,7 +27,7 @@ const ButtonsCard = (props) => {
 					nna={props.nna}
 				/>
 				{(isAdmin ||
-					(props.type === 'template' ? true : props.item._id.plantilla.tipo === currentUser.tipo)) && (
+					(props.type === 'template' ? false : props.item._id.plantilla.tipo === currentUser.tipo)) && (
 					<Button
 						animated="fade"
 						basic

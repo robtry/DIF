@@ -40,10 +40,10 @@ const SidebarNav = props => {
 					<Icon name='users' />
 					NNA's
 				</Menu.Item>
-				{isAdmin && <Menu.Item as={NavLink} to="/plantillas">
+				<Menu.Item as={NavLink} to="/plantillas">
 					<Icon name='file' />
 					Plantillas
-				</Menu.Item>}
+				</Menu.Item>
 				{/* <Menu.Item as={NavLink} to="/formatos">
 					<Icon name='file alternate' />
 					Formatos

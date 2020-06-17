@@ -8,7 +8,7 @@ export const useFetchDetails = (path) => {
 	//data
 	const [ data, setData ] = useState([]);
 	const [ isLoading, setIsLoading ] = useState(true);
-	const [ notFound, setNotFound ] = useState(false);
+	const [ error, setError ] = useState(false);
 
 	const loadData = useCallback(
 		() => {
@@ -24,7 +24,12 @@ export const useFetchDetails = (path) => {
 				.catch((err) => {
 					console.log('fetching err', err);
 					if (err.message.includes('status code 404')) {
-						setNotFound(true);
+						setError('Es probable que el URL este incompleto, el registro ya fue eliminado o cambió');
+					} else if (err.message.includes('ailed with status code 401')) {
+						// problemas con el token
+						setError('Su usuario no tiene permisos, por favor incie sesión nuevamente');
+					} else {
+						setError('No se pudo establecer conexión');
 					}
 				});
 		},
@@ -38,5 +43,5 @@ export const useFetchDetails = (path) => {
 		};
 	}, []);
 
-	return { data, isLoading, loadData, notFound };
+	return { data, isLoading, loadData, error };
 };

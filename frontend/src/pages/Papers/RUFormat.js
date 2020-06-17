@@ -25,7 +25,7 @@ const RUFormat = () => {
 		<Loader />
 	) : (
 		<Container text>
-			<Header>{data[0] ? data[0]._id.plantilla.nombre : ''}</Header>
+			<Header>{data[0] ? data[0]._id.plantilla.nombre : ''} | {data[0] ? data[0].nna.nombre_completo : ''}</Header>
 			{isLoading ? <Loader /> : <TemplatePreview item={data[0] ? data[0] : {}} isFormatMode={true} />}
 		</Container>
 	);

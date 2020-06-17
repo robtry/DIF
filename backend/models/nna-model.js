@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const formatCollection = require('./format-model');
-const historyCollection = require('./history-model');
+const { historyCollection } = require('./history-model');
+const fs = require('fs');
+const path = require('path');
+
+const finaluploadsPath = process.env.UPLOADS_PATH;
 
 const nnaSchema = new Schema(
 	{
@@ -21,6 +25,11 @@ const nnaSchema = new Schema(
 );
 
 nnaSchema.pre('remove', async function(next) {
+	try {
+		fs.rmdirSync(path.join(path.resolve(finaluploadsPath), this.id), {
+			recursive: true
+		});
+	} catch (_) {}
 	try {
 		const formats = await formatCollection.find({ id_nna: this._id });
 		formats.forEach((f) => f.remove());

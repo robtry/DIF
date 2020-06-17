@@ -11,8 +11,8 @@ const router = express.Router();
 router.get('/total/', isAdmin, userController.getTotalRegs);
 
 // get last 6 months movements user
-router.get('/history/total/', isRegistered, userController.getTotalRegsHistory);
-router.get('/history/:id/:page', isRegistered, userController.getHistoryUser);
+router.get('/history/total/', userController.getTotalRegsHistory);
+router.get('/history/:id/:page', userController.getHistoryUser);
 
 // login
 router.post(

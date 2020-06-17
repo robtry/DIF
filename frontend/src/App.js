@@ -26,6 +26,7 @@ import UserHistory from './pages/Users/history';
 
 // context
 import UserContext from './context/userContext';
+import Loader from './components/Loader/MainLoader';
 
 import axios from './util/axios';
 
@@ -34,6 +35,7 @@ const App = () => {
 	const [ sideBarVisible, setSideBarVisible ] = useState(false);
 
 	// Controlar el estado del user con el context
+	const [ isChekingAuth, setCheckingAuth ] = useState(true);
 	const [ userIsAuth, setUserIsAuth ] = useState(false); //false
 	const [ userType, setUserType ] = useState(''); //''
 	const [ user, setUser ] = useState(''); //useState({ _id: '5edc06381b5af10ded22c67e', nombre: 'rob', tipo: 'admin', username:'roberto' }); //''
@@ -49,7 +51,7 @@ const App = () => {
 			.then((res) => {
 				//console.log('authing', res.data);
 				localStorage.setItem('token', JSON.stringify(res.data));
-				axios.defaults.headers.common['Authorization'] = res.data._id
+				axios.defaults.headers.common['Authorization'] = res.data._id;
 				setUserIsAuth(true);
 				setUserType(res.data.tipo);
 				setIsLoading(false);
@@ -86,66 +88,75 @@ const App = () => {
 				console.log('err in local storage');
 			}
 		}
+		setCheckingAuth(false);
 	}, []);
 
 	return (
-		<UserContext.Provider
-			value={{
-				isAuth: userIsAuth,
-				currentUser: user,
-				isAdmin: userType === 'admin',
-				errorInAuth: errorAuth, // already exists, no exists, wrong pass
-				clearError: setErrorAuth,
-				isLoading: isLoading, // when authing
-				logIn: authenticateUser,
-				logOut: endSessionUser
-			}}
-		>
-			<Router>
-				{userIsAuth && (
-					<TopNavbar
-						sideBarStatus={sideBarVisible}
-						toggleSideBar={() => setSideBarVisible((prev) => !prev)}
-					/>
-				)}
-				<Sidebar.Pushable as={Segment} className="full-height">
-					<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)} />
-					<Sidebar.Pusher dimmed={sideBarVisible}>
-						<Segment basic className="margin-top-bar">
-							{!userIsAuth && <Redirect to="/" />}
-							<Switch>
-								<Route path="/" exact component={userIsAuth ? Dashboard : Authenticate} />
-								{userIsAuth && <Route path="/perfil/:id" exact component={UserProfile} />}
-								{userType === 'admin' && <Route path="/usuarios" exact component={User} />}
-								<Route path="/nnas" exact component={NNAs} />
-								<Route path="/nna/:id" exact component={NNAsHistory} />
-								{userType === 'admin' && <Route path="/plantillas" exact component={Templates} />}
-								{userType === 'admin' && <Route path="/plantilla/:id" exact component={CUTemplate} />}
-								{/* <Route path="/formatos" exact component={Format} /> */}
-								<Route path="/formato/:id" exact component={RUFormat} />
-								<Route path="/historial/:id" exact component={UserHistory} />
-								{userIsAuth && (
-									<Route
-										render={() => (
-											<React.Fragment>
-												<h2>
-													Revisa
-													<span role="img" aria-label="up">
-														👆️
-													</span>
-													el menú
-												</h2>
-												<h1> Parece que esta URL no existe </h1>
-											</React.Fragment>
+		<React.Fragment>
+			{isChekingAuth ? (
+				<Loader />
+			) : (
+				<UserContext.Provider
+					value={{
+						isAuth: userIsAuth,
+						currentUser: user,
+						isAdmin: userType === 'admin',
+						errorInAuth: errorAuth, // already exists, no exists, wrong pass
+						clearError: setErrorAuth,
+						isLoading: isLoading, // when authing
+						logIn: authenticateUser,
+						logOut: endSessionUser
+					}}
+				>
+					<Router>
+						{userIsAuth && (
+							<TopNavbar
+								sideBarStatus={sideBarVisible}
+								toggleSideBar={() => setSideBarVisible((prev) => !prev)}
+							/>
+						)}
+						<Sidebar.Pushable as={Segment} className="full-height">
+							<SidebarNav sideBarStatus={sideBarVisible} hideSideBar={() => setSideBarVisible(false)} />
+							<Sidebar.Pusher dimmed={sideBarVisible}>
+								<Segment basic className="margin-top-bar">
+									{!userIsAuth && <Redirect to="/" />}
+									<Switch>
+										<Route path="/" exact component={userIsAuth ? Dashboard : Authenticate} />
+										{userIsAuth && <Route path="/perfil/:id" exact component={UserProfile} />}
+										{userType === 'admin' && <Route path="/usuarios" exact component={User} />}
+										<Route path="/nnas" exact component={NNAs} />
+										<Route path="/nna/:id" exact component={NNAsHistory} />
+										<Route path="/plantillas" exact component={Templates} />
+										{userType === 'admin' && (
+											<Route path="/plantilla/:id" exact component={CUTemplate} />
 										)}
-									/>
-								)}
-							</Switch>
-						</Segment>
-					</Sidebar.Pusher>
-				</Sidebar.Pushable>
-			</Router>
-		</UserContext.Provider>
+										{/* <Route path="/formatos" exact component={Format} /> */}
+										<Route path="/formato/:id" exact component={RUFormat} />
+										<Route path="/historial/:id" exact component={UserHistory} />
+										{userIsAuth && (
+											<Route
+												render={() => (
+													<React.Fragment>
+														<h2>
+															Revisa
+															<span role="img" aria-label="up">
+																👆️
+															</span>
+															el menú
+														</h2>
+														<h1> Parece que esta URL no existe </h1>
+													</React.Fragment>
+												)}
+											/>
+										)}
+									</Switch>
+								</Segment>
+							</Sidebar.Pusher>
+						</Sidebar.Pushable>
+					</Router>
+				</UserContext.Provider>
+			)}
+		</React.Fragment>
 	);
 };
 

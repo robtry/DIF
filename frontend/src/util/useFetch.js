@@ -12,6 +12,7 @@ export const useFetch = (path = '', extra = '') => {
 	const [ isSearching, setIsSearching ] = useState(false);
 	const [ totalPages, setTotalPages ] = useState(0);
 	const [ isLoadingPages, setIsLoadingPages ] = useState(true);
+	const [ error, setError ] = useState('');
 
 	//location for pags
 	const location = useLocation();
@@ -59,10 +60,11 @@ export const useFetch = (path = '', extra = '') => {
 				})
 				.catch((err) => {
 					console.log('axios loadData', err, err.message);
-					if(err.message.includes('ailed with status code 401')){
-						console.log('problemas con el token')
-					}else{
-						//eeror
+					if (err.message.includes('ailed with status code 401')) {
+						// problemas con el token
+						setError('Su usuario no tiene permisos, por favor incie sesión nuevamente');
+					} else {
+						setError('No se pudo establecer conexión');
 					}
 				});
 		},
@@ -133,5 +135,5 @@ export const useFetch = (path = '', extra = '') => {
 		};
 	}, []);
 
-	return { data, isLoading, loadData, searchByName, isSearching, totalPages, isLoadingPages };
+	return { data, isLoading, loadData, searchByName, isSearching, totalPages, isLoadingPages, error };
 };

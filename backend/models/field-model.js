@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ansCollection = require('./answer-model');
 
 const fieldSchema = new Schema({
 	id_plantilla: { type: Schema.Types.ObjectId, required: true },
@@ -29,6 +30,14 @@ const fieldSchema = new Schema({
 	fuente: { type: String },
 	//archivo
 	tipo_archivo: { type: String }
+});
+
+fieldSchema.pre('remove', async function(next) {
+	try {
+		const ans = await ansCollection.find({ id_campo: this._id });
+		ans.forEach((a) => a.remove());
+	} catch (_) {}
+	next();
 });
 
 module.exports = mongoose.model('campos', fieldSchema);

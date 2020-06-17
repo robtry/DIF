@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const participationCollection = require('./participation-model');
+const { historyCollection } = require('./history-model');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -8,7 +10,12 @@ const userSchema = new Schema({
 	username: { type: String, unique: true, required: true },
 	password: { type: String, required: true },
 	image: { type: String }
-	//token:
+});
+
+userSchema.pre('remove', async function(next) {
+	await participationCollection.deleteMany({ id_usuario: this._id }).exec();
+	await historyCollection.deleteMany({ id_usuario: this._id }).exec();
+	next();
 });
 
 module.exports = mongoose.model('usuarios', userSchema);

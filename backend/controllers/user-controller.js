@@ -296,15 +296,17 @@ exports.updateUserPassword = (req, res, next) => {
 	});
 };
 
-exports.deleteUser = (req, res, next) => {
+exports.deleteUser = async (req, res, next) => {
 	console.log('Delete User', req.params.id);
 
-	userCollection.deleteOne({ _id: ObjectId(req.params.id) }, (err) => {
-		if (err) {
-			return next(new HttpError(err, 500));
-		}
-	});
-	res.json({ message: 'complete' });
+	try {
+		const user = await userCollection.findById(ObjectId(req.params.id))
+		await user.remove();
+		res.json({ message: 'complete' });
+	} catch (error) {
+		return next(new HttpError(error, 500));
+		
+	}
 };
 
 exports.getByName = (req, res, next) => {

@@ -4,15 +4,17 @@ const { check } = require('express-validator');
 const templateController = require('../controllers/template-controller');
 const fieldController = require('../controllers/field-controller');
 const { REXEG_USER_TYPES } = require('../models/userTypes');
+const { isRegistered, isAdmin } = require('../middlewares/authentication');
 
 const router = express.Router();
 
 //fields
-router.delete('/fields/:id_template/:id_field', fieldController.deleteField);
+router.delete('/fields/:id_template/:id_field', isAdmin, fieldController.deleteField);
 
 //update
 router.post(
 	'/fields/:id_template/:id_field',
+	isAdmin,
 	[
 		check('nombre').notEmpty().trim(),
 		check('index').notEmpty().isNumeric(),
@@ -24,6 +26,7 @@ router.post(
 // add
 router.post(
 	'/fields/:id',
+	isAdmin,
 	[
 		check('nombre').notEmpty().trim(),
 		check('index').notEmpty().isNumeric(),
@@ -33,14 +36,15 @@ router.post(
 );
 
 //get current regs (number)
-router.get('/total/', templateController.getTotalRegs);
+router.get('/total/', isRegistered, templateController.getTotalRegs);
 
 // search by name
-router.get('/search/:name', templateController.getByName);
+router.get('/search/:name', isRegistered, templateController.getByName);
 
 //get all
 router.get(
 	'/:type/:page',
+	isRegistered,
 	[ check('page').notEmpty().isInt(), check('type').notEmpty().isString() ],
 	templateController.getAllTemplates
 );
@@ -48,6 +52,7 @@ router.get(
 // create new template
 router.post(
 	'/',
+	isAdmin,
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('tipo').notEmpty().matches(REXEG_USER_TYPES, 'i'),
@@ -59,6 +64,7 @@ router.post(
 //update template
 router.post(
 	'/:id',
+	isAdmin,
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('tipo').notEmpty().matches(REXEG_USER_TYPES, 'i'),
@@ -67,8 +73,8 @@ router.post(
 	templateController.updateTemplate
 );
 
-router.delete('/:id', templateController.deleteTemplate);
+router.delete('/:id', isAdmin, templateController.deleteTemplate);
 
-router.get('/:id', templateController.getTemplate);
+router.get('/:id', isAdmin, templateController.getTemplate);
 
 module.exports = router;

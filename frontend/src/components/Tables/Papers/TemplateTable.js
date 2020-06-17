@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, /*Icon,*/ Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 // own
 import ButtonsCard from '../../Cards/ButtonsCard';
 import TemplateInitForm from '../../Forms/TemplateInitForm';
 import CrudButton from '../_shared/RUD_Button';
+// context
+import userContext from '../../../context/userContext';
 
 /**
  * Es la tabla que se usa para el index de todos las plantillas
 */
 
 const TemplateTable = (props) => {
+	const { isAdmin } = useContext(userContext);
+
 	const convertToHeader = (abbreviateName) => {
 		switch (abbreviateName) {
 			case 'medico':
@@ -51,15 +55,17 @@ const TemplateTable = (props) => {
 					<Card.Content extra>
 						<ButtonsCard id={item._id} type="template" item={item} />
 					</Card.Content>
-					<Card.Content extra>
-						<CrudButton
-							deletePath={'templates/' + item._id}
-							onDelete={item.nombre}
-							onEdit={TemplateInitForm}
-							refresh={props.loadData}
-							item={item}
-						/>
-					</Card.Content>
+					{isAdmin && (
+						<Card.Content extra>
+							<CrudButton
+								deletePath={'templates/' + item._id}
+								onDelete={item.nombre}
+								onEdit={TemplateInitForm}
+								refresh={props.loadData}
+								item={item}
+							/>
+						</Card.Content>
+					)}
 				</Card>
 			))}
 		</Card.Group>

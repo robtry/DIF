@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Item, Container } from 'semantic-ui-react';
+import { Item, Container, Message } from 'semantic-ui-react';
 //own
 import Copyright from '../../components/Copyright/index';
 import Loader from '../../components/Loader/MainLoader';
@@ -7,7 +7,6 @@ import { useFetchDetails } from '../../util/useFetchDetails';
 import FormatPage from '../Papers/FormatIndex';
 import defaultImage from '../../assets/defaultNNA.png';
 import NNADetails from '../../components/Details/NNADetails';
-import NotFound from '../NotFound';
 
 const fileServer = process.env.REACT_APP_SERVER;
 
@@ -16,7 +15,7 @@ const fileServer = process.env.REACT_APP_SERVER;
 */
 
 const History = (props) => {
-	const { isLoading, loadData, data, notFound } = useFetchDetails('nnas/' + props.match.params.id);
+	const { isLoading, loadData, data, error } = useFetchDetails('nnas/' + props.match.params.id);
 
 	const [ item, setItem ] = useState({});
 
@@ -37,8 +36,8 @@ const History = (props) => {
 	return (
 		<Container textAlign="center">
 			<Copyright />
-			{notFound ? (
-				<NotFound />
+			{error ? (
+				<Message color="red" header="Algo salió mal" content={error} />
 			) : isLoading ? (
 				<Loader />
 			) : (
