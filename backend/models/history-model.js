@@ -14,4 +14,97 @@ const historyModel = new Schema({
 	fecha: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('historial', historyModel);
+const historyCollection = mongoose.model('historial', historyModel);
+
+module.exports = {
+	historyCollection,
+	historyDashboard: async () => {
+		const history = await historyCollection.aggregate([
+			{
+				$facet: {
+					creados: [
+						{
+							$match: {
+								accion_formato: 'creó'
+							}
+						},
+						{
+							$group: {
+								_id: {
+									$dateToString: {
+										format: '%Y-%m-%d',
+										date: '$fecha',
+										timezone: '-06:00'
+									}
+								},
+								count: {
+									$sum: 1
+								}
+							}
+						}
+					],
+					modificados: [
+						{
+							$match: {
+								accion_formato: 'modificó'
+							}
+						},
+						{
+							$group: {
+								_id: {
+									$dateToString: {
+										format: '%Y-%m-%d',
+										date: '$fecha',
+										timezone: '-06:00'
+									}
+								},
+								count: {
+									$sum: 1
+								}
+							}
+						}
+					],
+					historial: [
+						{
+							$match: {
+								accion_nna: null
+							}
+						},
+						{
+							$limit: 100
+						},
+						{
+							$lookup: {
+								from: 'usuarios',
+								localField: 'id_usuario',
+								foreignField: '_id',
+								as: 'usuario'
+							}
+						},
+						{
+							$unwind: {
+								path: '$usuario',
+								preserveNullAndEmptyArrays: false
+							}
+						},
+						{
+							$lookup: {
+								from: 'formatos',
+								localField: 'id_formato',
+								foreignField: '_id',
+								as: 'formato'
+							}
+						},
+						{
+							$unwind: {
+								path: '$formato',
+								preserveNullAndEmptyArrays: false
+							}
+						}
+					]
+				}
+			}
+		]);
+		return history;
+	}
+};

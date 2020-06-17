@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const userCollection = require('../models/user-model');
-const historyCollection = require('../models/history-model');
+const {historyCollection} = require('../models/history-model');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;

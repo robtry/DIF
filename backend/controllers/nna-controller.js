@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const nnaCollection = require('../models/nna-model');
-const historyCollection = require('../models/history-model');
+const {historyCollection} = require('../models/history-model');
 const mongoose = require('mongoose');
 const path = require('path');
 const ObjectId = mongoose.Types.ObjectId;

@@ -142,6 +142,7 @@ const TemplatePreview = ({ item, isFormatMode }) => {
 											isReview={!isFormatMode}
 											name={c._id}
 											register={register}
+											accept={c.tipo_archivo}
 										/>
 									</React.Fragment>
 								);

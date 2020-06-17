@@ -58,7 +58,12 @@ export const useFetch = (path = '', extra = '') => {
 					}
 				})
 				.catch((err) => {
-					console.log('axios loadData', err);
+					console.log('axios loadData', err, err.message);
+					if(err.message.includes('ailed with status code 401')){
+						console.log('problemas con el token')
+					}else{
+						//eeror
+					}
 				});
 		},
 		[ currentPage, path, extra ]

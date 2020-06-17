@@ -3,15 +3,16 @@ const { check } = require('express-validator');
 //user
 const userController = require('../controllers/user-controller');
 const { REXEG_USER_TYPES } = require('../models/userTypes');
+const { isRegistered, isAdmin } = require('../middlewares/authentication');
 
 const router = express.Router();
 
 //get current regs (number)
-router.get('/total/', userController.getTotalRegs);
+router.get('/total/', isAdmin, userController.getTotalRegs);
 
 // get last 6 months movements user
-router.get('/history/total/', userController.getTotalRegsHistory);
-router.get('/history/:id/:page', userController.getHistoryUser);
+router.get('/history/total/', isRegistered, userController.getTotalRegsHistory);
+router.get('/history/:id/:page', isRegistered, userController.getHistoryUser);
 
 // login
 router.post(
@@ -21,11 +22,12 @@ router.post(
 );
 
 // reset password
-router.post('/reset/:id', userController.resetPassword);
+router.post('/reset/:id', isAdmin, userController.resetPassword);
 
 // update password
 router.post(
 	'/password/:id',
+	isRegistered,
 	[
 		check('current_password').notEmpty().isLength({ min: 6, max: 30 }),
 		check('new_password').notEmpty().isLength({ min: 6, max: 30 })
@@ -39,6 +41,7 @@ router.get('/search/:name', userController.getByName);
 //get all
 router.get(
 	'/:type/:page',
+	isAdmin,
 	[ check('page').notEmpty().isInt(), check('type').notEmpty().isString() ],
 	userController.getAllUsers
 );
@@ -46,6 +49,7 @@ router.get(
 // create new user
 router.post(
 	'/',
+	isAdmin,
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('tipo').notEmpty().matches(REXEG_USER_TYPES, 'i'),
@@ -58,6 +62,7 @@ router.post(
 //update user
 router.post(
 	'/:id',
+	isAdmin,
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('tipo').notEmpty().matches(REXEG_USER_TYPES, 'i'),
@@ -67,7 +72,7 @@ router.post(
 	userController.updateUser
 );
 
-router.delete('/:id', userController.deleteUser);
+router.delete('/:id', isAdmin, userController.deleteUser);
 
 //router.get('/:id', userController.getUserById);
 

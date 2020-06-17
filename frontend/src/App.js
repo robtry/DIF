@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 // ui
 import { Segment, Sidebar } from 'semantic-ui-react';
@@ -36,7 +36,7 @@ const App = () => {
 	// Controlar el estado del user con el context
 	const [ userIsAuth, setUserIsAuth ] = useState(false); //false
 	const [ userType, setUserType ] = useState(''); //''
-	const [ user, setUser ] = useState('');//useState({ _id: '5edc06381b5af10ded22c67e', nombre: 'rob', tipo: 'admin', username:'roberto' }); //''
+	const [ user, setUser ] = useState(''); //useState({ _id: '5edc06381b5af10ded22c67e', nombre: 'rob', tipo: 'admin', username:'roberto' }); //''
 	const [ errorAuth, setErrorAuth ] = useState(false);
 	const [ isLoading, setIsLoading ] = useState(false);
 
@@ -47,7 +47,9 @@ const App = () => {
 		axios
 			.post('/users/login', { username, password })
 			.then((res) => {
-				console.log(res.data);
+				//console.log('authing', res.data);
+				localStorage.setItem('token', JSON.stringify(res.data));
+				axios.defaults.headers.common['Authorization'] = res.data._id
 				setUserIsAuth(true);
 				setUserType(res.data.tipo);
 				setIsLoading(false);
@@ -67,7 +69,24 @@ const App = () => {
 	const endSessionUser = () => {
 		setUserIsAuth(false);
 		setUserType('');
+		localStorage.removeItem('token');
 	};
+
+	useEffect(() => {
+		let token = localStorage.getItem('token');
+		if (token) {
+			try {
+				token = JSON.parse(token);
+				//console.log(token);
+				setUserIsAuth(true);
+				setUserType(token.tipo);
+				setUser(token);
+				axios.defaults.headers.common['Authorization'] = token._id;
+			} catch (error) {
+				console.log('err in local storage');
+			}
+		}
+	}, []);
 
 	return (
 		<UserContext.Provider

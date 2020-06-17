@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const formatCollection = require('../models/format-model');
-const historyCollection = require('../models/history-model');
+const {historyCollection} = require('../models/history-model');
 const participationCollection = require('../models/participation-model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;

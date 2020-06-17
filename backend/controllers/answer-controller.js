@@ -1,6 +1,6 @@
 const HttpError = require('../models/http-error');
 const answerCollection = require('../models/answer-model');
-const historyCollection = require('../models/history-model');
+const { historyCollection } = require('../models/history-model');
 const participationCollection = require('../models/participation-model');
 const formatCollection = require('../models/format-model');
 const mongoose = require('mongoose');

@@ -143,7 +143,7 @@ const UserForm = (props) => {
 						positive
 						icon="checkmark"
 						labelPosition="right"
-						content={props.isEditing ? 'Actualizar' : 'Agregar'}
+						content={props.item ? 'Actualizar' : 'Agregar'}
 						type="submit"
 						floated="right"
 					/>
