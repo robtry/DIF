@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const HttpError = require('./models/http-error');
 
+const finaluploadsPath = require('./config/keys').uploadsPath;
 // connect db
 const dbConnection = require('./config/keys').mongoURI;
 mongoose
@@ -28,7 +29,6 @@ const dashboardRoutes = require('./routes/dashboard-route');
 const app = express();
 
 // set up middlewares
-const finaluploadsPath = process.env.UPLOADS_PATH;
 // - general
 app.use(cors());
 app.use(bodyParser.json());

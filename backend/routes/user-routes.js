@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 //user
 const userController = require('../controllers/user-controller');
 const { REXEG_USER_TYPES } = require('../models/userTypes');
-const { isRegistered, isAdmin } = require('../middlewares/authentication');
+const { isAuth, isAdmin } = require('../middlewares/authentication');
 
 const router = express.Router();
 
@@ -11,8 +11,8 @@ const router = express.Router();
 router.get('/total/', isAdmin, userController.getTotalRegs);
 
 // get last 6 months movements user
-router.get('/history/total/', userController.getTotalRegsHistory);
-router.get('/history/:id/:page', userController.getHistoryUser);
+router.get('/history/total/', isAuth, userController.getTotalRegsHistory);
+router.get('/history/:id/:page', isAuth, userController.getHistoryUser);
 
 // login
 router.post(
@@ -27,7 +27,7 @@ router.post('/reset/:id', isAdmin, userController.resetPassword);
 // update password
 router.post(
 	'/password/:id',
-	isRegistered,
+	isAdmin,
 	[
 		check('current_password').notEmpty().isLength({ min: 6, max: 30 }),
 		check('new_password').notEmpty().isLength({ min: 6, max: 30 })
@@ -36,7 +36,7 @@ router.post(
 );
 
 // search by name
-router.get('/search/:name', userController.getByName);
+router.get('/search/:name', isAdmin, userController.getByName);
 
 //get all
 router.get(

@@ -2,27 +2,27 @@ const express = require('express');
 const { check } = require('express-validator');
 //nna
 const nnaController = require('../controllers/nna-controller');
-const { isRegistered } = require('../middlewares/authentication');
+const { isAuth } = require('../middlewares/authentication');
 
 const router = express.Router();
 
 //get current regs (number)
-router.get('/total/', isRegistered, nnaController.getTotalRegs);
+router.get('/total/', isAuth, nnaController.getTotalRegs);
 
 // search by name
-router.get('/search/:name', isRegistered, nnaController.getByName);
+router.get('/search/:name', isAuth, nnaController.getByName);
 
 //get all
 router.get(
 	'/:sort/:page',
-	isRegistered,
+	isAuth,
 	[ check('page').notEmpty().isInt(), check('sort').notEmpty().isString() ],
 	nnaController.getAllNNAs
 );
 // create new nna
 router.post(
 	'/',
-	isRegistered,
+	isAuth,
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('app').notEmpty().trim().isLength({ min: 3, max: 100 }),
@@ -35,12 +35,12 @@ router.post(
 );
 
 // change estatus
-router.post('/status/:id', isRegistered, check('estatus').notEmpty(), nnaController.changeStatus);
+router.post('/status/:id', isAuth, check('estatus').notEmpty(), nnaController.changeStatus);
 
 // update nna
 router.post(
 	'/:id',
-	isRegistered,
+	isAuth,
 	[
 		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
 		check('app').notEmpty().trim().isLength({ min: 3, max: 100 }),
@@ -52,8 +52,8 @@ router.post(
 	nnaController.updateNNA
 );
 
-router.delete('/:id', isRegistered, nnaController.deleteNNA);
+router.delete('/:id', isAuth, nnaController.deleteNNA);
 
-router.get('/:id', isRegistered, nnaController.getNNA);
+router.get('/:id', isAuth, nnaController.getNNA);
 
 module.exports = router;

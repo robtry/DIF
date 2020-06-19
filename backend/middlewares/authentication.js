@@ -1,30 +1,39 @@
 const HttpError = require('../models/http-error');
-const userCollection = require('../models/user-model');
+const jwt = require('jsonwebtoken');
+const secretToken = require('../config/keys').secretToken;
 
-exports.isRegistered = async (req, _, next) => {
-	try {
-		const token = req.headers.authorization;
-		const user = await userCollection.findById(token);
-		if (user) {
-			next();
-		} else {
-			return next(new HttpError('error with id user', 401));
+exports.isAuth = async (req, _, next) => {
+	if (req.headers.authorization) {
+		try {
+			const token = req.headers.authorization.replace('Bearer ', '');
+			const user = jwt.verify(token, secretToken);
+			if (user) {
+				next();
+			} else {
+				return next(new HttpError('error with token', 401));
+			}
+		} catch (err) {
+			return next(new HttpError('error with token', 401));
 		}
-	} catch (err) {
-		return next(new HttpError('error with id user', 401));
+	} else {
+		return next(new HttpError('Invalid headers', 422));
 	}
 };
 
 exports.isAdmin = async (req, res, next) => {
-	try {
-		const token = req.headers.authorization;
-		const user = await userCollection.findById(token);
-		if (user.tipo === 'admin') {
-			next();
-		} else {
-			return next(new HttpError('error with id user', 401));
+	if (req.headers.authorization) {
+		try {
+			const token = req.headers.authorization.replace('Bearer ', '');
+			const user = jwt.verify(token, secretToken);
+			if (user.tipo === 'admin') {
+				next();
+			} else {
+				return next(new HttpError('error with token', 401));
+			}
+		} catch (err) {
+			return next(new HttpError('error with token', 401));
 		}
-	} catch (err) {
-		return next(new HttpError('error with id user', 401));
+	} else {
+		return next(new HttpError('Invalid headers', 422));
 	}
 };

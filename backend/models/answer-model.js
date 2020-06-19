@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const fs = require('fs');
 
-const finaluploadsPath = process.env.UPLOADS_PATH;
+const finaluploadsPath = require('../config/keys').uploadsPath;
 
 const ansSchema = new Schema({
 	id_formato: { type: Schema.Types.ObjectId, required: true },

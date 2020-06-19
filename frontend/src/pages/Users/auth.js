@@ -17,11 +17,12 @@ const AuthPage = () => {
 	const { errorInAuth, clearError, logIn, isLoading } = useContext(UserContext);
 
 	//form
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit, errors, reset } = useForm();
 	const onSubmitHandler = (data) => {
 		//console.log(data);
 		clearError(false); //set to false
 		logIn(data.username, data.password);
+		reset();
 	};
 
 	return (

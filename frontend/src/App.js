@@ -51,7 +51,7 @@ const App = () => {
 			.then((res) => {
 				//console.log('authing', res.data);
 				localStorage.setItem('token', JSON.stringify(res.data));
-				axios.defaults.headers.common['Authorization'] = res.data._id;
+				axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
 				setUserIsAuth(true);
 				setUserType(res.data.tipo);
 				setIsLoading(false);
@@ -83,7 +83,7 @@ const App = () => {
 				setUserIsAuth(true);
 				setUserType(token.tipo);
 				setUser(token);
-				axios.defaults.headers.common['Authorization'] = token._id;
+				axios.defaults.headers.common['Authorization'] = `Bearer ${token.token}`;
 			} catch (error) {
 				console.log('err in local storage');
 			}

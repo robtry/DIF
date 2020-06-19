@@ -1,10 +1,12 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const userCollection = require('../models/user-model');
-const {historyCollection} = require('../models/history-model');
+const { historyCollection } = require('../models/history-model');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
+const secretToken = require('../config/keys').secretToken;
 
 exports.getAllUsers = (req, res, next) => {
 	console.log('Getting All Users');
@@ -300,12 +302,11 @@ exports.deleteUser = async (req, res, next) => {
 	console.log('Delete User', req.params.id);
 
 	try {
-		const user = await userCollection.findById(ObjectId(req.params.id))
+		const user = await userCollection.findById(ObjectId(req.params.id));
 		await user.remove();
 		res.json({ message: 'complete' });
 	} catch (error) {
 		return next(new HttpError(error, 500));
-		
 	}
 };
 
@@ -351,33 +352,50 @@ exports.getTotalRegs = (_, res, next) => {
 		});
 };
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
 	console.log('Loggin user');
 	const { username, password } = req.body;
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return next(new HttpError('Invalid request, check your data', 422));
 	}
-	userCollection.findOne({ username }, (err, user) => {
-		if (err) {
-			return next(new HttpError('Server error', 500));
-		}
+
+	try {
+		const user = await userCollection.findOne({ username });
 		if (!user) {
 			return next(new HttpError('Log in failed', 422));
 		}
-
-		bcrypt.compare(password, user.password, function(err, result) {
-			if (err) {
-				return next(new HttpError('Server error', 500));
-			}
-
-			if (result) {
-				// was ok
-				return res.json(user);
+		try {
+			const passwordComparition = bcrypt.compareSync(password, user.password);
+			if (passwordComparition) {
+				try {
+					const token = jwt.sign(
+						{
+							nombre: user.nombre,
+							username: user.username,
+							id: user.id,
+							tipo: user.tipo
+						},
+						secretToken
+					);
+					return res.json({
+						_id: user.id,
+						username: user.username,
+						tipo: user.tipo,
+						nombre: user.nombre,
+						token
+					});
+				} catch (error) {
+					return next(new HttpError('Log in failed', 422));
+				}
 			}
 			return next(new HttpError('Log in failed', 422));
-		});
-	});
+		} catch (_) {
+			return next(new HttpError('Server error', 500));
+		}
+	} catch (_) {
+		return next(new HttpError('Server error', 500));
+	}
 };
 
 exports.resetPassword = (req, res, next) => {

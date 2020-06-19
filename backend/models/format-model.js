@@ -6,7 +6,7 @@ const { historyCollection } = require('./history-model');
 const fs = require('fs');
 const path = require('path');
 
-const finaluploadsPath = process.env.UPLOADS_PATH;
+const finaluploadsPath = require('../config/keys').uploadsPath;
 
 const formatSchema = new Schema(
 	{

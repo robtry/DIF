@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const ObjectId = mongoose.Types.ObjectId;
 
-const finaluploadsPath = process.env.UPLOADS_PATH;
+const finaluploadsPath = require('../config/keys').uploadsPath;
 
 exports.getAllNNAs = (req, res, next) => {
 	console.log('Getting all nnas!');

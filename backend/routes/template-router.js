@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const templateController = require('../controllers/template-controller');
 const fieldController = require('../controllers/field-controller');
 const { REXEG_USER_TYPES } = require('../models/userTypes');
-const { isRegistered, isAdmin } = require('../middlewares/authentication');
+const { isAuth, isAdmin } = require('../middlewares/authentication');
 
 const router = express.Router();
 
@@ -36,15 +36,15 @@ router.post(
 );
 
 //get current regs (number)
-router.get('/total/', isRegistered, templateController.getTotalRegs);
+router.get('/total/', isAuth, templateController.getTotalRegs);
 
 // search by name
-router.get('/search/:name', isRegistered, templateController.getByName);
+router.get('/search/:name', isAuth, templateController.getByName);
 
 //get all
 router.get(
 	'/:type/:page',
-	isRegistered,
+	isAuth,
 	[ check('page').notEmpty().isInt(), check('type').notEmpty().isString() ],
 	templateController.getAllTemplates
 );

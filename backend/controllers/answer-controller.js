@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const path = require('path');
 
-const finaluploadsPath = process.env.UPLOADS_PATH;
+const finaluploadsPath = require('../config/keys').uploadsPath;
 
 exports.fillAnswers = async (req, res, next) => {
 	console.log('Entrando al fill ans', req.params.id);
