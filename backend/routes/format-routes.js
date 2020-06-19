@@ -29,6 +29,6 @@ router.get(
 	formatController.getAllFormatsForNNA
 );
 
-router.delete('/:id/:id_usuario', isAuth, formatController.deleteFormat);
+router.delete('/:id', isAuth, formatController.deleteFormat);
 
 module.exports = router;

@@ -34,7 +34,7 @@ module.exports = {
 									$dateToString: {
 										format: '%Y-%m-%d',
 										date: '$fecha',
-										timezone: '-06:00'
+										timezone: '-05:00'
 									}
 								},
 								count: {
@@ -55,7 +55,7 @@ module.exports = {
 									$dateToString: {
 										format: '%Y-%m-%d',
 										date: '$fecha',
-										timezone: '-06:00'
+										timezone: '-05:00'
 									}
 								},
 								count: {
@@ -70,9 +70,7 @@ module.exports = {
 								accion_nna: null
 							}
 						},
-						{
-							$limit: 100
-						},
+						{ $limit: 100 },
 						{
 							$lookup: {
 								from: 'usuarios',
@@ -99,6 +97,11 @@ module.exports = {
 							$unwind: {
 								path: '$formato',
 								preserveNullAndEmptyArrays: false
+							}
+						},
+						{
+							$sort: {
+								fecha: -1
 							}
 						}
 					]

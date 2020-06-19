@@ -31,7 +31,7 @@ const FormatCard = (props) => {
 			{(isAdmin || currentUser.tipo === props.item._id.plantilla.tipo) && (
 				<Card.Content extra>
 					<DeleteModal
-						path={'formats/' + props.item._id._id + '/' + currentUser._id}
+						path={'formats/' + props.item._id._id}
 						refresh={props.refresh}
 						message={props.item._id.plantilla.nombre}
 					/>

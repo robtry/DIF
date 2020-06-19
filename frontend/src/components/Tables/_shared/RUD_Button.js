@@ -23,7 +23,7 @@ const CrudButton = (props) => {
 
 CrudButton.propTypes = {
 	/** El id solo para eliminar */
-	deletePath: PropTypes.string.isRequired,
+	deletePath: PropTypes.string,
 	/** Mensaje que se muestra cuando aparece el dialogo de elimar*/
 	onDelete: PropTypes.string,
 	/** Componente que se rendera cuando se hara una edición */

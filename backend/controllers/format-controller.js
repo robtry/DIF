@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const formatCollection = require('../models/format-model');
-const {historyCollection} = require('../models/history-model');
+const { historyCollection } = require('../models/history-model');
 const participationCollection = require('../models/participation-model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -14,12 +14,11 @@ exports.createFormat = async (req, res, next) => {
 		return next(new HttpError('Invalid request, check your data', 422));
 	}
 
-	let { id_plantilla, id_nna, id_user } = req.body;
+	let { id_plantilla, id_nna } = req.body;
 
 	try {
 		id_nna = ObjectId(id_nna);
 		id_plantilla = ObjectId(id_plantilla);
-		id_user = ObjectId(id_user);
 	} catch (_) {
 		return next(new HttpError('Invalid id', 404));
 	}
@@ -30,13 +29,13 @@ exports.createFormat = async (req, res, next) => {
 			id_plantilla
 		}).save();
 		await participationCollection.updateOne(
-			{ id_usuario: id_user, id_formato: formato._id },
-			{ $set: { id_usuario: id_user, id_formato: formato._id } },
+			{ id_usuario: ObjectId(req.user), id_formato: formato._id },
+			{ $set: { id_usuario: ObjectId(req.user), id_formato: formato._id } },
 			{ upsert: true }
 		);
 		await new historyCollection({
 			id_formato: formato._id,
-			id_usuario: id_user,
+			id_usuario: ObjectId(req.user),
 			accion_formato: 'creó'
 		}).save();
 		return res.status(201).json({ message: 'complete' });
@@ -412,7 +411,7 @@ exports.getOneFormat = (req, res, next) => {
 
 exports.deleteFormat = async (req, res, next) => {
 	//console.log('Deleting format')
-	const { id, id_usuario } = req.params;
+	const { id } = req.params;
 
 	try {
 		const formatToRemove = await formatCollection.findById(ObjectId(id));
@@ -422,7 +421,7 @@ exports.deleteFormat = async (req, res, next) => {
 		return next(new HttpError(err, 500));
 	}
 	new historyCollection({
-		id_usuario: ObjectId(id_usuario),
+		id_usuario: ObjectId(req.user),
 		accion_formato: 'eliminó'
 	}).save();
 };

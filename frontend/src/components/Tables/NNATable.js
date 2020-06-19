@@ -19,7 +19,6 @@ const fileServer = process.env.REACT_APP_SERVER;
 */
 
 const NNATable = (props) => {
-
 	const { isAdmin } = useContext(userContext);
 
 	return (
@@ -48,17 +47,22 @@ const NNATable = (props) => {
 												Perfil
 												<Icon name="user circle outline" />
 											</Button>
-											<UpgradeModal id={item._id} message={item.nombre} refresh={props.loadData} value={item.estatus} />
+											<UpgradeModal
+												id={item._id}
+												message={item.nombre}
+												refresh={props.loadData}
+												value={item.estatus}
+											/>
 										</Grid.Column>
 										<Grid.Column width={5} />
 										<Grid.Column width={3}>
-											{isAdmin && <CrudButton
-												deletePath={'nnas/' + item._id}
-												onDelete={item.nombre}
+											<CrudButton
+												deletePath={isAdmin ? 'nnas/' + item._id : undefined}
+												onDelete={isAdmin ? item.nombre : ''}
 												onEdit={NNAForm}
 												refresh={props.loadData}
 												item={item}
-											/>}
+											/>
 										</Grid.Column>
 									</Grid.Row>
 								</Grid>

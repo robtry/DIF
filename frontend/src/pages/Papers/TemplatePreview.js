@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Loader, Divider, Button, Message } from 'semantic-ui-react';
 import { useForm } from 'react-hook-form';
@@ -12,8 +12,6 @@ import File from '../../components/Forms/FormatControls/File';
 import Consistent from '../../components/Forms/FormatControls/Constant';
 /// axios
 import axios from '../../util/axios';
-// context
-import userContext from '../../context/userContext';
 
 /** Es contruida con todos los campos desabilitados, o habilitados y llenos o vacios
  * El preview de template
@@ -22,7 +20,6 @@ import userContext from '../../context/userContext';
 
 const TemplatePreview = ({ item, isFormatMode }) => {
 	const { register, handleSubmit } = useForm();
-	const { currentUser } = useContext(userContext);
 	//console.log(item);
 	const location = useRouteMatch();
 	// when posting
@@ -31,7 +28,6 @@ const TemplatePreview = ({ item, isFormatMode }) => {
 	const onSubmitHandler = (data) => {
 		const fd = new FormData();
 		const dataKeys = Object.keys(data);
-		fd.append('id_usuario', currentUser._id);
 		for (let i = 0; i < dataKeys.length; i++) {
 			//console.log('appending', dataKeys[i], data[dataKeys[i]]);
 			if (data[dataKeys[i]] instanceof FileList) {

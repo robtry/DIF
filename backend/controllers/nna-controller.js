@@ -1,7 +1,9 @@
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const nnaCollection = require('../models/nna-model');
-const {historyCollection} = require('../models/history-model');
+const userCollection = require('../models/user-model');
+const bcrypt = require('bcryptjs');
+const { historyCollection } = require('../models/history-model');
 const mongoose = require('mongoose');
 const path = require('path');
 const ObjectId = mongoose.Types.ObjectId;
@@ -122,7 +124,7 @@ exports.createNNA = async (req, res, next) => {
 		.then(async (ans) => {
 			try {
 				await new historyCollection({
-					id_usuario: ObjectId(req.body.id_usuario),
+					id_usuario: ObjectId(req.user),
 					accion_nna: 'agregó',
 					id_nna: ans._id
 				}).save();
@@ -194,7 +196,7 @@ exports.updateNNA = async (req, res, next) => {
 		return next(new HttpError(err, 500));
 	}
 	await new historyCollection({
-		id_usuario: ObjectId(req.body.id_usuario),
+		id_usuario: ObjectId(req.user),
 		accion_nna: 'actualizó',
 		id_nna: nna._id
 	}).save();
@@ -225,7 +227,7 @@ exports.deleteNNA = async (req, res, next) => {
 		return next(new HttpError(err, 500));
 	}
 	await new historyCollection({
-		id_usuario: ObjectId(req.body.id_usuario),
+		id_usuario: ObjectId(req.user),
 		accion_nna: 'eliminó'
 	}).save();
 };
@@ -314,4 +316,26 @@ exports.changeStatus = (req, res, next) => {
 		.catch(() => {
 			return next(new HttpError(err, 404));
 		});
+};
+
+exports.updateNNAExtended = async (req, res, next) => {
+	console.log('update nna extended');
+	const { username, password } = req.body;
+	try {
+		const user = await userCollection.findOne({ username });
+		if (!user) {
+			return next(new HttpError('Error with auth', 422));
+		}
+		try {
+			const passwordComparition = bcrypt.compareSync(password, user.password);
+			if (passwordComparition) {
+				return this.updateNNA(req, res, next);
+			}
+			return next(new HttpError('Error with auth', 422));
+		} catch (_) {
+			return next(new HttpError('Server error', 500));
+		}
+	} catch (_) {
+		return next(new HttpError('Server error', 500));
+	}
 };

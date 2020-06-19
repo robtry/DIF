@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Header, Grid, Message } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/Papers/TemplateTable';
@@ -12,6 +12,7 @@ import { useFetch } from '../../util/useFetch';
 import IndexSearch from '../../components/SearchBar/IndexSearch';
 import NoRegs from '../../components/UI/NoRegs';
 import UserTypes from '../../components/UI/UserTypes';
+import userContext from '../../context/userContext';
 
 const Templates = () => {
 	// type of current table
@@ -21,6 +22,8 @@ const Templates = () => {
 		'templates',
 		types + '/'
 	);
+
+	const { isAdmin } = useContext(userContext);
 
 	return (
 		<React.Fragment>
@@ -33,9 +36,11 @@ const Templates = () => {
 				<React.Fragment>
 					<Grid stackable columns={2}>
 						<Grid.Row>
-							<Grid.Column>
-								<New message="Crear Plantilla" Form={TemplateForm} refresh={loadData} />
-							</Grid.Column>
+							{isAdmin && (
+								<Grid.Column>
+									<New message="Crear Plantilla" Form={TemplateForm} refresh={loadData} />
+								</Grid.Column>
+							)}
 							<Grid.Column>
 								{isLoadingPages ? (
 									<PaginationLoader />

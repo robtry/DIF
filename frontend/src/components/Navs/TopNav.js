@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 //import { useLocation } from 'react-router-dom';
 //own
 import defaultUser from '../../assets/default.png';
+import logo from '../../assets/logo.jpeg';
 //context
 import UserContext from '../../context/userContext';
 /**
@@ -40,7 +41,7 @@ const TopNav = (props) => {
 		// si se quita fixed="top", poner secondary
 		<Menu stackable fixed={props.sideBarStatus ? null : 'top'}>
 			<Menu.Item header>
-				DIF
+				<Image src={logo} size="tiny"/>
 				{/* DIF | by &nbsp;<a href="https://robtry.github.io/"> Rob </a> */}
 			</Menu.Item>
 			<Menu.Item>

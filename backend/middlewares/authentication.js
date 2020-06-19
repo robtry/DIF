@@ -8,6 +8,7 @@ exports.isAuth = async (req, _, next) => {
 			const token = req.headers.authorization.replace('Bearer ', '');
 			const user = jwt.verify(token, secretToken);
 			if (user) {
+				req.user = user.id;
 				next();
 			} else {
 				return next(new HttpError('error with token', 401));
@@ -26,6 +27,7 @@ exports.isAdmin = async (req, res, next) => {
 			const token = req.headers.authorization.replace('Bearer ', '');
 			const user = jwt.verify(token, secretToken);
 			if (user.tipo === 'admin') {
+				req.user = user.id;
 				next();
 			} else {
 				return next(new HttpError('error with token', 401));

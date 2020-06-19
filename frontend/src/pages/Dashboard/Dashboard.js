@@ -73,7 +73,7 @@ const Dashboard = () => {
 								<Card.Content>
 									<Feed>
 										{data[0] &&
-											data[0].historial.reverse().map((item) => {
+											data[0].historial.map((item) => {
 												return (
 													<Feed.Event key={item._id}>
 														<Feed.Label image={defaultUser} />

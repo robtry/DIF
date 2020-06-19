@@ -20,7 +20,7 @@ const UserHistoryTable = (props) => (
 			<Card.Content>
 				<Feed>
 					{props.data &&
-						props.data.reverse().map((item) => {
+						props.data.map((item) => {
 							return (
 								<Feed.Event key={item._id}>
 									<Feed.Label image={defaultUser} />
@@ -39,9 +39,11 @@ const UserHistoryTable = (props) => (
 											) : (
 												<React.Fragment>
 													{`${item.usuario.nombre} ${item.accion_nna} NNA `}
-													<NavLink to={'/nna/' + item.id_nna}>
-														{item.nna.nombre_completo}
-													</NavLink>
+													{item.accion_nna !== 'eliminó' && (
+														<NavLink to={'/nna/' + item.id_nna}>
+															{item.nna.nombre_completo}
+														</NavLink>
+													)}
 												</React.Fragment>
 											)}
 										</Feed.Summary>

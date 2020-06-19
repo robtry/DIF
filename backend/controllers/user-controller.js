@@ -46,12 +46,6 @@ exports.getAllUsers = (req, res, next) => {
 		});
 };
 
-// exports.getUserById = (req, res, next) => {
-// 	console.log('Get User By Id | Profile');
-// 	console.log(req.params.id);
-// 	return next(new HttpError('not found', 404));
-// };
-
 exports.getHistoryUser = async (req, res, next) => {
 	console.log('User history, participations', req.params.id);
 	let { id_usuario, page } = req.params;
@@ -430,4 +424,25 @@ exports.resetPassword = (req, res, next) => {
 			});
 		});
 	});
+};
+
+exports.getAdmins = (req, res, next) => {
+	console.log('Getting admins');
+	userCollection
+		.aggregate([
+			{
+				$project: { password: 0, sexo: 0 }
+			},
+			{
+				$match: {
+					tipo: 'admin'
+				}
+			}
+		])
+		.exec((err, data) => {
+			if (err) {
+				return next(new HttpError('Server error', 500));
+			}
+			res.json(data);
+		});
 };

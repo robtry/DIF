@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Header, Button, Icon, Grid, Popup, Message } from 'semantic-ui-react';
 //own
 import Table from '../../components/Tables/NNATable';
@@ -11,6 +11,8 @@ import Loader from '../../components/Loader/UserLoader';
 import IndexSearch from '../../components/SearchBar/IndexSearch';
 import { useFetch } from '../../util/useFetch';
 import NoRegs from '../../components/UI/NoRegs';
+// context
+import userContext from '../../context/userContext';
 
 const NNAPage = () => {
 	const [ types, setTypes ] = useState('actdesc');
@@ -18,6 +20,8 @@ const NNAPage = () => {
 		'nnas',
 		types + '/'
 	);
+
+	const { isAdmin } = useContext(userContext);
 
 	return (
 		<React.Fragment>
@@ -30,9 +34,9 @@ const NNAPage = () => {
 				<React.Fragment>
 					<Grid stackable columns={2}>
 						<Grid.Row>
-							<Grid.Column>
+							{isAdmin && <Grid.Column>
 								<New message="Agregar NNA" Form={NNAForm} refresh={loadData} />
-							</Grid.Column>
+							</Grid.Column>}
 							<Grid.Column>
 								{isLoadingPages ? (
 									<PaginationLoader />

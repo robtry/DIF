@@ -14,6 +14,9 @@ router.get('/total/', isAdmin, userController.getTotalRegs);
 router.get('/history/total/', isAuth, userController.getTotalRegsHistory);
 router.get('/history/:id/:page', isAuth, userController.getHistoryUser);
 
+// get admins
+router.get('/admins', isAuth, userController.getAdmins);
+
 // login
 router.post(
 	'/login',

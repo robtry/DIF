@@ -52,6 +52,21 @@ router.post(
 	nnaController.updateNNA
 );
 
+// update nna with normal user
+router.post(
+	'/:id/withauth',
+	isAuth,
+	[
+		check('nombre').notEmpty().trim().isLength({ min: 3, max: 100 }),
+		check('app').notEmpty().trim().isLength({ min: 3, max: 100 }),
+		check('apm').notEmpty().trim().isLength({ min: 3, max: 100 }),
+		check('expediente').notEmpty().trim().isLength({ max: 100 }),
+		check('sexo').notEmpty().matches(/^(m|h)$/, 'i'),
+		check('fecha_nacimiento').notEmpty().toDate()
+	],
+	nnaController.updateNNAExtended
+);
+
 router.delete('/:id', isAuth, nnaController.deleteNNA);
 
 router.get('/:id', isAuth, nnaController.getNNA);
